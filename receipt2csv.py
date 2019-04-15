@@ -6,7 +6,7 @@ import sys
 #requires Tesseract 4.0 installed
 import pytesseract
 import csv
-import datetime
+from datetime import datetime
 from fuzzywuzzy import fuzz
 from fuzzywuzzy import process
 
@@ -30,7 +30,7 @@ def acertainDateValue(date_string):
    
     if year > 99 or month > 12 or day > 31 or hour > 23 or minute > 59:
         return None
-    else: return datetime.datetime(year+CENTURY,month,day,hour,minute)
+    else: return datetime(year+CENTURY,month,day,hour,minute)
 
 def isolateDate(date_candidates):
     """
@@ -130,35 +130,43 @@ if __name__ == '__main__':
                         else items.append((name,price,None)); continue
             #print('DISCARDING LINE \'',line,'\' (could not be parsed)')
 
-        if dates == []: dates = [None]
+        items_prime = []
+        for name,*tup in items:
+            not_items = ('Regular Price','Card Savings')
+            list_end = ('BALANCE','TOTAL')
+            if any(fuzz.ratio(string,name) > 80 for string in not_items):
+                continue
+            print(name,*tup)
+            items_prime.append((name,*tup))
+            if any(fuzz.partial_ratio(strng,name) > 90 for strng in list_end):
+                print('ENDING LIST AT \'',name,'\''); break
+
+        while dates == []: #dates = [None]
+            print('No date value found. If you have a date enter it here')
+            date = input('in the form mm/dd/yy hh:mm (else leave blank) =>')
+            if len(date) > 1:
+                try:
+                    dates = [datetime.strptime(date, '%m/%d/%y %H:%M')]; break
+                except ValueError:
+                    print("couldn't correctly parse input date"); continue
+            else: dates = [None]; break
+
         if len(dates) > 1 and not all(date == dates[0] for date in dates):
             while True:
-                print("Multiple date values found.")
+                print('Multiple date values found.')
                 for index,date in enumerate(dates): 
                     print('['+str(index)+'] ',date)
                 num = int(input("Line number of the correct date:"))
                 if num >= 0 and num < len(dates): 
                     dates = [date]; break 
         
-        items_prime = []
-        for name,*tup in items:
-            not_items = ('Regular Price','Card Savings')
-            list_end = ('BALANCE','TOTAL')
-            if any(fuzz.ratio(string,name) > 80 for string in not_items):
-                #print('DISCARDING ITEM \'',name,'\''); 
-                continue
-
-            print(name,*tup,dates[0])
-            items_prime.append((name,*tup,dates[0]))
-            if any(fuzz.partial_ratio(strng,name) > 90 for strng in list_end):
-                print('ENDING LIST AT \'',name,'\''); break
 
         #snippet adapted from "Github Gist - write tuples to csv"
         #https://gist.github.com/agoops/dd3ec3821438b695f7c462877a0fbeb4
         with open(img_path[:-4]+'.csv', 'w') as f:
             writer = csv.writer(f , lineterminator='\n')
             for tup in items_prime:
-                writer.writerow(tup)
+                writer.writerow((*tup,dates[0]))
         '''
         #generate statistics for output
         titlecount = 0
