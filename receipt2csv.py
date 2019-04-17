@@ -111,18 +111,21 @@ def priceCheck(items):
         print("prices correct!") 
         return
     elif price_sum > balance:
-        for price in price_list:
+        for index, price in enumerate(price_list):
             all_others = price_sum - price
             if all_others == balance:
                 print(price, "should be removed from sum")
+                items.pop(index)
             possible_price = balance - all_others
-            print("without ",price , ", sum(price_list) is: ", all_others,
-                    " (should it be ", possible_price, "?)")
+            #print("without ",price , ", sum(price_list) is: ", all_others,
+            #        " (should it be ", possible_price, "?)")
             if str(possible_price) in str(price):
                 print(price, " should be ", possible_price)
+                print("at ",index,": ",items[index][0],items[index][2])
+                items[index] = (items[index][0],possible_price,items[index][2])
                 break;
         #if good corrections exits, then
-        return
+        items.append(('Total =',balance,None)); return items
     #else:
 
     for price in price_list:
@@ -183,7 +186,7 @@ if __name__ == '__main__':
             if any(fuzz.partial_ratio(strng,name) > 90 for strng in list_end):
                 print('ENDING LIST AT \'',name,'\''); break
 
-        priceCheck(items_prime)
+        items_prime = priceCheck(items_prime)
 
         if dates == []: #dates = [None]
             print('No date value found. If you have a date enter it here')
@@ -211,6 +214,7 @@ if __name__ == '__main__':
         with open(img_path[:-4]+'.csv', 'w') as f:
             writer = csv.writer(f , lineterminator='\n')
             for tup in items_prime:
+                print(*tup,sep='\t')
                 writer.writerow((*tup,dates[0]))
         '''
         #generate statistics for output
