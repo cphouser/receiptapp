@@ -1,0 +1,39 @@
+{
+  "000101010000002930": [
+    "0001-01-01 00:00:00",
+    2930,
+    [
+      [
+        "NBC OREO CKY DBL",
+        334,
+        "GROCERY"
+      ],
+      [
+        "CLOVER ORGANIC MLK",
+        499,
+        "REFRIG/FROZEN"
+      ],
+      [
+        "SAN LUIS BREAD",
+        499,
+        "BAKED GOODS"
+      ],
+      [
+        "PT OVEN RST TURKEY",
+        799,
+        "| DELI"
+      ],
+      [
+        "BH CHS MUENSTER",
+        799,
+        "| DELI"
+      ],
+      [
+        "TAX",
+        0,
+        "TAX"
+      ]
+    ],
+    "doc4-CS.jpg"
+  ]
+}

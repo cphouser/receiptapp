@@ -122,7 +122,7 @@ def parseLine(line):
         return (None,line)
 
     if len(line) < 4:
-        #print('DISCARDED \'',line,'\' (less than 4 characters)')
+        #print(' \'',line,'\' (less than 4 characters)')
         return (None,None,None,None)
     #if the line has two "/" and one ":", it might be the transaction date
     if line.count('/') == 2 and line.count(':') == 1:
@@ -130,7 +130,7 @@ def parseLine(line):
     name,price = separatePrice(line)
     if price is None: return (None,None,name,None)
     elif name is None:
-        print('DISCARDED \'',line,'\' (no item)')
+        #print('DISCARDED \'',line,'\' (no item)')
         return (price,None,None,None)
     else: return (name,price,None,None)
     
@@ -201,53 +201,62 @@ def findImages(img_dir='./img'):
     return img_files_list,history_list
 
 def parseByCategory(lines):
-    category_head = None
-    items = []
-    not_items = []
-    dates = []
-    heads = []
-    foots = []
-    for line in lines:
-        name,price,category,date = parseLine(line)
-        if date is not None: dates.append(date); continue
-        if category is not None: category_head = category; continue
-        if category_head is None: heads.append(line) 
-        if name is not None and price is not None and len(name) > 1:
-            if 'TAX' in name:
-                items.append((name,price,'TAX')); continue
-            else:
-                items.append((name,price,category_head)); continue
-        if name is not None:
-            not_items.append(line)
-        #print('DISCARDING LINE \'',line,'\' (could not be parsed)')
-    items_prime = []
-    coupon_list = []
-    
-    #print(*items,sep='\n')
-
-    for index,(name, price, category) in enumerate(items):
+    def excludeMatch(name):
         exclude_items = ['Regular Price','Card Savings']
         coupon_names = ['Store Coupon']
-        list_end = ['BALANCE','TOTAL']
+        list_end = 'BALANCE'
         if any(fuzz.ratio(string,name) > 80 for string in exclude_items):
-            continue
-        #print('comparing ', name,' to ',coupon_names[0],' fuzz ratio: ',
-        #        fuzz.ratio(coupon_names[0],name))
+            return 'none', name
         if any(fuzz.ratio(string,name) > 80 for string in coupon_names):
-            coupon_list.append((name, price, category))
-            continue
-        if category is None: 
-            continue
+            return 'coup', name
+        if fuzz.partial_ratio(list_end,name) > 90:
+            return 'fsum', name
+        return None
+    def tryPrice(price): 
         try:
             int_price = acertainPriceValue(price)
-            print(name, '\t', int_price, '\t', category)
-            items_prime.append((name, int_price, category))
+            return int_price
         except ValueError:
             print('Could not parse ', price, ' as int')
-        if any(fuzz.partial_ratio(strng,name) > 90 for strng in list_end):
-            print('ENDING LIST AT \'', name, '\''); break
+            return None
+    def appendPriced(items,index,tag,name,price,category):
+        int_price = tryPrice(price)
+        if int_price is None:
+            items.append((index, 'errr', (name, price, category)))
+        else:
+            items.append((index, tag, (name, int_price, category)))
 
-    return items_prime, dates, heads, foots, not_items
+    category_head = None
+    items = []
+    ended = False
+    for index, line in enumerate(lines):
+        name,price,category,date = parseLine(line)
+        if date is not None: 
+            items.append((index, 'date', date))
+            continue
+        if ended is True:
+            items.append((index, 'foot', line))
+            continue
+        if category is not None: category_head = category; continue
+        if category_head is None: 
+            items.append((index, 'head', line))
+            continue
+        if name is not None and price is not None and len(name) > 1:
+            not_item = excludeMatch(name)
+            if not_item is not None:
+                if not_item[0] == 'fsum':
+                    #print('ENDING LIST AT \'', name, '\'')
+                    appendPriced(items, index, *not_item, price, 'SUM')
+                    ended = True
+                else:
+                    appendPriced(items, index, *not_item, price, category_head)
+            elif 'TAX' in name:
+                appendPriced(items, index, 'item', name, price, 'TAX')
+            else:
+                appendPriced(items, index, 'item', name, price, category_head) 
+        elif name is not None:
+            items.append((index, 'none', line))
+    return items
 
 if __name__ == '__main__':
     # Uncomment the line below to provide path to tesseract manually
@@ -270,7 +279,7 @@ if __name__ == '__main__':
     for img_path in img_list:
         lines = tesseractImage('img/'+img_path).splitlines()
 
-        items, dates, heads, foots, remainders = parseByCategory(lines)
+        idxs, items = parseByCategory(lines)
 
         balance, items = priceCheck(items)
         receipt_date = None

@@ -4,12 +4,25 @@ import tkinter as tk
 import receipt2json as receipt
 from PIL import Image, ImageTk
 
+COLOR_KEY = {
+        'item':'#e5ffcc',
+        'date':'#ffffcc',
+        'none':'#e0e0e0',
+        'head':'#ccccff',
+        'foot':'#ccccff',
+        'errr':'#ffcccc',
+        'coup':'#ccffff',
+        'tsum':'#cce5ff',
+        'fsum':'#ffe5cc',
+    }
+
 class Datapane(tk.Frame):
     def __init__(self,parent):
         tk.Frame.__init__(self,parent)
         self.parent = parent
 
-        self.data_list = tk.Listbox(self, selectmode=tk.SINGLE)
+        self.data_list = tk.Listbox(self, 
+                font='-*-lucidatypewriter-medium-r-*-*-*-110-*-*-*-*-*-*')
         self.data_list.pack(fill='both', expand=True)
 
     def parse_file(self, path='./img'):
@@ -17,10 +30,15 @@ class Datapane(tk.Frame):
         self.data_list.delete(0,tk.END)
 
         lines = receipt.tesseractImage(path + '/' + img_path).splitlines()
-        #parsed_lines = receipt.parseByCategory(lines)
+        parsed_lines = receipt.parseByCategory(lines)
 
-        for line in lines:
-            self.data_list.insert(tk.END, line)
+        for idx, clas, line in parsed_lines:
+            if type(line) is tuple:
+                item = ' ## '.join([str(i) for i in line])
+            else: item = str(line)
+            line_entry = ' '.join((str(idx).rjust(4),clas,item))
+            self.data_list.insert(tk.END, line_entry)
+            self.data_list.itemconfig(tk.END, background=COLOR_KEY[clas])
 
         #items,dates,heads,foots,remainders = receipt.ParseByCategory(lines)
 
