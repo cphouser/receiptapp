@@ -270,7 +270,7 @@ if __name__ == '__main__':
     for img_path in img_list:
         lines = tesseractImage('img/'+img_path).splitlines()
 
-        items, dates, heads, foots, remainderss = parseByCategory(lines)
+        items, dates, heads, foots, remainders = parseByCategory(lines)
 
         balance, items = priceCheck(items)
         receipt_date = None
