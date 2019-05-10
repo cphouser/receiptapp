@@ -22,11 +22,47 @@ class Datapane(tk.Frame):
         self.parent = parent
 
         self.data_list = tk.Listbox(self, 
-                font='-*-lucidatypewriter-medium-r-*-*-*-110-*-*-*-*-*-*')
+                font='-*-lucidatypewriter-medium-r-*-*-*-120-*-*-*-*-*-*')
         self.data_list.pack(side='top', fill='both', expand=True)
         
-        self.active_line = tk.StringVar()
+        self.active_price = tk.StringVar()
+        self.active_item = -1
+        self.price_entry = tk.Entry(self, textvariable=self.active_price,
+                font='-*-lucidatypewriter-medium-r-*-*-*-120-*-*-*-*-*-*')
+        self.price_entry.pack(side='left')
 
+        self.update_bt = tk.Button(self, text='Update Price',
+                command=self.update_price)
+        self.update_bt.pack(side='left')
+
+    def update_price(self):
+        '''
+        get the selection index
+        if selection index == self.active_item then update the price
+         in self.parsed_lines and update the line at selection index
+        else pull price from self.parsed_lines and put in self.price_entry
+        '''
+        index = self.data_list.curselection()[0]
+        print(index)
+        print(self.active_item)
+        if index == self.active_item:
+            price = int(self.active_price.get())
+            idx, tag, item = self.parsed_lines[index]
+            if type(item) is tuple:
+                name, _, category = item
+                self.parsed_lines[index] = (idx, tag, (name, price, category))
+                self.data_list.delete(index)
+                self.update_line(self.parsed_lines[index])
+                
+        else:
+            self.active_item = index
+            _, _, item = self.parsed_lines[index]
+            if type(item) is tuple:
+                print('y')
+                _, price, _ = item
+                self.active_price.set(str(price))
+            else:
+                print(item,type(item))
 
     def parse_file(self, path='./img'):
         img_path = self.parent.filepane.file_str.get()
@@ -34,21 +70,24 @@ class Datapane(tk.Frame):
 
         lines = receipt.tesseractImage(path + '/' + img_path).splitlines()
         self.parsed_lines = receipt.parseByCategory(lines)
+
         self.update_pane()
 
+    def update_line(self,idx,tag,line):
+        if type(line) is tuple:
+            item = ' ## '.join([str(i) for i in line])
+        else: item = str(line)
+        line_entry = ' '.join((str(idx).rjust(4),tag,item))
+        while self.data_list.size() < idx:
+            self.data_list.insert(tk.END, '')
+        self.data_list.insert(idx, line_entry)
+        self.data_list.itemconfig(idx, background=COLOR_KEY[tag])
+
     def update_pane(self):
-        for idx, clas, line in self.parsed_lines:
-            if type(line) is tuple:
-                item = ' ## '.join([str(i) for i in line])
-            else: item = str(line)
-            line_entry = ' '.join((str(idx).rjust(4),clas,item))
-            self.data_list.insert(tk.END, line_entry)
-            self.data_list.itemconfig(tk.END, background=COLOR_KEY[clas])
+        for line_tup in self.parsed_lines:
+            self.update_line(*line_tup)
         #items,dates,heads,foots,remainders = receipt.ParseByCategory(lines)
-
-
-        
-
+ 
 class Fileops(tk.Frame):
     def __init__(self,parent):
         tk.Frame.__init__(self,parent)
@@ -79,12 +118,14 @@ class Filepane(tk.Frame):
         files_str = tk.StringVar(); files_str.set(self.read_files())
         self.file_str = tk.StringVar(); 
         self.file_list = tk.Listbox(self, selectmode=tk.BROWSE, 
-                listvariable=files_str)
+                listvariable=files_str,
+                font='-*-lucidatypewriter-medium-r-*-*-*-100-*-*-*-*-*-*')
         self.file_list.activate(0)
         self.file_str.set(self.file_list.get(tk.ACTIVE))
 
         self.file_view = tk.Label(self)
-        self.file_label = tk.Label(self, textvariable=self.file_str)
+        self.file_label = tk.Label(self, textvariable=self.file_str,
+                font='-*-lucidatypewriter-medium-r-*-*-*-120-*-*-*-*-*-*')
         self.read_image(self.file_view,self.file_str.get())
         
         self.file_list.pack(side='top', fill='x')
