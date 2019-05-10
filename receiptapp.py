@@ -23,23 +23,27 @@ class Datapane(tk.Frame):
 
         self.data_list = tk.Listbox(self, 
                 font='-*-lucidatypewriter-medium-r-*-*-*-110-*-*-*-*-*-*')
-        self.data_list.pack(fill='both', expand=True)
+        self.data_list.pack(side='top', fill='both', expand=True)
+        
+        self.active_line = tk.StringVar()
+
 
     def parse_file(self, path='./img'):
         img_path = self.parent.filepane.file_str.get()
         self.data_list.delete(0,tk.END)
 
         lines = receipt.tesseractImage(path + '/' + img_path).splitlines()
-        parsed_lines = receipt.parseByCategory(lines)
+        self.parsed_lines = receipt.parseByCategory(lines)
+        self.update_pane()
 
-        for idx, clas, line in parsed_lines:
+    def update_pane(self):
+        for idx, clas, line in self.parsed_lines:
             if type(line) is tuple:
                 item = ' ## '.join([str(i) for i in line])
             else: item = str(line)
             line_entry = ' '.join((str(idx).rjust(4),clas,item))
             self.data_list.insert(tk.END, line_entry)
             self.data_list.itemconfig(tk.END, background=COLOR_KEY[clas])
-
         #items,dates,heads,foots,remainders = receipt.ParseByCategory(lines)
 
 
