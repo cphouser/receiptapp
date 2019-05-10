@@ -47,16 +47,16 @@ class Datapane(tk.Frame):
         print(self.active_item)
         if index == self.active_item:
             price = int(self.active_price.get())
-            idx, tag, item = self.parsed_lines[index]
+            tag, item = self.parsed_lines[index]
             if type(item) is tuple:
                 name, _, category = item
-                self.parsed_lines[index] = (idx, tag, (name, price, category))
+                self.parsed_lines.update({index: (tag, (name, price, category))})
                 self.data_list.delete(index)
-                self.update_line(self.parsed_lines[index])
+                self.update_line(index, *self.parsed_lines[index])
                 
         else:
             self.active_item = index
-            _, _, item = self.parsed_lines[index]
+            _, item = self.parsed_lines[index]
             if type(item) is tuple:
                 print('y')
                 _, price, _ = item
@@ -84,9 +84,8 @@ class Datapane(tk.Frame):
         self.data_list.itemconfig(idx, background=COLOR_KEY[tag])
 
     def update_pane(self):
-        for line_tup in self.parsed_lines:
-            self.update_line(*line_tup)
-        #items,dates,heads,foots,remainders = receipt.ParseByCategory(lines)
+        for idx, line_tup in self.parsed_lines.items():
+            self.update_line(idx, *line_tup)
  
 class Fileops(tk.Frame):
     def __init__(self,parent):

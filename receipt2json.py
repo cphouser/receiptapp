@@ -222,30 +222,29 @@ def parseByCategory(lines):
     def appendPriced(items,index,tag,name,price,category):
         int_price = tryPrice(price)
         if int_price is None:
-            items.append((index, 'errr', (name, price, category)))
+            items.update({index: ('errr', (name, price, category))})
         else:
-            items.append((index, tag, (name, int_price, category)))
+            items.update({index: (tag, (name, int_price, category))})
 
     category_head = None
-    items = []
+    items = {}
     ended = False
     for index, line in enumerate(lines):
         name,price,category,date = parseLine(line)
         if date is not None: 
-            items.append((index, 'date', date))
+            items.update({index: ('date', date)})
             continue
         if ended is True:
-            items.append((index, 'foot', line))
+            items.update({index: ('foot', line)})
             continue
         if category is not None: category_head = category; continue
         if category_head is None: 
-            items.append((index, 'head', line))
+            items.update({index: ('head', line)})
             continue
         if name is not None and price is not None and len(name) > 1:
             not_item = excludeMatch(name)
             if not_item is not None:
                 if not_item[0] == 'fsum':
-                    #print('ENDING LIST AT \'', name, '\'')
                     appendPriced(items, index, *not_item, price, 'SUM')
                     ended = True
                 else:
@@ -255,7 +254,7 @@ def parseByCategory(lines):
             else:
                 appendPriced(items, index, 'item', name, price, category_head) 
         elif name is not None:
-            items.append((index, 'none', line))
+            items.update({index: ('none', line)})
     return items
 
 if __name__ == '__main__':
