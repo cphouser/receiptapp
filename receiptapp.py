@@ -18,22 +18,35 @@ COLOR_KEY = {
 
 class Datapane(tk.Frame):
     def __init__(self,parent):
-        tk.Frame.__init__(self,parent)
+        tk.Frame.__init__(self,parent,width=280)
         self.parent = parent
+        self.pack_propagate(0)
 
-        self.data_list = tk.Listbox(self, 
-                font='-*-lucidatypewriter-medium-r-*-*-*-120-*-*-*-*-*-*')
+        self.data_list = tk.Listbox(self,# width=15,
+                font='-*-lucidatypewriter-medium-r-*-*-*-120-*-*-*-*-*-*'
+                )
         self.data_list.pack(side='top', fill='both', expand=True)
         
         self.active_price = tk.StringVar()
         self.active_item = -1
         self.price_entry = tk.Entry(self, textvariable=self.active_price,
+                width = 7,
                 font='-*-lucidatypewriter-medium-r-*-*-*-120-*-*-*-*-*-*')
         self.price_entry.pack(side='left')
 
         self.update_bt = tk.Button(self, text='Update Price',
+                font='-*-lucidatypewriter-medium-r-*-*-*-100-*-*-*-*-*-*',
                 command=self.update_price)
         self.update_bt.pack(side='left')
+
+        self.sum_str = tk.StringVar()
+        self.sum_label = tk.Label(self, textvariable=self.sum_str,
+                font='-*-lucidatypewriter-medium-r-*-*-*-120-*-*-*-*-*-*')
+        self.sum_label.pack(side='left')
+
+        self.save_bt = tk.Button(self, text='Save List', state=tk.DISABLED,
+                font='-*-lucidatypewriter-medium-r-*-*-*-100-*-*-*-*-*-*')
+        self.save_bt.pack(side='right')
 
     def update_price(self):
         '''
@@ -43,26 +56,23 @@ class Datapane(tk.Frame):
         else pull price from self.parsed_lines and put in self.price_entry
         '''
         index = self.data_list.curselection()[0]
-        print(index)
-        print(self.active_item)
+        #print(index)
+        #print(self.active_item)
         if index == self.active_item:
             price = int(self.active_price.get())
             tag, item = self.parsed_lines[index]
             if type(item) is tuple:
                 name, _, category = item
                 self.parsed_lines.update({index: (tag, (name, price, category))})
-                self.data_list.delete(index)
+                #self.data_list.delete(index)
                 self.update_line(index, *self.parsed_lines[index])
-                
+                self.check_receipt()
         else:
             self.active_item = index
             _, item = self.parsed_lines[index]
             if type(item) is tuple:
-                print('y')
                 _, price, _ = item
                 self.active_price.set(str(price))
-            else:
-                print(item,type(item))
 
     def parse_file(self, path='./img'):
         img_path = self.parent.filepane.file_str.get()
@@ -78,26 +88,56 @@ class Datapane(tk.Frame):
             item = ' ## '.join([str(i) for i in line])
         else: item = str(line)
         line_entry = ' '.join((str(idx).rjust(4),tag,item))
+
         while self.data_list.size() < idx:
             self.data_list.insert(tk.END, '')
+
+        if self.data_list.get(idx) != '':
+            #print('update ',self.data_list.get(idx))
+            self.data_list.delete(idx)
         self.data_list.insert(idx, line_entry)
         self.data_list.itemconfig(idx, background=COLOR_KEY[tag])
 
     def update_pane(self):
-        for idx, line_tup in self.parsed_lines.items():
-            self.update_line(idx, *line_tup)
+        self.balance_idx = -1
+        for idx, (tag, line) in self.parsed_lines.items():
+            self.update_line(idx, tag, line)
+            if tag == 'tsum' or tag == 'fsum':
+                self.balance_idx = idx
+        self.check_receipt()
+
+    def check_receipt(self):
+        if self.balance_idx == -1:
+            return
+
+        price_sum = 0
+        for idx, (tag, line) in self.parsed_lines.items():
+            if type(line) is tuple and tag == 'item':
+                _, price, _ = line
+                price_sum += price
+        _, entry = self.parsed_lines[self.balance_idx]
+        name, total, cat = entry
+        if price_sum == total:
+            self.update_line(self.balance_idx, 'tsum', entry)
+        else:
+            self.update_line(self.balance_idx, 'fsum', entry)
+        self.sum_str.set('CURRENT SUM: '+str(price_sum))
  
 class Fileops(tk.Frame):
     def __init__(self,parent):
         tk.Frame.__init__(self,parent)
-        self.refresh_bt = tk.Button(self, text='Refresh File List')
+        self.refresh_bt = tk.Button(self, text='Refresh File List',
+                font='-*-lucidatypewriter-medium-r-*-*-*-100-*-*-*-*-*-*')
         self.read_bt = tk.Button(self, text='Read Selected File',
+                font='-*-lucidatypewriter-medium-r-*-*-*-100-*-*-*-*-*-*',
                 command=self.read_file)
         self.parent = parent
         #read_bt.bind('<Button-1>', parent.filepane.update_view())
 
-        self.readall_bt = tk.Button(self, text='Read All')
-        self.history_ch = tk.Checkbutton(self, text='Ignore history.csv')
+        self.readall_bt = tk.Button(self, text='Read All',
+                font='-*-lucidatypewriter-medium-r-*-*-*-100-*-*-*-*-*-*')
+        self.history_ch = tk.Checkbutton(self, text='Ignore history.csv',
+                font='-*-lucidatypewriter-medium-r-*-*-*-100-*-*-*-*-*-*')
 
         self.refresh_bt.pack(side='left')
         self.read_bt.pack(side='left')
