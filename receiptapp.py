@@ -16,6 +16,9 @@ COLOR_KEY = {
         'fsum':'#ffe5cc',
     }
 
+BIG_FONT = '-*-lucidatypewriter-medium-r-*-*-*-120-*-*-*-*-*-*'
+SMALL_FONT = '-*-lucidatypewriter-medium-r-*-*-*-100-*-*-*-*-*-*'
+
 class Datapane(tk.Frame):
     def __init__(self,parent):
         tk.Frame.__init__(self,parent,width=280)
@@ -23,7 +26,7 @@ class Datapane(tk.Frame):
         self.pack_propagate(0)
 
         self.data_list = tk.Listbox(self,# width=15,
-                font='-*-lucidatypewriter-medium-r-*-*-*-120-*-*-*-*-*-*'
+                font=BIG_FONT
                 )
         self.data_list.pack(side='top', fill='both', expand=True)
         
@@ -31,21 +34,21 @@ class Datapane(tk.Frame):
         self.active_item = -1
         self.price_entry = tk.Entry(self, textvariable=self.active_price,
                 width = 7,
-                font='-*-lucidatypewriter-medium-r-*-*-*-120-*-*-*-*-*-*')
+                font=BIG_FONT)
         self.price_entry.pack(side='left')
 
         self.update_bt = tk.Button(self, text='Update Price',
-                font='-*-lucidatypewriter-medium-r-*-*-*-100-*-*-*-*-*-*',
+                font=SMALL_FONT,
                 command=self.update_price)
         self.update_bt.pack(side='left')
 
         self.sum_str = tk.StringVar()
         self.sum_label = tk.Label(self, textvariable=self.sum_str,
-                font='-*-lucidatypewriter-medium-r-*-*-*-120-*-*-*-*-*-*')
+                font=BIG_FONT)
         self.sum_label.pack(side='left')
 
         self.save_bt = tk.Button(self, text='Save List', state=tk.DISABLED,
-                font='-*-lucidatypewriter-medium-r-*-*-*-100-*-*-*-*-*-*')
+                font=SMALL_FONT)
         self.save_bt.pack(side='right')
 
     def update_price(self):
@@ -127,17 +130,17 @@ class Fileops(tk.Frame):
     def __init__(self,parent):
         tk.Frame.__init__(self,parent)
         self.refresh_bt = tk.Button(self, text='Refresh File List',
-                font='-*-lucidatypewriter-medium-r-*-*-*-100-*-*-*-*-*-*')
+                font=SMALL_FONT)
         self.read_bt = tk.Button(self, text='Read Selected File',
-                font='-*-lucidatypewriter-medium-r-*-*-*-100-*-*-*-*-*-*',
+                font=SMALL_FONT,
                 command=self.read_file)
         self.parent = parent
         #read_bt.bind('<Button-1>', parent.filepane.update_view())
 
         self.readall_bt = tk.Button(self, text='Read All',
-                font='-*-lucidatypewriter-medium-r-*-*-*-100-*-*-*-*-*-*')
+                font=SMALL_FONT)
         self.history_ch = tk.Checkbutton(self, text='Ignore history.csv',
-                font='-*-lucidatypewriter-medium-r-*-*-*-100-*-*-*-*-*-*')
+                font=SMALL_FONT)
 
         self.refresh_bt.pack(side='left')
         self.read_bt.pack(side='left')
@@ -158,13 +161,13 @@ class Filepane(tk.Frame):
         self.file_str = tk.StringVar(); 
         self.file_list = tk.Listbox(self, selectmode=tk.BROWSE, 
                 listvariable=files_str,
-                font='-*-lucidatypewriter-medium-r-*-*-*-100-*-*-*-*-*-*')
+                font=SMALL_FONT)
         self.file_list.activate(0)
         self.file_str.set(self.file_list.get(tk.ACTIVE))
 
         self.file_view = tk.Label(self)
         self.file_label = tk.Label(self, textvariable=self.file_str,
-                font='-*-lucidatypewriter-medium-r-*-*-*-120-*-*-*-*-*-*')
+                font=BIG_FONT)
         self.read_image(self.file_view,self.file_str.get())
         
         self.file_list.pack(side='top', fill='x')
