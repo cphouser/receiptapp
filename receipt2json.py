@@ -259,7 +259,7 @@ def parseByCategory(lines):
 
 if __name__ == '__main__':
     # Uncomment the line below to provide path to tesseract manually
-    pytesseract.pytesseract.tesseract_cmd = 'bin/tesseract'
+    # pytesseract.pytesseract.tesseract_cmd = 'bin/tesseract'
 
     if len(sys.argv) > 1 and sys.argv[1] == '--help':
         print('Script searches the ./img directory for files')
