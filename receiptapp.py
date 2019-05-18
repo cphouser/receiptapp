@@ -119,8 +119,10 @@ class Datapane(tk.Frame):
         name, total, cat = entry
         if price_sum == total:
             self.update_line(self.balance_idx, 'tsum', entry)
+            self.save_bt.config(state=tk.NORMAL)
         else:
             self.update_line(self.balance_idx, 'fsum', entry)
+            self.save_bt.config(state=tk.DISABLED)
         self.sum_str.set('CURRENT SUM: '+str(price_sum))
 
     def save_list(self):
