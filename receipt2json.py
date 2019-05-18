@@ -249,6 +249,38 @@ def parseByCategory(lines):
             items.update({index: ('none', line)})
     return items
 
+def saveList(r_id, date, items):
+    receipt_dict_past = {}
+    if 'grocerylist.json' in listdir(path='dat/'):
+        print('existing receipt list found at grocerylist.json')
+        with open('dat/grocerylist.json') as f:
+            receipt_dict_past = json.load(f)
+        for r_id in receipt_dict:
+            if r_id in receipt_dict_past:
+                if receipt_dict[r_id][2] == receipt_dict_past[r_id][2]:
+                    print(r_id, ' already in file - items match (continuing)')
+                    continue
+                else:
+                    print(r_id, ' already in file - item differences found')
+                    while True:
+                        in_action = input(
+                            '\'o\':keep original \'n\':keep new \'v\':view') 
+                        if in_action == 'o': receipt_dict.pop(r_id); break
+                        elif in_action == 'n': break
+                        elif in_action == 'v':
+                            print('   VVV - SAVED VERSION - VVV')
+                            print(receipt_dict_past[r_id][2])
+                            print('    VVV - NEW VERSION - VVV')
+                            print(receipt_dict[r_id][2])
+    else:
+        print('creating new list of recipt data at grocerylist.json')
+
+    receipt_dict_past.update(receipt_dict)
+
+    with open('dat/grocerylist.json', 'w') as f:
+        json.dump(receipt_dict_past, f, indent=2, sort_keys=True, default=str)
+    
+
 if __name__ == '__main__':
     # Uncomment the line below to provide path to tesseract manually
     # pytesseract.pytesseract.tesseract_cmd = 'bin/tesseract'
@@ -265,7 +297,7 @@ if __name__ == '__main__':
     
     print('  Images to Scan:', *img_list, sep='\n')
     print('  Images in History File:', *history_list, sep='\n')
-    receipy_dict = {}
+    receipt_dict = {}
     #for each image found in /img folder
     for img_path in img_list:
         lines = tesseractImage('img/'+img_path).splitlines()
@@ -299,44 +331,14 @@ if __name__ == '__main__':
         
         receipt_id = ''.join(filter(lambda x: x.isdigit(), str(receipt_date)))\
                 +str(balance)
-        receipy_dict.update({receipt_id:(receipt_date,balance,items,img_path)})
-        print(receipy_dict[receipt_id])
+        receipt_dict.update({receipt_id:(receipt_date,balance,items,img_path)})
+        print(receipt_dict[receipt_id])
 
         with open('img/history.csv', 'a') as f:
             writer = csv.writer(f, lineterminator='\n')
             writer.writerow([img_path])
             
             
-    receipy_dict_past = {}
-    if 'grocerylist.json' in listdir(path='.'):
-        print('existing receipt list found at grocerylist.json')
-        with open('grocerylist.json') as f:
-            receipy_dict_past = json.load(f)
-        for r_id in receipy_dict:
-            if r_id in receipy_dict_past:
-                if receipy_dict[r_id][2] == receipy_dict_past[r_id][2]:
-                    print(r_id, ' already in file - items match (continuing)')
-                    continue
-                else:
-                    print(r_id, ' already in file - item differences found')
-                    while True:
-                        in_action = input(
-                            '\'o\':keep original \'n\':keep new \'v\':view') 
-                        if in_action == 'o': receipy_dict.pop(r_id); break
-                        elif in_action == 'n': break
-                        elif in_action == 'v':
-                            print('   VVV - SAVED VERSION - VVV')
-                            print(receipy_dict_past[r_id][2])
-                            print('    VVV - NEW VERSION - VVV')
-                            print(receipy_dict[r_id][2])
-    else:
-        print('creating new list of recipt data at grocerylist.json')
-
-    receipy_dict_past.update(receipy_dict)
-
-    with open('grocerylist.json', 'w') as f:
-        json.dump(receipy_dict_past, f, indent=2, sort_keys=True, default=str)
-    
     
         '''
         #generate statistics for output

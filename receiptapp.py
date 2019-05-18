@@ -23,32 +23,29 @@ class Datapane(tk.Frame):
     def __init__(self,parent):
         tk.Frame.__init__(self,parent,width=280)
         self.parent = parent
-        self.pack_propagate(0)
 
-        self.data_list = tk.Listbox(self,# width=15,
-                font=BIG_FONT
-                )
-        self.data_list.pack(side='top', fill='both', expand=True)
+        self.data_list = tk.Listbox(self, font=BIG_FONT)
         
         self.active_price = tk.StringVar()
         self.active_item = -1
         self.price_entry = tk.Entry(self, textvariable=self.active_price,
-                width = 7,
-                font=BIG_FONT)
-        self.price_entry.pack(side='left')
+                width = 7, font=BIG_FONT)
 
         self.update_bt = tk.Button(self, text='Update Price',
-                font=SMALL_FONT,
-                command=self.update_price)
-        self.update_bt.pack(side='left')
+                font=SMALL_FONT, command=self.update_price)
 
         self.sum_str = tk.StringVar()
-        self.sum_label = tk.Label(self, textvariable=self.sum_str,
+        self.sum_label = tk.Label(self, textvariable=self.sum_str, 
                 font=BIG_FONT)
-        self.sum_label.pack(side='left')
 
         self.save_bt = tk.Button(self, text='Save List', state=tk.DISABLED,
-                font=SMALL_FONT)
+                font=SMALL_FONT, command=self.save_list)
+        
+        self.pack_propagate(0)
+        self.data_list.pack(side='top', fill='both', expand=True)
+        self.price_entry.pack(side='left')
+        self.update_bt.pack(side='left')
+        self.sum_label.pack(side='left')
         self.save_bt.pack(side='right')
 
     def update_price(self):
@@ -125,7 +122,12 @@ class Datapane(tk.Frame):
         else:
             self.update_line(self.balance_idx, 'fsum', entry)
         self.sum_str.set('CURRENT SUM: '+str(price_sum))
- 
+
+    def save_list(self):
+        #receipt.saveList(r_id,...)
+        pass
+
+
 class Fileops(tk.Frame):
     def __init__(self,parent):
         tk.Frame.__init__(self,parent)
@@ -137,8 +139,7 @@ class Fileops(tk.Frame):
         self.parent = parent
         #read_bt.bind('<Button-1>', parent.filepane.update_view())
 
-        self.readall_bt = tk.Button(self, text='Read All',
-                font=SMALL_FONT)
+        self.readall_bt = tk.Button(self, text='Read All', font=SMALL_FONT)
         self.history_ch = tk.Checkbutton(self, text='Ignore history.csv',
                 font=SMALL_FONT)
 
