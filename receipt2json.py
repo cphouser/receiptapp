@@ -1,4 +1,3 @@
-
 #adapted from example:
 #https://www.learnopencv.com/deep-learning-based-text-recognition-ocr-using-tesseract-and-opencv/
 import cv2
@@ -29,21 +28,9 @@ def acertainDateValue(date_string):
         minute = int(date_string[k+1:k+3])
     else:
         return None
-   
     if year > 99 or month > 12 or day > 31 or hour > 23 or minute > 59:
         return None
     else: return datetime(year+CENTURY,month,day,hour,minute)
-
-
-def acertainPriceValue_unnecessary(price_string):
-    def lastDigit(string):
-        for idx in range(-1, -len(string), -1):
-            if string[idx].isdigit(): return len(string) + idx; 
-            elif len(string) + idx == 0: return -1
-    price_string = price_string.replace(',','.')
-    if price_string.count('.') == 1:
-        i = price_string.rfind('.')
-        
 
 def acertainPriceValue(price_string):
     def lastDigit(string):
@@ -94,6 +81,11 @@ def tesseractImage(filepath):
     # Run tesseract OCR on image
     # '-l eng'  for using the English language
     # '--oem 1' for using LSTM OCR Engine
+    if sys.platform.startswith('win32'):
+        pytesseract.pytesseract.tesseract_cmd = ''#windows dir
+    elif sys.platform.startswith('linux'):
+        pytesseract.pytesseract.tesseract_cmd = 'bin/tesseract'
+
     text = pytesseract.image_to_string(im, config='-l eng --oem 1 --psm 3')
     return text
 
