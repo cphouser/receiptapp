@@ -75,7 +75,7 @@ class Datapane(tk.Frame):
                 self.active_price.set(str(price))
 
     def parse_file(self, path='./img'):
-        img_path = self.parent.filepane.file_str.get()
+        img_path = self.parent.filepane.sel_file_str.get()
         self.data_list.delete(0,tk.END)
 
         lines = receipt.tesseractImage(path + '/' + img_path).splitlines()
@@ -133,22 +133,30 @@ class Datapane(tk.Frame):
 class Fileops(tk.Frame):
     def __init__(self,parent):
         tk.Frame.__init__(self,parent)
+        self.parent = parent
         self.refresh_bt = tk.Button(self, text='Refresh File List',
                 font=SMALL_FONT)
         self.read_bt = tk.Button(self, text='Read Selected File',
-                font=SMALL_FONT,
-                command=self.read_file)
-        self.parent = parent
+                font=SMALL_FONT, command=self.read_file)
         #read_bt.bind('<Button-1>', parent.filepane.update_view())
-
         self.readall_bt = tk.Button(self, text='Read All', font=SMALL_FONT)
         self.history_ch = tk.Checkbutton(self, text='Ignore history.csv',
-                font=SMALL_FONT)
+                font=SMALL_FONT) 
+        self.user_list = receipt.readUsers()
+        print(*self.user_list,sep="\n")
+        self.user_str = tk.StringVar()
+        self.user_str.set(self.user_list[0])
+        self.user_menu = tk.OptionMenu(self, self.user_str, *self.user_list)
+        self.user_menu.config(font=SMALL_FONT, )
+        self.user_bt = tk.Button(self, text="tag with user:", font=SMALL_FONT,
+                command=self.parent.filepane.tag_file)
 
         self.refresh_bt.pack(side='left')
         self.read_bt.pack(side='left')
         self.readall_bt.pack(side='left')
         self.history_ch.pack(side='left')
+        self.user_menu.pack(side='right')
+        self.user_bt.pack(side='right')
         #.pack(side='left')
 
     def read_file(self):
@@ -161,17 +169,16 @@ class Filepane(tk.Frame):
         self.pack_propagate(0)
 
         files_str = tk.StringVar(); files_str.set(self.read_files())
-        self.file_str = tk.StringVar(); 
+        self.sel_file_str = tk.StringVar(); 
         self.file_list = tk.Listbox(self, selectmode=tk.BROWSE, 
-                listvariable=files_str,
-                font=SMALL_FONT)
+                listvariable=files_str, font=SMALL_FONT)
         self.file_list.activate(0)
-        self.file_str.set(self.file_list.get(tk.ACTIVE))
+        self.sel_file_str.set(self.file_list.get(tk.ACTIVE))
 
         self.file_view = tk.Label(self)
-        self.file_label = tk.Label(self, textvariable=self.file_str,
+        self.file_label = tk.Label(self, textvariable=self.sel_file_str,
                 font=BIG_FONT)
-        self.read_image(self.file_view,self.file_str.get())
+        self.read_image(self.file_view,self.sel_file_str.get())
         
         self.file_list.pack(side='top', fill='x')
         self.file_label.pack(side='top')
@@ -194,8 +201,15 @@ class Filepane(tk.Frame):
 
     def update_view(self):
         #print(self.file_list.get(tk.ACTIVE))
-        self.file_str.set(self.file_list.get(tk.ACTIVE))
-        self.read_image(self.file_view,self.file_str.get())
+        self.sel_file_str.set(self.file_list.get(tk.ACTIVE))
+        self.read_image(self.file_view,self.sel_file_str.get())
+
+    def tag_file(self):
+
+        filename = self.sel_file_str.get()
+        user_tag = self.parent.fileops.user_str.get()
+        filename += '***' + user_tag
+        #self.
 
 class FilepaneApplication(tk.Frame):
     def __init__(self, parent):

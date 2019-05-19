@@ -1,0 +1,41 @@
+[I 09:27:32.157 NotebookApp] The port 8888 is already in use, trying another port.
+[I 09:27:32.229 NotebookApp] JupyterLab extension loaded from /home/calvin/anaconda3/lib/python3.7/site-packages/jupyterlab
+[I 09:27:32.229 NotebookApp] JupyterLab application directory is /home/calvin/anaconda3/share/jupyter/lab
+[I 09:27:32.231 NotebookApp] Serving notebooks from local directory: /home/calvin/school/cmps184/184-receipts
+[I 09:27:32.231 NotebookApp] The Jupyter Notebook is running at:
+[I 09:27:32.231 NotebookApp] http://localhost:8889/?token=7ecf0e5c23f4b151f72dea7915a843e5e0cb8daa215d14c6
+[I 09:27:32.231 NotebookApp] Use Control-C to stop this server and shut down all kernels (twice to skip confirmation).
+[C 09:27:32.292 NotebookApp] 
+    
+    To access the notebook, open this file in a browser:
+        file:///run/user/1000/jupyter/nbserver-27649-open.html
+    Or copy and paste one of these URLs:
+        http://localhost:8889/?token=7ecf0e5c23f4b151f72dea7915a843e5e0cb8daa215d14c6
+[I 09:27:43.246 NotebookApp] Kernel started: 2e2d81fa-5756-4463-bd00-acfb2493b41f
+[I 09:27:45.133 NotebookApp] Adapting to protocol v5.1 for kernel 2e2d81fa-5756-4463-bd00-acfb2493b41f
+[I 09:27:54.880 NotebookApp] Starting buffering for 2e2d81fa-5756-4463-bd00-acfb2493b41f:30c9b544a1aa440e844ced0a0cb954d5
+[I 09:28:02.020 NotebookApp] Kernel started: b7f11680-fd7c-4d56-b0d7-c8fb21ccea22
+[I 09:28:03.869 NotebookApp] Adapting to protocol v5.1 for kernel b7f11680-fd7c-4d56-b0d7-c8fb21ccea22
+[I 09:28:08.502 NotebookApp] Starting buffering for b7f11680-fd7c-4d56-b0d7-c8fb21ccea22:4dccfd8bbe0b401d80a2e0dab3859312
+[C 11:00:31.257 NotebookApp] received signal 15, stopping
+[I 11:00:31.298 NotebookApp] Shutting down 2 kernels
+[I 11:00:31.438 NotebookApp] Kernel shutdown: 2e2d81fa-5756-4463-bd00-acfb2493b41f
+[I 11:00:31.453 NotebookApp] Kernel shutdown: b7f11680-fd7c-4d56-b0d7-c8fb21ccea22
+
+(nautilus:7587): Gtk-CRITICAL **: gtk_widget_get_mapped: assertion 'GTK_IS_WIDGET (widget)' failed
+
+(nautilus:7587): Gdk-CRITICAL **: gdk_window_is_visible: assertion 'GDK_IS_WINDOW (window)' failed
+
+(nautilus:7587): Gdk-CRITICAL **: gdk_window_show_internal: assertion 'GDK_IS_WINDOW (window)' failed
+
+(nautilus:7587): Gtk-CRITICAL **: gtk_widget_set_opacity: assertion 'GTK_IS_WIDGET (widget)' failed
+
+(nautilus:7587): Gtk-CRITICAL **: gtk_widget_queue_draw: assertion 'GTK_IS_WIDGET (widget)' failed
+
+(nautilus:7587): Gtk-CRITICAL **: gtk_widget_get_mapped: assertion 'GTK_IS_WIDGET (widget)' failed
+
+(nautilus:7587): Gdk-CRITICAL **: gdk_window_is_visible: assertion 'GDK_IS_WINDOW (window)' failed
+
+(nautilus:7587): Gtk-CRITICAL **: gtk_widget_set_opacity: assertion 'GTK_IS_WIDGET (widget)' failed
+
+(nautilus:7587): Gtk-CRITICAL **: gtk_widget_queue_draw: assertion 'GTK_IS_WIDGET (widget)' failed

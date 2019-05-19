@@ -192,6 +192,14 @@ def findImages(img_dir='./img'):
         #print('no history file found')
     return img_files_list,history_list
 
+def readUsers(path='./dat'):
+    user_list = []
+    with open(path + '/people.csv', 'r', newline='') as f:
+        reader = csv.reader(f, lineterminator='\n')
+        for user_entry in reader:
+            user_list.append(user_entry[0])
+    return user_list
+
 def parseByCategory(lines):
     def excludeMatch(name):
         exclude_items = ['Regular Price','Card Savings']
