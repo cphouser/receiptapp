@@ -1,0 +1,15 @@
+tags for each line (from receiptapp.py)
+
+COLOR_KEY = {#line tag:color
+        'catg':'#ccffcc',#category
+        'coup':'#e5ccff',#coupon
+        'date':'#ffffcc',#date value
+        'errr':'#ffcccc',#error
+        'foot':'#ccccff',#footer
+        'fsum':'#ffe5cc',#balance (doesnt match sum of prices)
+        'head':'#ccccff',#header
+        'item':'#e5ffcc',#item w/ price
+        'none':'#e0e0e0',#discarded line
+        'rate':'#ccffff',#rate pricing
+        'tsum':'#cce5ff',#balance (matches sum of prices)
+    }

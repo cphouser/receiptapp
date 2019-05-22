@@ -4,16 +4,18 @@ import tkinter as tk
 import receipt2json as receipt
 from PIL import Image, ImageTk
 
-COLOR_KEY = {
-        'item':'#e5ffcc',
-        'date':'#ffffcc',
-        'none':'#e0e0e0',
-        'head':'#ccccff',
-        'foot':'#ccccff',
-        'errr':'#ffcccc',
-        'coup':'#ccffff',
-        'tsum':'#cce5ff',
-        'fsum':'#ffe5cc',
+COLOR_KEY = {#line tag:color
+        'catg':'#ccffcc',#category
+        'coup':'#e5ccff',#coupon
+        'date':'#ffffcc',#date value
+        'errr':'#ffcccc',#error
+        'foot':'#ccccff',#footer
+        'fsum':'#ffe5cc',#balance (doesnt match sum of prices)
+        'head':'#ccccff',#header
+        'item':'#e5ffcc',#item w/ price
+        'none':'#e0e0e0',#discarded line
+        'rate':'#ccffff',#rate pricing
+        'tsum':'#cce5ff',#balance (matches sum of prices)
     }
 
 BIG_FONT = '-*-lucidatypewriter-medium-r-*-*-*-120-*-*-*-*-*-*'
@@ -79,7 +81,7 @@ class Datapane(tk.Frame):
         self.data_list.delete(0,tk.END)
 
         lines = receipt.tesseractImage(path + '/' + img_path).splitlines()
-        self.parsed_lines = receipt.parseByCategory(lines)
+        self.parsed_lines = receipt.parseSafeway(lines)
 
         self.update_pane()
 
@@ -113,6 +115,7 @@ class Datapane(tk.Frame):
         price_sum = 0
         for idx, (tag, line) in self.parsed_lines.items():
             if type(line) is tuple and tag == 'item':
+                #print(idx, tag, line, sep = '\t')
                 _, price, _ = line
                 price_sum += price
         _, entry = self.parsed_lines[self.balance_idx]
@@ -185,8 +188,8 @@ class Filepane(tk.Frame):
 
     def read_files(self, path='./img'):
         new_imgs, old_imgs = receipt.findImages(path)
-        new_imgs = [i.replace(' ','\\ ') for i in new_imgs]
-        old_imgs = [i.replace(' ','\\ ') for i in old_imgs]
+        new_imgs = sorted([i.replace(' ','\\ ') for i in new_imgs])
+        old_imgs = sorted([i.replace(' ','\\ ') for i in old_imgs])
         img_str = ' '.join(new_imgs + old_imgs)
         return img_str
 

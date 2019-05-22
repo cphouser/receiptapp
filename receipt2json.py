@@ -11,6 +11,51 @@ from datetime import datetime
 from fuzzywuzzy import fuzz
 from fuzzywuzzy import process
 
+def findImages(img_dir='./img'):
+    img_files_list = listdir(path=img_dir)
+
+    history_list = []
+    if 'history.csv' in img_files_list:
+        img_files_list.remove('history.csv')
+        with open(img_dir + '/history.csv', 'r', newline='') as f:
+            reader = csv.reader(f, lineterminator='\n')
+            for history_entry in reader:
+                if history_entry[0] in img_files_list:
+                    history_list.append(history_entry[0])
+                    img_files_list.remove(history_entry[0])
+                    #print(history_entry,' removed from img_files_list')
+    else:
+        pass
+        #print('no history file found')
+    return img_files_list,history_list
+
+def readUsers(path='./dat'):
+    user_list = []
+    with open(path + '/people.csv', 'r', newline='') as f:
+        reader = csv.reader(f, lineterminator='\n')
+        for user_entry in reader:
+            user_list.append(user_entry[0])
+    return user_list
+
+def tesseractImage(filepath):
+    """
+    run tesseract ocr on image at filepath, return text as string
+    """
+    # Read image from disk
+    im = cv2.imread(filepath, cv2.IMREAD_COLOR)
+
+    # Run tesseract OCR on image
+    # '-l eng'  for using the English language
+    # '--oem 1' for using LSTM OCR Engine
+    if sys.platform.startswith('win32'):
+        pytesseract.pytesseract.tesseract_cmd = \
+                'C:\\Program Files\\Tesseract-OCR\\tesseract'#windows dir
+    elif sys.platform.startswith('linux'):
+        pytesseract.pytesseract.tesseract_cmd = 'bin/tesseract'
+
+    text = pytesseract.image_to_string(im, config='-l eng --oem 1 --psm 3')
+    return text
+
 def acertainDateValue(date_string):
     """
     given a line, if a date exists in the format dd/mm/yy hh:mm, 
@@ -93,73 +138,193 @@ def priceAsInt1(price_string):
     cents = ''
     for digit in (price_string[j+1:i]):
         if digit.isdigit(): dollars += digit
-        
     for digit in (price_string[i+1:i+3]):
         if digit.isdigit(): cents += digit
 
     #return total cents
     return int(dollars)*100 + int(cents)
 
-def tesseractImage(filepath):
+def separatePrice1(line):
     """
-    run tesseract ocr on image at filepath, return text as string
+    look for at least 4 non-alphabet characters near the end of the 
     """
-    # Read image from disk
-    im = cv2.imread(filepath, cv2.IMREAD_COLOR)
+    letter_flag = 0
+    for i in range(-1, -len(line), -1):
+        if line[i].isalpha():
+            #detect first alphabet character
+            if letter_flag == 0: letter_flag = i; continue
 
-    # Run tesseract OCR on image
-    # '-l eng'  for using the English language
-    # '--oem 1' for using LSTM OCR Engine
-    if sys.platform.startswith('win32'):
-        pytesseract.pytesseract.tesseract_cmd = 'C:\\Program Files\\Tesseract-OCR\\tesseract'#windows dir
-    elif sys.platform.startswith('linux'):
-        pytesseract.pytesseract.tesseract_cmd = 'bin/tesseract'
+            #if second alphabet char is less than 4 
+            #chars left of the first there isn't a price
+            if letter_flag > -3 and -(i - letter_flag) < 4:
+                return (line,None) 
+            else:
+                split = i+2 if i+1 == letter_flag else i+1
+                if len(line[split:]) > 2:
+                    return (line[:split], line[split:])
+                else: break
 
-    text = pytesseract.image_to_string(im, config='-l eng --oem 1 --psm 3')
-    return text
-
-def parseLine(line):
-    def separatePrice(line):
-        """
-        Check each line for a price (at least 4 numeric characters at end)
-        """
-        letter_flag = 0
-        for i in range(-1, -len(line), -1):
-            if line[i].isalpha():
-                #detect first alphabet character
-                if letter_flag == 0: letter_flag = i; continue
-
-                #if second alphabet char is less than 4 
-                #chars left of the first there isn't a price
-                if letter_flag > -3 and -(i - letter_flag) < 4:
-                    if all((i.isupper() if i.isalpha() else True) for i in line):
-                        return (line,None) 
-                    else: break
-                else:
-                    split = i+2 if i+1 == letter_flag else i+1
-                    if len(line[split:]) > 2:
-                        return (line[:split], line[split:])
-                    else: break
-        return (None,line)
-    not_category = 'QTY'
+    #can't find an item
+    return (None,line)
+    
+def parseLine1(line):
+    #don't consider any line with less than 4 characters
     if len(line) < 4:
-        #print(' \'',line,'\' (less than 4 characters)')
-        return (None,None,None,None)
+        return ('none', line)
+
     #if the line has two "/" and one ":", it might be the transaction date
     if line.count('/') == 2 and line.count(':') == 1:
-        return (None,None,None,acertainDateValue(line))
-    name,price = separatePrice(line)
+        date = acertainDateValue(line)
+        return ('date', date)
+
+    #try extracting a price from the right side
+    name,price = separatePrice1(line)
+
+    #if no price it might be a category
     if price is None:
+        #exclude lines that include QTY
         fuz = fuzz.partial_ratio('QTY',name)
         if fuz > 60:
-            return (line,None,None,None)
-        return (None,None,name,None)
+            return ('none', line)
+
+        #safeway categories are uppercase
+        if all((i.isupper() if i.isalpha() else True) for i in line):
+            return ('catg', line)
+
+        #otherwise discard
+        return ('none', line)
+
+    #ignore if theres no item name
     elif name is None:
-        #print('DISCARDED \'',line,'\' (no item)')
-        return (line,None,None,None)
-    else: return (name,price,None,None)
+        return ('none', line)
+
+    else: return tryPrice1(name, price)
+    
+def tryPrice1(name, price): 
+    """
+    given a separated name and price, check whether the price can be
+    read as an int.
+    """
+    try:
+        int_price = priceAsInt1(price)
+    except ValueError:
+        print('Could not parse ', price, ' as int')
+        return ('errr', (name, price))
+    else:
+        if int_price is None:
+            return ('errr', (name, price))
+        else:    
+            return ('item', (name, int_price))
+
+def parseSafeway(lines):
+    def excludeMatch(name):
+        """
+        check for keywords in item field
+        """
+        exclude_items = ['Regular Price','Card Savings']
+        coupon_names = ['Store Coupon']
+        list_end = 'BALANCE'
+        if any(fuzz.ratio(string,name) > 80 for string in exclude_items):
+            return 'none'
+        if any(fuzz.ratio(string,name) > 80 for string in coupon_names):
+            return 'coup'
+        if fuzz.partial_ratio(list_end,name) > 90:
+            return 'fsum'
+        return 'item'
+
+    #initiate flags for iterating over lines
+    category_head = None
+    ended = False
+
+    #return lines as a dict, keyed by line number
+    items = {}
+    for line in lines:
+        index = len(items)
+        
+        #discard all lines with less than two characters
+        if len(line) <= 1:
+            continue
+        
+        tag, item = parseLine1(line)
+        #print(index, tag, item, sep='\t')
+        if tag == 'date':
+            items.update({index: ('date', item)})
+            continue
+
+        if ended is True:
+            items.update({index: ('foot', line)})
+            continue
+
+        if tag == 'catg':
+            category_head = item
+            items.update({index: ('catg', item)})
+            continue
+
+        if category_head is None: 
+            items.update({index: ('head', line)})
+            continue
+        
+        if tag == 'errr':
+            items.update({index: ('errr', (*item, category_head))})
+            continue
+
+        if type(item) is tuple:
+            name, _ = item
+            not_item = excludeMatch(name)
+            if not_item == 'fsum':
+                items.update({index: ('fsum', (*item, 'SUM'))})
+                ended = True
+            elif not_item == 'item':
+                if 'TAX' in name:
+                    items.update({index: ('item', (*item, 'TAX'))})
+                else:
+                    items.update({index: ('item', (*item, category_head))})
+            else:
+                items.update({index: (not_item, (*item, category_head))})
+        else:
+            items.update({index: (tag, item)})
+    return items
+
+def saveList(r_id, date, items):
+    """
+    NEEDS UPDATING - not currently used
+    saves the receipt in the grocerylist file as a dict entry.
+    """
+    receipt_dict_past = {}
+    if 'grocerylist.json' in listdir(path='dat/'):
+        print('existing receipt list found at grocerylist.json')
+        with open('dat/grocerylist.json') as f:
+            receipt_dict_past = json.load(f)
+        for r_id in receipt_dict:
+            if r_id in receipt_dict_past:
+                if receipt_dict[r_id][2] == receipt_dict_past[r_id][2]:
+                    print(r_id, ' already in file - items match (continuing)')
+                    continue
+                else:
+                    print(r_id, ' already in file - item differences found')
+                    while True:
+                        in_action = input(
+                            '\'o\':keep original \'n\':keep new \'v\':view') 
+                        if in_action == 'o': receipt_dict.pop(r_id); break
+                        elif in_action == 'n': break
+                        elif in_action == 'v':
+                            print('   VVV - SAVED VERSION - VVV')
+                            print(receipt_dict_past[r_id][2])
+                            print('    VVV - NEW VERSION - VVV')
+                            print(receipt_dict[r_id][2])
+    else:
+        print('creating new list of recipt data at grocerylist.json')
+
+    receipt_dict_past.update(receipt_dict)
+
+    with open('dat/grocerylist.json', 'w') as f:
+        json.dump(receipt_dict_past, f, indent=2, sort_keys=True, default=str)
     
 def priceCheck(items):
+    """
+    DEPRECATED 
+    attempts to correct read errors for price values
+    """
     def checkRatio(price,total_diff):
         return fuzz.ratio(str(price + total_diff),str(price))
     
@@ -207,127 +372,6 @@ def priceCheck(items):
                 print([range(len(items))])
         return balance, items
 
-def findImages(img_dir='./img'):
-    img_files_list = listdir(path=img_dir)
-
-    history_list = []
-    if 'history.csv' in img_files_list:
-        img_files_list.remove('history.csv')
-        with open(img_dir + '/history.csv', 'r', newline='') as f:
-            reader = csv.reader(f, lineterminator='\n')
-            for history_entry in reader:
-                if history_entry[0] in img_files_list:
-                    history_list.append(history_entry[0])
-                    img_files_list.remove(history_entry[0])
-                    #print(history_entry,' removed from img_files_list')
-    else:
-        pass
-        #print('no history file found')
-    return img_files_list,history_list
-
-def readUsers(path='./dat'):
-    user_list = []
-    with open(path + '/people.csv', 'r', newline='') as f:
-        reader = csv.reader(f, lineterminator='\n')
-        for user_entry in reader:
-            user_list.append(user_entry[0])
-    return user_list
-
-def tryPrice(price): 
-    try:
-        int_price = priceAsInt1(price)
-        return int_price
-    except ValueError:
-        print('Could not parse ', price, ' as int')
-        return None
-
-def parseByCategory(lines):
-    def excludeMatch(name):
-        exclude_items = ['Regular Price','Card Savings']
-        coupon_names = ['Store Coupon']
-        list_end = 'BALANCE'
-        if any(fuzz.ratio(string,name) > 80 for string in exclude_items):
-            return 'none', name
-        if any(fuzz.ratio(string,name) > 80 for string in coupon_names):
-            return 'coup', name
-        if fuzz.partial_ratio(list_end,name) > 90:
-            return 'fsum', name
-        return None
-    def appendPriced(items,index,tag,name,price,category):
-        int_price = tryPrice(price)
-        if int_price is None:
-            items.update({index: ('errr', (name, price, category))})
-        else:
-            items.update({index: (tag, (name, int_price, category))})
-
-    category_head = None
-    items = {}
-    ended = False
-    for index, line in enumerate(lines):
-        name,price,category,date = parseLine(line)
-        if date is not None: 
-            items.update({index: ('date', date)})
-            continue
-        if ended is True:
-            items.update({index: ('foot', line)})
-            continue
-        if category is not None: 
-            category_head = category
-            items.update({index: ('none', line)})
-            continue
-        if category_head is None: 
-            items.update({index: ('head', line)})
-            continue
-        if name is not None and price is not None and len(name) > 1:
-            not_item = excludeMatch(name)
-            if not_item is not None:
-                if not_item[0] == 'fsum':
-                    appendPriced(items, index, *not_item, price, 'SUM')
-                    ended = True
-                else:
-                    appendPriced(items, index, *not_item, price, category_head)
-            elif 'TAX' in name:
-                appendPriced(items, index, 'item', name, price, 'TAX')
-            else:
-                appendPriced(items, index, 'item', name, price, category_head) 
-        elif name is not None:
-            items.update({index: ('none', line)})
-        else:
-            items.update({index: ('none', line)})
-    return items
-
-def saveList(r_id, date, items):
-    receipt_dict_past = {}
-    if 'grocerylist.json' in listdir(path='dat/'):
-        print('existing receipt list found at grocerylist.json')
-        with open('dat/grocerylist.json') as f:
-            receipt_dict_past = json.load(f)
-        for r_id in receipt_dict:
-            if r_id in receipt_dict_past:
-                if receipt_dict[r_id][2] == receipt_dict_past[r_id][2]:
-                    print(r_id, ' already in file - items match (continuing)')
-                    continue
-                else:
-                    print(r_id, ' already in file - item differences found')
-                    while True:
-                        in_action = input(
-                            '\'o\':keep original \'n\':keep new \'v\':view') 
-                        if in_action == 'o': receipt_dict.pop(r_id); break
-                        elif in_action == 'n': break
-                        elif in_action == 'v':
-                            print('   VVV - SAVED VERSION - VVV')
-                            print(receipt_dict_past[r_id][2])
-                            print('    VVV - NEW VERSION - VVV')
-                            print(receipt_dict[r_id][2])
-    else:
-        print('creating new list of recipt data at grocerylist.json')
-
-    receipt_dict_past.update(receipt_dict)
-
-    with open('dat/grocerylist.json', 'w') as f:
-        json.dump(receipt_dict_past, f, indent=2, sort_keys=True, default=str)
-    
-
 if __name__ == '__main__':
     # Uncomment the line below to provide path to tesseract manually
     # pytesseract.pytesseract.tesseract_cmd = 'bin/tesseract'
@@ -349,7 +393,7 @@ if __name__ == '__main__':
     for img_path in img_list:
         lines = tesseractImage('img/'+img_path).splitlines()
 
-        idxs, items = parseByCategory(lines)
+        idxs, items = parseSafeway(lines)
 
         balance, items = priceCheck(items)
         receipt_date = None
