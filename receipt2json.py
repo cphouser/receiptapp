@@ -82,7 +82,7 @@ def tesseractImage(filepath):
     # '-l eng'  for using the English language
     # '--oem 1' for using LSTM OCR Engine
     if sys.platform.startswith('win32'):
-        pytesseract.pytesseract.tesseract_cmd = ''#windows dir
+        pytesseract.pytesseract.tesseract_cmd = 'C:\\Program Files\\Tesseract-OCR\\tesseract'#windows dir
     elif sys.platform.startswith('linux'):
         pytesseract.pytesseract.tesseract_cmd = 'bin/tesseract'
 
@@ -112,7 +112,7 @@ def parseLine(line):
                         return (line[:split], line[split:])
                     else: break
         return (None,line)
-
+    not_category = 'QTY'
     if len(line) < 4:
         #print(' \'',line,'\' (less than 4 characters)')
         return (None,None,None,None)
@@ -120,10 +120,14 @@ def parseLine(line):
     if line.count('/') == 2 and line.count(':') == 1:
         return (None,None,None,acertainDateValue(line))
     name,price = separatePrice(line)
-    if price is None: return (None,None,name,None)
+    if price is None:
+        fuz = fuzz.partial_ratio('QTY',name)
+        if fuz > 60:
+            return (line,None,None,None)
+        return (None,None,name,None)
     elif name is None:
         #print('DISCARDED \'',line,'\' (no item)')
-        return (price,None,None,None)
+        return (line,None,None,None)
     else: return (name,price,None,None)
     
 def priceCheck(items):
@@ -200,6 +204,14 @@ def readUsers(path='./dat'):
             user_list.append(user_entry[0])
     return user_list
 
+def tryPrice(price): 
+    try:
+        int_price = acertainPriceValue(price)
+        return int_price
+    except ValueError:
+        print('Could not parse ', price, ' as int')
+        return None
+
 def parseByCategory(lines):
     def excludeMatch(name):
         exclude_items = ['Regular Price','Card Savings']
@@ -212,13 +224,6 @@ def parseByCategory(lines):
         if fuzz.partial_ratio(list_end,name) > 90:
             return 'fsum', name
         return None
-    def tryPrice(price): 
-        try:
-            int_price = acertainPriceValue(price)
-            return int_price
-        except ValueError:
-            print('Could not parse ', price, ' as int')
-            return None
     def appendPriced(items,index,tag,name,price,category):
         int_price = tryPrice(price)
         if int_price is None:
@@ -237,7 +242,10 @@ def parseByCategory(lines):
         if ended is True:
             items.update({index: ('foot', line)})
             continue
-        if category is not None: category_head = category; continue
+        if category is not None: 
+            category_head = category
+            items.update({index: ('none', line)})
+            continue
         if category_head is None: 
             items.update({index: ('head', line)})
             continue
@@ -254,6 +262,8 @@ def parseByCategory(lines):
             else:
                 appendPriced(items, index, 'item', name, price, category_head) 
         elif name is not None:
+            items.update({index: ('none', line)})
+        else:
             items.update({index: ('none', line)})
     return items
 

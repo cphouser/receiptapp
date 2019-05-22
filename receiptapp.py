@@ -129,7 +129,6 @@ class Datapane(tk.Frame):
         #receipt.saveList(r_id,...)
         pass
 
-
 class Fileops(tk.Frame):
     def __init__(self,parent):
         tk.Frame.__init__(self,parent)
@@ -143,7 +142,7 @@ class Fileops(tk.Frame):
         self.history_ch = tk.Checkbutton(self, text='Ignore history.csv',
                 font=SMALL_FONT) 
         self.user_list = receipt.readUsers()
-        print(*self.user_list,sep="\n")
+        #print(*self.user_list,sep="\n")
         self.user_str = tk.StringVar()
         self.user_str.set(self.user_list[0])
         self.user_menu = tk.OptionMenu(self, self.user_str, *self.user_list)
