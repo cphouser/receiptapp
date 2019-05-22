@@ -13,7 +13,8 @@ from fuzzywuzzy import process
 
 def acertainDateValue(date_string):
     """
-    if a date exists in the format dd/mm/yy hh:mm, return as a datetime.
+    given a line, if a date exists in the format dd/mm/yy hh:mm, 
+    return it as a datetime object.
 
     """
     CENTURY = 2000
@@ -32,36 +33,62 @@ def acertainDateValue(date_string):
         return None
     else: return datetime(year+CENTURY,month,day,hour,minute)
 
-def acertainPriceValue(price_string):
-    def lastDigit(string):
-        for idx in range(-1, -len(string), -1):
-            if string[idx].isdigit(): return len(string) + idx; 
-            elif len(string) + idx == 0: return -1
-        return -1
-    def firstDigit(string):
-        for idx in range(-1, -len(string), -1):
-            #print('>>',idx,string[idx])
-            if string[idx].isdigit(): continue
-            else: return len(string) + idx + 1
-        else: return 0
+def lastDigit(string):
+    """
+    given a string, find the last (closest to end) numeric character
+    and return the index. return -1 if no characters are numeric
+    """
+    for idx in range(-1, -len(string), -1):
+        if string[idx].isdigit(): return len(string) + idx; 
+        elif len(string) + idx == 0: return -1
+    return -1
 
+def firstDigit(string):
+    """
+    given a string which ends in some number of numeric characters, 
+    find the first (closest to beginning) numeric character of these
+    and return its index
+    """
+    for idx in range(-1, -len(string), -1):
+        #print('>>',idx,string[idx])
+        if string[idx].isdigit(): continue
+        else: return len(string) + idx + 1
+    else: return 0
+
+def priceAsInt1(price_string):
+    """
+    convert safeway price strings to int where value is number of cents
+    """
+    #convert comma to period and find last period (closest to end)
     price_string = price_string.replace(',','.')
     i = price_string.rfind('.')
+    #if there are no numbers to the right of the period, find the next
+    #to last period
     if i == len(price_string) - 1 or not price_string[i+1].isdigit():
         price_string = price_string[:i]
         i = price_string.rfind('.')
-        
+    
+    #find the last whitespace (before the period if it exists)
     j = price_string[:i].rfind(' ') if i != -1 \
             else price_string.rfind(' ')
+
+    #find the last digit in the string, return -1 if it does not exist
     k = lastDigit(price_string)
     if k == -1: return None
+
+    #if there is no whitespace, find the first digit iterating backwards
+    #from the last digit
     if j == -1: j = firstDigit(price_string[:k])
+
+    #if there isn't a period, treat isolated string of digits as the intprice
     if i == -1:
         if price_string[j:k+1].isdigit(): return int(price_string[j:k+1])
         else: 
             i = firstDigit(price_string[:k])
             #print(price_string,'**',i,'**',k)
             return int(price_string[i:k+1])
+
+    #treat digits left of period as dollars, right of period as cents
     dollars = ''
     cents = ''
     for digit in (price_string[j+1:i]):
@@ -69,6 +96,8 @@ def acertainPriceValue(price_string):
         
     for digit in (price_string[i+1:i+3]):
         if digit.isdigit(): cents += digit
+
+    #return total cents
     return int(dollars)*100 + int(cents)
 
 def tesseractImage(filepath):
@@ -206,7 +235,7 @@ def readUsers(path='./dat'):
 
 def tryPrice(price): 
     try:
-        int_price = acertainPriceValue(price)
+        int_price = priceAsInt1(price)
         return int_price
     except ValueError:
         print('Could not parse ', price, ' as int')
