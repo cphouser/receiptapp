@@ -1,0 +1,28 @@
+{
+  "safeway": [
+    "SAFEWAY",
+    "Store 2607 Dir Sal Nunez",
+    "Main:(831) 420-0781 Rx:(831) 420-0785",
+    "2111 Mission Street"
+  ],
+  "traderjoes": [
+    "TRADER JOE’S",
+    "700 Front Street",
+    "Store #193 - (831) 425-0140",
+    "OPEN 8:00AM TO 9:00PM DAILY"
+  ],
+  "costco": [
+    "Costco",
+    "== WHOLESALE",
+    "Santa Cruz #149",
+    "220 Sylvania Ave",
+    "(831) 469-0961"
+  ],
+  "newleaf": [
+    "Community Market",
+    "New Leaf Community Market",
+    "1101 Fair Ave.",
+    "(831) 426-1306",
+    "Your Checker today is"
+  ]
+}
