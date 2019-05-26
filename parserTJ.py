@@ -52,34 +52,61 @@ def tesseractImage(filepath):
     return text
 
 # MOD IT
-def acertainDateValue(date_string):
+def acertainDateValue2(date_string):
     """
     given a line, if a date exists in the format dd/mm/yy hh:mm, 
     return it as a datetime object.
 
     """
-    #date = datetime.strptime(date_string, "%m-%d-%Y %H:%M")
+    #date = datetime.strptime,(date_string, "%m-%d-%Y %H:%M")
     #date = datetime.strptime(date_string, '%m/%d/%Y')
     
-    
+    print(date_string)
     i = date_string.find('/')
     j = date_string.find('/', i+1)
+
+    l = date_string.find('-')
+    m = date_string.find('-', i+1)
+
+
+    o = date_string.find(':')
+    p = date_string.find(':', o+1)
+    #print(l)
+
+    if o > 0:
+        if(date_string[o+1:o+3].isnumeric() == False):
+            date_string = date_string[0:o-3]
+            print(date_string)
+        if(date_string[o-2:o].isnumeric() ==  False):
+            date_string = date_string[0:o-3]
+            print(date_string)
+
+    if p > 0:
+        if(date_string[p+1:p+3].isnumeric() == False):
+            date_string = date_string[0:p]
+            print(date_string)
+
     k = date_string.count(':')
 
-    if all(dash is not None for dash in [i, j]):
-    	if k == 0:
-    		date = datetime.strptime(date_string, "%m/%d/%Y")
-    	elif k == 1:
-    		date = datetime.strptime(date_string, "%m/%d/%Y %H:%M")
-    	elif k == 2:
-    		date = datetime.strptime(date_string, "%m/%d/%Y %H:%M:%S")
-    else:
-    	if k == 0:
-    		date = datetime.strptime(date_string, "%m-%d-%Y")
-    	elif k == 1:
-    		date = datetime.strptime(date_string, "%m-%d-%Y %H:%M")
-    	elif k == 2:
-    		date = datetime.strptime(date_string, "%m-%d-%Y %H:%M:%S")
+    if all(dash > 0 for dash in [i, j]):
+        if k == 0:
+            date = datetime.strptime(date_string, "%m/%d/%Y")
+        elif k == 1:
+            date = datetime.strptime(date_string, "%m/%d/%Y %H:%M")
+            #date = change_to_24(time, date)
+        elif k == 2:
+            date = datetime.strptime(date_string, "%m/%d/%Y %H:%M:%S")
+            #date = change_to_24(time, date)
+    elif all(amper > 0 for amper in [l, m]):
+        if k == 0:
+            date = datetime.strptime(date_string, "%m-%d-%Y")
+        elif k == 1:
+            date = datetime.strptime(date_string, "%m-%d-%Y %H:%M")
+            #date = change_to_24(time, date)
+        elif k == 2:
+            date = datetime.strptime(date_string, "%m-%d-%Y %H:%M:%S")
+            #date = change_to_24(time, date)
+    
     return date
     
 
@@ -195,116 +222,133 @@ def tryPrice1(name, price):
             return ('item', (name, int_price))
 
 def parseLine2(row):
-	if(len(row) < 4):
-		return('none', row)
-	
-	if(row.count('-') == 2 and row.count(':') == 1):
-		row = row[0:16]
-		date = acertainDateValue(row)
-		#print(date)
-		return ('date', date)
-	#elif(row.count('/') == 2 and row.count(':') == 2):
-	#	row = row[0:18]
-	#	#print(row)
-	#	date = acertainDateValue(row)
-	#	return ('date', date)
-	elif(row.count('/') == 2):
-		row = row[0:10]
-		#print(row)
-		date = acertainDateValue(row)
-		#print(date)
-		return ('date', date)
-	
-	if(fuzz.partial_ratio('TRADER JOES', row) >= 91):
-		#print(line)
-		return ('head', 'Trader Joes')
-	
-	if('OPEN' and 'DAILY' in row):
-		return('head', row)
+    time_change = 0
 
-	if('FLOZ' in row or '@' in row):
-		return('none', row)
-	
-	if any(c.islower() for c in row):
-		return ('head', row)
-	
-	name, price = separatePrice1(row)
+    if(len(row) < 4):
+        return('none', row)
+    
+    if(row.count('-') == 2):
+        if 'PM' in row:
+            time_change = 1
+        if row.count(':') == 0:
+            row = row[0:10]
+        elif row.count(':') == 1:
+            row = row[0:16]
+        elif row.count(':') == 2:
+            row = row[0:18]
+        date = acertainDateValue2(row)
+        if time_change:
+           date.hour += 12
+        #print(date)
+        return ('date', date)
+    elif(row.count('/') == 2):
+        if 'PM' in row:
+            time_change = 1
+        if row.count(':') == 0:
+            row = row[0:10]
+        elif row.count(':') == 1:
+            row = row[0:16]
+        elif row.count(':') == 2:
+            row = row[0:18]
+        #print(row)
+        date = acertainDateValue2(row)
+        if time_change:
+            date.hour += 12
+        #print(date)
+        return ('date', date)
+    
+    if(fuzz.partial_ratio('TRADER JOES', row) >= 91):
+        #print(line)
+        return ('head', 'Trader Joes')
+    
+    if('OPEN' and 'DAILY' in row):
+        return('head', row)
 
-	if all(val is not None for val in [name, price]):
-		return tryPrice1(name, price)
-	else:
-		return ('foot', (name, price))
+    if('FLOZ' in row or '@' in row):
+        return('none', row)
+    
+    if any(c.islower() for c in row):
+        return ('head', row)
+    
+    name, price = separatePrice1(row)
+
+    if all(val is not None for val in [name, price]):
+        return tryPrice1(name, price)
+    else:
+        return ('foot', (name, price))
 
 def parseTJ(lines):
-	end = False
-	items = {} 
-	for line in lines:
-		index = len(items)
+    end = False
+    items = {} 
+    for line in lines:
+        index = len(items)
 
-		if len(line) <= 1:
-			continue
+        if len(line) < 1:
+            continue
 
-		try:
-			tag, item = parseLine2(line)
-		except:
-			#print("Invalid Data Passed in")
-			#print(item)
-			items.update({index: ('none', item)})
+        try:
+            tag, item = parseLine2(line)
+        except:
+            #print("Invalid Data Passed in")
+            #print(item)
+            items.update({index: ('none', item)})
 
-		if not end:
-			if tag == 'item':
-				#print(fuzz.ratio('CR', 'CRV'))
-				if fuzz.ratio('CR', item[0]) >= 80:
-					tag = 'none'
-				elif fuzz.ratio('SUBTOTAL', item[0]) == 100:
-					tag = 'subt'
-				elif fuzz.ratio('TOTAL', item[0]) == 100:
-					tag = 'tsum'
-				else:
-					items.update({index: (tag, item)})
-			if tag == 'head':
-				items.update({index: (tag, item)})
-			#if tag == 'foot':
-			#	items.update({index: ('foot', item)})
-			if tag == 'none':
-				items.update({index: (tag, item)})
-			if tag == 'subt':
-				items.update({index: (tag, item)})
-			if tag == 'tsum':
-				items.update({index: (tag, item)})
-				end = True
-		else:
-			if tag == 'date':
-				items.update({index: (tag, item)})
-			else:
-				items.update({index: ('foot', item)})
-	
-	return items
+        if not end:
+            if tag == 'item':
+                #print(fuzz.ratio('CR', 'CRV'))
+                if fuzz.ratio('CR', item[0]) >= 80:
+                    tag = 'none'
+                elif fuzz.ratio('SUBTOTAL', item[0]) == 100:
+                    tag = 'none'
+                elif fuzz.ratio('TOTAL', item[0]) == 100:
+                    tag = 'fsum'
+                else:
+                    items.update({index: (tag, item)})
+            if tag == 'head':
+                items.update({index: (tag, item)})
+            #if tag == 'foot':
+            #   items.update({index: ('foot', item)})
+            if tag == 'none':
+                items.update({index: (tag, item)})
+            if tag == 'subt':
+                items.update({index: (tag, item)})
+            if tag == 'fsum':
+                items.update({index: (tag, item)})
+                end = True
+        else:
+            if tag == 'date':
+                items.update({index: (tag, item)})
+            else:
+                items.update({index: ('foot', item)})
+    
+    return items
 
 if __name__ == '__main__':
-	    # Uncomment the line below to provide path to tesseract manually
-	    # pytesseract.pytesseract.tesseract_cmd = 'bin/tesseract'
-	    
-	    img_list, history_list = findImages()
-	    
-	    #print('  Images to Scan:', *img_list, sep='\n')
-	    #print('  Images in History File:', *history_list, sep='\n')
-	    receipt_dict = {}
-	    #for each image found in /img folder
-	    one = tesseractImage('img/'+ img_list[24]).splitlines()
-	    #print(one)
-	    for i in one:
-	    	print(i)
+        # Uncomment the line below to provide path to tesseract manually
+        # pytesseract.pytesseract.tesseract_cmd = 'bin/tesseract'
+        
+        img_list, history_list = findImages()
+        
+        for i in range(0, len(img_list)):
+            print((i, img_list[i]))
+        #print('  Images to Scan:', *img_list, sep='\n')
+        #print('  Images in History File:', *history_list, sep='\n')
+        receipt_dict = {}
+        #for each image found in /img folder
+        one = tesseractImage('img/'+ img_list[24]).splitlines()
+        #print(one)
+        for i in one:
+            print(i)
 
-	    parsed = parseTJ(one)
-	    for i in parsed:
-	    	print(parsed[i])
+        parsed = parseTJ(one)
+        for i in parsed:
+            print(parsed[i])
 
-	    #two = tesseractImage('img/'+ img_list[20]).splitlines()
-	    #print(two)
-	    #print(type(two))
-	    #print(parseTJ(two))
-	        
+        #two = tesseractImage('img/'+ img_list[20]).splitlines()
+        #print(two)
+        #print(type(two))
+        #print(parseTJ(two))
+            
     
 
 
