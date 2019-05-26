@@ -32,30 +32,40 @@ def parseByStore(store,lines):
 BIG_FONT = '-*-lucidatypewriter-medium-r-*-*-*-120-*-*-*-*-*-*'
 SMALL_FONT = '-*-lucidatypewriter-medium-r-*-*-*-100-*-*-*-*-*-*'
 
+
 class Datapane(tk.Frame):
     def __init__(self,parent):
         tk.Frame.__init__(self,parent,width=280)
+        
         self.parent = parent
+
+        self.item_frame = tk.Frame(self)
+        self.file_frame = tk.Frame(self)
 
         self.data_list = tk.Listbox(self, font=BIG_FONT)
         
         self.active_price = tk.StringVar()
         self.active_item = -1
-        self.price_entry = tk.Entry(self, textvariable=self.active_price,
+
+        self.price_entry = tk.Entry(self.item_frame, 
+                textvariable=self.active_price,
                 width = 7, font=BIG_FONT)
 
-        self.update_bt = tk.Button(self, text='Update Price',
+        self.update_bt = tk.Button(self.item_frame, text='Update Price',
                 font=SMALL_FONT, command=self.update_price)
 
         self.sum_str = tk.StringVar()
-        self.sum_label = tk.Label(self, textvariable=self.sum_str, 
+        self.sum_label = tk.Label(self.item_frame, textvariable=self.sum_str,
                 font=BIG_FONT)
 
-        self.save_bt = tk.Button(self, text='Save List', state=tk.DISABLED,
+        self.save_bt = tk.Button(self.file_frame, text='Save List', 
+                state=tk.DISABLED,
                 font=SMALL_FONT, command=self.save_list)
         
         self.pack_propagate(0)
+        self.file_frame.pack(side='top', fill='x')
         self.data_list.pack(side='top', fill='both', expand=True)
+        self.item_frame.pack(side='top', fill='x')
         self.price_entry.pack(side='left')
         self.update_bt.pack(side='left')
         self.sum_label.pack(side='left')
@@ -148,6 +158,7 @@ class Datapane(tk.Frame):
         #receipt.saveList(r_id,...)
         pass
 
+
 class Fileops(tk.Frame):
     def __init__(self,parent):
         tk.Frame.__init__(self,parent)
@@ -180,6 +191,7 @@ class Fileops(tk.Frame):
     def read_file(self):
         self.parent.filepane.update_view()
         self.parent.datapane.parse_file()
+
 
 class Filepane(tk.Frame):
     def __init__(self,parent):
@@ -229,6 +241,7 @@ class Filepane(tk.Frame):
         filename += '***' + user_tag
         #self.
 
+
 class FilepaneApplication(tk.Frame):
     def __init__(self, parent):
         tk.Frame.__init__(self, parent)
@@ -239,6 +252,7 @@ class FilepaneApplication(tk.Frame):
         self.fileops.pack(side="top", fill="x")
         self.datapane.pack(side="right", fill="both", expand=True)
         self.filepane.pack(side="left", fill="both", expand=True)
+
 
 if __name__ == "__main__":
     root = tk.Tk()
