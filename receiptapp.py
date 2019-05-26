@@ -18,6 +18,13 @@ COLOR_KEY = {#line tag:color
         'tsum':'#cce5ff',#balance (matches sum of prices)
     }
 
+STORE_KEY = {
+        'safeway': receipt.parseSafeway,
+        'traderjoes': receipt.parseTJ,
+        'costco': receipt.parseSafeway,
+        'newleaf': receipt.parseSafeway
+    }
+
 BIG_FONT = '-*-lucidatypewriter-medium-r-*-*-*-120-*-*-*-*-*-*'
 SMALL_FONT = '-*-lucidatypewriter-medium-r-*-*-*-100-*-*-*-*-*-*'
 
@@ -81,7 +88,12 @@ class Datapane(tk.Frame):
         self.data_list.delete(0,tk.END)
 
         lines = receipt.tesseractImage(path + '/' + img_path).splitlines()
-        self.parsed_lines = receipt.parseSafeway(lines)
+        store = receipt.matchHeader(lines)
+
+        self.parsed_lines = send(STORE_KEY[store](lines))
+
+
+        #self.parsed_lines = receipt.parseSafeway(lines)
 
         self.update_pane()
 
