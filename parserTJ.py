@@ -238,7 +238,7 @@ def parseLine2(row):
             row = row[0:18]
         date = acertainDateValue2(row)
         if time_change:
-           date.hour += 12
+           date = date.replace(hour = date.hour + 12)
         #print(date)
         return ('date', date)
     elif(row.count('/') == 2):
@@ -253,7 +253,7 @@ def parseLine2(row):
         #print(row)
         date = acertainDateValue2(row)
         if time_change:
-            date.hour += 12
+            date = date.replace(hour = date.hour + 12)
         #print(date)
         return ('date', date)
     
