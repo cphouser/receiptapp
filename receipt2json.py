@@ -376,58 +376,78 @@ if __name__ == '__main__':
     # Uncomment the line below to provide path to tesseract manually
     # pytesseract.pytesseract.tesseract_cmd = 'bin/tesseract'
 
-    if len(sys.argv) > 1 and sys.argv[1] == '--help':
-        print('Script searches the ./img directory for files')
-        print('and for file history.txt , Script loads all files not listed')
-        print('in history.txt and reads each as a grocery receipt image. ')
-        print('The items and total are written to grocerylist.json as a')
-        print('json array in the form: name, price, category, timestamp')
-        sys.exit(1)
-    
+    mode = sys.argv[1] if len(sys.argv) > 1 else None
+    print(mode)
+    #if len(sys.argv) > 1 and sys.argv[1] == '--help':
+    #    print('Script searches the ./img directory for files')
+    #    print('and for file history.txt , Script loads all files not listed')
+    #    print('in history.txt and reads each as a grocery receipt image. ')
+    #    print('The items and total are written to grocerylist.json as a')
+    #    print('json array in the form: name, price, category, timestamp')
+    #    sys.exit(1)
+    #
     img_list, history_list = findImages()
     
+    if mode == 'head':
+        for img_path in img_list:
+            print("*****",img_path,"*****")
+            lines = tesseractImage('img/'+img_path).splitlines()
+            for i in range(min(len(lines),15)):
+                print(i, ":\t", lines[i])
+
+
     print('  Images to Scan:', *img_list, sep='\n')
     print('  Images in History File:', *history_list, sep='\n')
     receipt_dict = {}
     #for each image found in /img folder
     for img_path in img_list:
+        print("*****",img_path,"*****")
+
         lines = tesseractImage('img/'+img_path).splitlines()
-
-        idxs, items = parseSafeway(lines)
-
-        balance, items = priceCheck(items)
-        receipt_date = None
-
-        if len(dates) > 1 and not all(date == dates[0] for date in dates):
-            while True:
-                print('Multiple date values found.')
-                for index,date in enumerate(dates): 
-                    print('['+str(index)+'] ',date)
-                num = int(input("Line number of the correct date:"))
-                if num >= 0 and num < len(dates): 
-                    dates = [date]; break 
-        elif len(dates) >= 1 and all(date == dates[0] for date in dates):
-            receipt_date = dates[0]
-        else: #dates = []
-            while receipt_date is None:
-                print('No date value found. If you have a date enter it here')
-                date = input('in form mm/dd/yy hh:mm (else leave blank) =>')
-                if len(date) > 1:
-                    try:
-                        receipt_date = datetime.strptime(date,
-                                '%m/%d/%y %H:%M') 
-                    except ValueError:
-                        print("couldn't parse input date") 
-                else: receipt_date = datetime.min
         
-        receipt_id = ''.join(filter(lambda x: x.isdigit(), str(receipt_date)))\
-                +str(balance)
-        receipt_dict.update({receipt_id:(receipt_date,balance,items,img_path)})
-        print(receipt_dict[receipt_id])
+        line_dict = parseSafeway(lines)
 
-        with open('img/history.csv', 'a') as f:
-            writer = csv.writer(f, lineterminator='\n')
-            writer.writerow([img_path])
+        for idx,(tag,item) in line_dict.items():
+            if type(item) is tuple:
+                name, price, cat = item
+                print(idx, tag, price, name, cat, sep=':\t')
+            else:
+                print(idx, tag, item, sep=':\t')
+
+       # 
+       # balance, items = priceCheck(items)
+       # receipt_date = None
+
+       # if len(dates) > 1 and not all(date == dates[0] for date in dates):
+       #     while True:
+       #         print('Multiple date values found.')
+       #         for index,date in enumerate(dates): 
+       #             print('['+str(index)+'] ',date)
+       #         num = int(input("Line number of the correct date:"))
+       #         if num >= 0 and num < len(dates): 
+       #             dates = [date]; break 
+       # elif len(dates) >= 1 and all(date == dates[0] for date in dates):
+       #     receipt_date = dates[0]
+       # else: #dates = []
+       #     while receipt_date is None:
+       #         print('No date value found. If you have a date enter it here')
+       #         date = input('in form mm/dd/yy hh:mm (else leave blank) =>')
+       #         if len(date) > 1:
+       #             try:
+       #                 receipt_date = datetime.strptime(date,
+       #                         '%m/%d/%y %H:%M') 
+       #             except ValueError:
+       #                 print("couldn't parse input date") 
+       #         else: receipt_date = datetime.min
+       # 
+       # receipt_id = ''.join(filter(lambda x: x.isdigit(), str(receipt_date)))\
+       #         +str(balance)
+       # receipt_dict.update({receipt_id:(receipt_date,balance,items,img_path)})
+       # print(receipt_dict[receipt_id])
+
+       # with open('img/history.csv', 'a') as f:
+       #     writer = csv.writer(f, lineterminator='\n')
+       #     writer.writerow([img_path])
             
             
     
