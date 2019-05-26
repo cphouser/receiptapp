@@ -2,6 +2,7 @@
 #https://stackoverflow.com/a/17470842 
 import tkinter as tk
 import receipt2json as receipt
+import parserTJ as tj
 from PIL import Image, ImageTk
 
 COLOR_KEY = {#line tag:color
@@ -20,10 +21,13 @@ COLOR_KEY = {#line tag:color
 
 STORE_KEY = {
         'safeway': receipt.parseSafeway,
-        'traderjoes': receipt.parseTJ,
+        'traderjoes': tj.parseTJ,
         'costco': receipt.parseSafeway,
         'newleaf': receipt.parseSafeway
     }
+
+def parseByStore(store,lines):
+    return STORE_KEY[store](lines)
 
 BIG_FONT = '-*-lucidatypewriter-medium-r-*-*-*-120-*-*-*-*-*-*'
 SMALL_FONT = '-*-lucidatypewriter-medium-r-*-*-*-100-*-*-*-*-*-*'
@@ -90,7 +94,7 @@ class Datapane(tk.Frame):
         lines = receipt.tesseractImage(path + '/' + img_path).splitlines()
         store = receipt.matchHeader(lines)
 
-        self.parsed_lines = send(STORE_KEY[store](lines))
+        self.parsed_lines = parseByStore(store,lines)
 
 
         #self.parsed_lines = receipt.parseSafeway(lines)
