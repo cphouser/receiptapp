@@ -183,9 +183,10 @@ class Fileops(tk.Frame):
         self.user_str.set(self.user_list[0])
         self.user_menu = tk.OptionMenu(self, self.user_str, *self.user_list)
         self.user_menu.config(font=SMALL_FONT, )
-        self.user_bt = tk.Button(self, text="tag with user:", font=SMALL_FONT,
-                command=self.parent.filepane.tag_file)
-
+        self.user_bt = tk.Button(self, text="tag with user:", font=SMALL_FONT)#,
+        #        command=self.parent.filepane.tag_file)
+        
+        self.read_file()
         self.refresh_bt.pack(side='left')
         self.read_bt.pack(side='left')
         self.readall_bt.pack(side='left')
@@ -202,6 +203,7 @@ class Fileops(tk.Frame):
 class Filepane(tk.Frame):
     def __init__(self,parent):
         tk.Frame.__init__(self,parent)
+        self.parent = parent
         self.pack_propagate(0)
 
         files_str = tk.StringVar(); files_str.set(self.read_files())
@@ -216,7 +218,6 @@ class Filepane(tk.Frame):
         self.file_label = tk.Label(self, textvariable=self.sel_file_str,
                 font=BIG_FONT)
         #self.read_image(self.file_view,self.sel_file_str.get())
-        self.update_view()
         self.file_list.pack(side='top', fill='x')
         self.file_label.pack(side='top')
         self.file_view.pack(side='top')
@@ -240,16 +241,15 @@ class Filepane(tk.Frame):
         #print(self.file_list.get(tk.ACTIVE))
         self.file_list.itemconfig(self.sel_file_idx, 
                 background=COLOR_KEY['none'])
-        self.sel_file_str.set(self.file_list.get(self.sel_file_idx))
         if len(self.file_list.curselection()) > 0:
             self.sel_file_idx = self.file_list.curselection()[0]
         else: self.sel_file_idx = 0
+        self.sel_file_str.set(self.file_list.get(self.sel_file_idx))
         self.file_list.itemconfig(self.sel_file_idx, 
                 background=COLOR_KEY['head'])
         self.read_image(self.file_view,self.sel_file_str.get())
 
     def tag_file(self):
-
         filename = self.sel_file_str.get()
         user_tag = self.parent.fileops.user_str.get()
         filename += '***' + user_tag
@@ -260,8 +260,8 @@ class FilepaneApplication(tk.Frame):
     def __init__(self, parent):
         tk.Frame.__init__(self, parent)
         self.filepane = Filepane(self)
-        self.fileops = Fileops(self)
         self.datapane = Datapane(self)
+        self.fileops = Fileops(self)
 
         self.fileops.pack(side="top", fill="x")
         self.datapane.pack(side="right", fill="both", expand=True)
