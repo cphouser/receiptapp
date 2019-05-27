@@ -142,10 +142,16 @@ class Datapane(tk.Frame):
         for idx, (tag, line) in self.parsed_lines.items():
             if type(line) is tuple and tag == 'item':
                 #print(idx, tag, line, sep = '\t')
-                _, price, _ = line
+                if len(line) == 3:
+                    _, price, _ = line
+                else:
+                    _, price = line
                 price_sum += price
         _, entry = self.parsed_lines[self.balance_idx]
-        name, total, cat = entry
+        if len(entry) == 3:
+            name, total, cat = entry
+        else:
+            name, total = entry
         if price_sum == total:
             self.update_line(self.balance_idx, 'tsum', entry)
             self.save_bt.config(state=tk.NORMAL)
@@ -203,13 +209,14 @@ class Filepane(tk.Frame):
         self.file_list = tk.Listbox(self, selectmode=tk.BROWSE, 
                 listvariable=files_str, font=SMALL_FONT)
         self.file_list.activate(0)
-        self.sel_file_str.set(self.file_list.get(tk.ACTIVE))
-
+        #self.sel_file_str.set(self.file_list.get(tk.ACTIVE))
+        self.sel_file_idx = 0 
+        
         self.file_view = tk.Label(self)
         self.file_label = tk.Label(self, textvariable=self.sel_file_str,
                 font=BIG_FONT)
-        self.read_image(self.file_view,self.sel_file_str.get())
-        
+        #self.read_image(self.file_view,self.sel_file_str.get())
+        self.update_view()
         self.file_list.pack(side='top', fill='x')
         self.file_label.pack(side='top')
         self.file_view.pack(side='top')
@@ -231,7 +238,14 @@ class Filepane(tk.Frame):
 
     def update_view(self):
         #print(self.file_list.get(tk.ACTIVE))
-        self.sel_file_str.set(self.file_list.get(tk.ACTIVE))
+        self.file_list.itemconfig(self.sel_file_idx, 
+                background=COLOR_KEY['none'])
+        self.sel_file_str.set(self.file_list.get(self.sel_file_idx))
+        if len(self.file_list.curselection()) > 0:
+            self.sel_file_idx = self.file_list.curselection()[0]
+        else: self.sel_file_idx = 0
+        self.file_list.itemconfig(self.sel_file_idx, 
+                background=COLOR_KEY['head'])
         self.read_image(self.file_view,self.sel_file_str.get())
 
     def tag_file(self):
