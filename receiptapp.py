@@ -2,6 +2,7 @@
 #https://stackoverflow.com/a/17470842 
 import tkinter as tk
 import receipt2json as receipt
+import parserTJ as tj
 from PIL import Image, ImageTk
 
 COLOR_KEY = {#line tag:color
@@ -18,33 +19,53 @@ COLOR_KEY = {#line tag:color
         'tsum':'#cce5ff',#balance (matches sum of prices)
     }
 
+STORE_KEY = {
+        'safeway': receipt.parseSafeway,
+        'traderjoes': tj.parseTJ,
+        'costco': receipt.parseSafeway,
+        'newleaf': receipt.parseSafeway
+    }
+
+def parseByStore(store,lines):
+    return STORE_KEY[store](lines)
+
 BIG_FONT = '-*-lucidatypewriter-medium-r-*-*-*-120-*-*-*-*-*-*'
 SMALL_FONT = '-*-lucidatypewriter-medium-r-*-*-*-100-*-*-*-*-*-*'
+
 
 class Datapane(tk.Frame):
     def __init__(self,parent):
         tk.Frame.__init__(self,parent,width=280)
+        
         self.parent = parent
+
+        self.item_frame = tk.Frame(self)
+        self.file_frame = tk.Frame(self)
 
         self.data_list = tk.Listbox(self, font=BIG_FONT)
         
         self.active_price = tk.StringVar()
         self.active_item = -1
-        self.price_entry = tk.Entry(self, textvariable=self.active_price,
+
+        self.price_entry = tk.Entry(self.item_frame, 
+                textvariable=self.active_price,
                 width = 7, font=BIG_FONT)
 
-        self.update_bt = tk.Button(self, text='Update Price',
+        self.update_bt = tk.Button(self.item_frame, text='Update Price',
                 font=SMALL_FONT, command=self.update_price)
 
         self.sum_str = tk.StringVar()
-        self.sum_label = tk.Label(self, textvariable=self.sum_str, 
+        self.sum_label = tk.Label(self.item_frame, textvariable=self.sum_str,
                 font=BIG_FONT)
 
-        self.save_bt = tk.Button(self, text='Save List', state=tk.DISABLED,
+        self.save_bt = tk.Button(self.file_frame, text='Save List', 
+                state=tk.DISABLED,
                 font=SMALL_FONT, command=self.save_list)
         
         self.pack_propagate(0)
+        self.file_frame.pack(side='top', fill='x')
         self.data_list.pack(side='top', fill='both', expand=True)
+        self.item_frame.pack(side='top', fill='x')
         self.price_entry.pack(side='left')
         self.update_bt.pack(side='left')
         self.sum_label.pack(side='left')
@@ -81,7 +102,12 @@ class Datapane(tk.Frame):
         self.data_list.delete(0,tk.END)
 
         lines = receipt.tesseractImage(path + '/' + img_path).splitlines()
-        self.parsed_lines = receipt.parseSafeway(lines)
+        store = receipt.matchHeader(lines)
+
+        self.parsed_lines = parseByStore(store,lines)
+
+
+        #self.parsed_lines = receipt.parseSafeway(lines)
 
         self.update_pane()
 
@@ -116,10 +142,16 @@ class Datapane(tk.Frame):
         for idx, (tag, line) in self.parsed_lines.items():
             if type(line) is tuple and tag == 'item':
                 #print(idx, tag, line, sep = '\t')
-                _, price, _ = line
+                if len(line) == 3:
+                    _, price, _ = line
+                else:
+                    _, price = line
                 price_sum += price
         _, entry = self.parsed_lines[self.balance_idx]
-        name, total, cat = entry
+        if len(entry) == 3:
+            name, total, cat = entry
+        else:
+            name, total = entry
         if price_sum == total:
             self.update_line(self.balance_idx, 'tsum', entry)
             self.save_bt.config(state=tk.NORMAL)
@@ -131,6 +163,7 @@ class Datapane(tk.Frame):
     def save_list(self):
         #receipt.saveList(r_id,...)
         pass
+
 
 class Fileops(tk.Frame):
     def __init__(self,parent):
@@ -150,9 +183,9 @@ class Fileops(tk.Frame):
         self.user_str.set(self.user_list[0])
         self.user_menu = tk.OptionMenu(self, self.user_str, *self.user_list)
         self.user_menu.config(font=SMALL_FONT, )
-        self.user_bt = tk.Button(self, text="tag with user:", font=SMALL_FONT,
-                command=self.parent.filepane.tag_file)
-
+        self.user_bt = tk.Button(self, text="tag with user:", font=SMALL_FONT)#,
+        #        command=self.parent.filepane.tag_file)
+        
         self.refresh_bt.pack(side='left')
         self.read_bt.pack(side='left')
         self.readall_bt.pack(side='left')
@@ -165,9 +198,11 @@ class Fileops(tk.Frame):
         self.parent.filepane.update_view()
         self.parent.datapane.parse_file()
 
+
 class Filepane(tk.Frame):
     def __init__(self,parent):
         tk.Frame.__init__(self,parent)
+        self.parent = parent
         self.pack_propagate(0)
 
         files_str = tk.StringVar(); files_str.set(self.read_files())
@@ -175,16 +210,16 @@ class Filepane(tk.Frame):
         self.file_list = tk.Listbox(self, selectmode=tk.BROWSE, 
                 listvariable=files_str, font=SMALL_FONT)
         self.file_list.activate(0)
-        self.sel_file_str.set(self.file_list.get(tk.ACTIVE))
-
+        #self.sel_file_str.set(self.file_list.get(tk.ACTIVE))
+        self.sel_file_idx = 0 
+        
         self.file_view = tk.Label(self)
         self.file_label = tk.Label(self, textvariable=self.sel_file_str,
                 font=BIG_FONT)
-        self.read_image(self.file_view,self.sel_file_str.get())
-        
+        #self.read_image(self.file_view,self.sel_file_str.get())
         self.file_list.pack(side='top', fill='x')
         self.file_label.pack(side='top')
-        self.file_view.pack(side='top')
+        self.file_view.pack(side='top', fill='both', expand=True)
 
     def read_files(self, path='./img'):
         new_imgs, old_imgs = receipt.findImages(path)
@@ -196,29 +231,39 @@ class Filepane(tk.Frame):
     def read_image(self, img_widget, filename, path='./img'):
         if filename is not None:
             image = Image.open(path + '/' + filename)
-            image.thumbnail((400,800))
+            img_width = self.file_view.winfo_width()
+            img_height = self.file_view.winfo_height()
+            print(img_width,img_height)
+            image.thumbnail((img_width,img_height))
             photo = ImageTk.PhotoImage(image)
             img_widget.config(image=photo)
             img_widget.image = photo
 
     def update_view(self):
         #print(self.file_list.get(tk.ACTIVE))
-        self.sel_file_str.set(self.file_list.get(tk.ACTIVE))
+        self.file_list.itemconfig(self.sel_file_idx, 
+                background=COLOR_KEY['none'])
+        if len(self.file_list.curselection()) > 0:
+            self.sel_file_idx = self.file_list.curselection()[0]
+        else: self.sel_file_idx = 0
+        self.sel_file_str.set(self.file_list.get(self.sel_file_idx))
+        self.file_list.itemconfig(self.sel_file_idx, 
+                background=COLOR_KEY['head'])
         self.read_image(self.file_view,self.sel_file_str.get())
 
     def tag_file(self):
-
         filename = self.sel_file_str.get()
         user_tag = self.parent.fileops.user_str.get()
         filename += '***' + user_tag
         #self.
 
+
 class FilepaneApplication(tk.Frame):
     def __init__(self, parent):
         tk.Frame.__init__(self, parent)
         self.filepane = Filepane(self)
-        self.fileops = Fileops(self)
         self.datapane = Datapane(self)
+        self.fileops = Fileops(self)
 
         self.fileops.pack(side="top", fill="x")
         self.datapane.pack(side="right", fill="both", expand=True)
@@ -226,5 +271,10 @@ class FilepaneApplication(tk.Frame):
 
 if __name__ == "__main__":
     root = tk.Tk()
-    FilepaneApplication(root).pack(side="top", fill="both", expand=True)
+    app = FilepaneApplication(root)
+    app.pack(side="top", fill="both", expand=True)
+    root.update()
+
+    app.fileops.read_file()
+
     root.mainloop()
