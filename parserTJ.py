@@ -51,66 +51,6 @@ def tesseractImage(filepath):
     text = pytesseract.image_to_string(im, config='-l eng --oem 1 --psm 3')
     return text
 
-# MOD IT
-def acertainDateValue2(date_string):
-    """
-    given a line, if a date exists in the format dd/mm/yy hh:mm, 
-    return it as a datetime object.
-
-    """
-    #date = datetime.strptime,(date_string, "%m-%d-%Y %H:%M")
-    #date = datetime.strptime(date_string, '%m/%d/%Y')
-    
-    #print(date_string)
-    i = date_string.find('/')
-    j = date_string.find('/', i+1)
-
-    l = date_string.find('-')
-    m = date_string.find('-', i+1)
-
-
-    o = date_string.find(':')
-    p = date_string.find(':', o+1)
-    #print(l)
-
-    if o > 0:
-        if(date_string[o+1:o+3].isnumeric() == False):
-            date_string = date_string[0:o-3]
-            #print(date_string)
-        if(date_string[o-2:o].isnumeric() ==  False):
-            date_string = date_string[0:o-3]
-            #print(date_string)
-
-    if p > 0:
-        if(date_string[p+1:p+3].isnumeric() == False):
-            date_string = date_string[0:p]
-            #print(date_string)
-
-    k = date_string.count(':')
-
-    if all(dash > 0 for dash in [i, j]):
-        if k == 0:
-            date = datetime.strptime(date_string, "%m/%d/%Y")
-        elif k == 1:
-            date = datetime.strptime(date_string, "%m/%d/%Y %H:%M")
-            #date = change_to_24(time, date)
-        elif k == 2:
-            date = datetime.strptime(date_string, "%m/%d/%Y %H:%M:%S")
-            #date = change_to_24(time, date)
-    elif all(amper > 0 for amper in [l, m]):
-        if k == 0:
-            date = datetime.strptime(date_string, "%m-%d-%Y")
-        elif k == 1:
-            date = datetime.strptime(date_string, "%m-%d-%Y %H:%M")
-            #date = change_to_24(time, date)
-        elif k == 2:
-            date = datetime.strptime(date_string, "%m-%d-%Y %H:%M:%S")
-            #date = change_to_24(time, date)
-    
-    return date
-    
-
-
 # BORROW
 def lastDigit(string):
     """
@@ -221,6 +161,65 @@ def tryPrice1(name, price):
         else:    
             return ('item', (name, int_price))
 
+#-----------------------------------------------------------------------------------
+
+def acertainDateValue2(date_string):
+    """
+    given a line, if a date exists in the format dd/mm/yy hh:mm, 
+    return it as a datetime object.
+
+    """
+    #date = datetime.strptime,(date_string, "%m-%d-%Y %H:%M")
+    #date = datetime.strptime(date_string, '%m/%d/%Y')
+    
+    #print(date_string)
+    i = date_string.find('/')
+    j = date_string.find('/', i+1)
+
+    l = date_string.find('-')
+    m = date_string.find('-', i+1)
+
+
+    o = date_string.find(':')
+    p = date_string.find(':', o+1)
+    #print(l)
+
+    if o > 0:
+        if(date_string[o+1:o+3].isdigit() == False):
+            date_string = date_string[0:o-3]
+            #print(date_string)
+        if(date_string[o-2:o].isdigit() ==  False):
+            date_string = date_string[0:o-3]
+            #print(date_string)
+
+    if p > 0:
+        if(date_string[p+1:p+3].isdigit() == False):
+            date_string = date_string[0:p]
+            #print(date_string)
+
+    k = date_string.count(':')
+
+    if all(dash > 0 for dash in [i, j]):
+        if k == 0:
+            date = datetime.strptime(date_string, "%m/%d/%Y")
+        elif k == 1:
+            date = datetime.strptime(date_string, "%m/%d/%Y %H:%M")
+            #date = change_to_24(time, date)
+        elif k == 2:
+            date = datetime.strptime(date_string, "%m/%d/%Y %H:%M:%S")
+            #date = change_to_24(time, date)
+    elif all(amper > 0 for amper in [l, m]):
+        if k == 0:
+            date = datetime.strptime(date_string, "%m-%d-%Y")
+        elif k == 1:
+            date = datetime.strptime(date_string, "%m-%d-%Y %H:%M")
+            #date = change_to_24(time, date)
+        elif k == 2:
+            date = datetime.strptime(date_string, "%m-%d-%Y %H:%M:%S")
+            #date = change_to_24(time, date)
+    
+    return date
+
 def parseLine2(row):
     time_change = 0
 
@@ -230,6 +229,13 @@ def parseLine2(row):
     if(row.count('-') == 2 or row.count('/') == 2):
         if 'PM' in row:
             time_change = 1
+        # take away the non-numeric chars preceding the date
+        if not(row[0].isnumeric()):
+            for c in row:
+                if(c.isnumeric()):
+                    break
+                row = row.strip(c)
+            print(row)
         
         if row.count(':') == 0:
             row = row[0:10]
@@ -255,7 +261,7 @@ def parseLine2(row):
     if('FLOZ' in row or '@' in row):
         return('none', row)
     
-    if any(c.islower() for c in row):
+    if any(c.islower() for c in row) and '.' not in row:
         #print(row)
         return ('head', row)
     
@@ -290,7 +296,9 @@ def parseTJ(lines):
                 #print(fuzz.ratio('CR', 'CRV'))
                 if fuzz.ratio('CR', item[0]) >= 80:
                     tag = 'none'
-                elif fuzz.ratio('SUBTOTAL', item[0]) == 100:
+                #elif fuzz.ratio('SUBTOTAL', item[0]) == 90:
+                #   tag = 'none'
+                elif 'SUBTOTAL' in item[0]:
                     tag = 'none'
                 elif fuzz.ratio('TOTAL', item[0]) == 100:
                     tag = 'fsum'
@@ -331,7 +339,7 @@ if __name__ == '__main__':
         #print('  Images in History File:', *history_list, sep='\n')
         receipt_dict = {}
         #for each image found in /img folder
-        one = tesseractImage('img/'+ img_list[21]).splitlines()
+        one = tesseractImage('img/'+ img_list[42]).splitlines()
         #print(one)
         #for i in one:
         #    print(i)
