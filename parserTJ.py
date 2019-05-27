@@ -230,34 +230,21 @@ def parseLine2(row):
     if(row.count('-') == 2 or row.count('/') == 2):
         if 'PM' in row:
             time_change = 1
+        
         if row.count(':') == 0:
             row = row[0:10]
         elif row.count(':') == 1:
             row = row[0:16]
         elif row.count(':') == 2:
             row = row[0:18]
+        
         date = acertainDateValue2(row)
+        
         if time_change:
            date = date.replace(hour = date.hour + 12)
         #print(date)
         return ('date', date)
-    '''
-    elif(row.count('/') == 2):
-        if 'PM' in row:
-            time_change = 1
-        if row.count(':') == 0:
-            row = row[0:10]
-        elif row.count(':') == 1:
-            row = row[0:16]
-        elif row.count(':') == 2:
-            row = row[0:18]
-        #print(row)
-        date = acertainDateValue2(row)
-        if time_change:
-            date = date.replace(hour = date.hour + 12)
-        #print(date)
-        return ('date', date)
-    '''
+
     if(fuzz.partial_ratio('TRADER JOES', row) >= 91):
         #print(line)
         return ('head', 'Trader Joes')
@@ -268,25 +255,8 @@ def parseLine2(row):
     if('FLOZ' in row or '@' in row):
         return('none', row)
     
-    #print(fuzzy.partio_ratio('Store #193 - (831) 425-0140', row))
-    #print('-------------')
-    #print(row)
-    
-    #if any(c.isalpha(c).islower() for c in row) and any(c.isdigit() for c in row):
-    #    return ('head', row)
-
-    #if not(row.isupper()) and any(c.isdigit() for c in row):
-    #    return ('head', row)
-
-    #try:
-    #    for c in row:
-    #        print(c)
-    #        lower = isalpha(c).islower()
-    #except:
-    #    print('reading symbol so isalpha and islower not working')
-    #    return('head', row)
-
     if any(c.islower() for c in row):
+        #print(row)
         return ('head', row)
     
     name, price = separatePrice1(row)
@@ -299,19 +269,22 @@ def parseLine2(row):
 def parseTJ(lines):
     end = False
     items = {} 
+    
     for line in lines:
+
         index = len(items)
 
-        if len(line) < 1:
+        if len(line) <= 1:
             continue
 
         try:
             tag, item = parseLine2(line)
         except:
             #print("Invalid Data Passed in")
-            #print(item)
-            items.update({index: ('none', item)})
-
+            #print(i)
+            tag = 'none'
+            item = line
+            
         if not end:
             if tag == 'item':
                 #print(fuzz.ratio('CR', 'CRV'))
@@ -323,12 +296,16 @@ def parseTJ(lines):
                     tag = 'fsum'
                 else:
                     items.update({index: (tag, item)})
+            if tag == 'none':
+                #print(fuzz.partial_ratio('Store #', 'Stare #193 - (831) 425-d149'))
+                if(fuzz.partial_ratio('Store #', item) > 85):
+                    tag = 'head'
+                else:
+                    items.update({index: (tag, item)})
             if tag == 'head':
                 items.update({index: (tag, item)})
             #if tag == 'foot':
             #   items.update({index: ('foot', item)})
-            if tag == 'none':
-                items.update({index: (tag, item)})
             if tag == 'subt':
                 items.update({index: (tag, item)})
             if tag == 'fsum':
@@ -354,20 +331,14 @@ if __name__ == '__main__':
         #print('  Images in History File:', *history_list, sep='\n')
         receipt_dict = {}
         #for each image found in /img folder
-        one = tesseractImage('img/'+ img_list[20]).splitlines()
+        one = tesseractImage('img/'+ img_list[21]).splitlines()
         #print(one)
-        for i in one:
-            print(i)
+        #for i in one:
+        #    print(i)
 
         parsed = parseTJ(one)
         for i in parsed:
             print(parsed[i])
-
-        #two = tesseractImage('img/'+ img_list[20]).splitlines()
-        #print(two)
-        #print(type(two))
-        #print(parseTJ(two))
-            
     
 
 
