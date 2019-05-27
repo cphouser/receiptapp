@@ -32,6 +32,119 @@ def parseByStore(store,lines):
 BIG_FONT = '-*-lucidatypewriter-medium-r-*-*-*-120-*-*-*-*-*-*'
 SMALL_FONT = '-*-lucidatypewriter-medium-r-*-*-*-100-*-*-*-*-*-*'
 
+class Entrypane(tk.Frame):
+    def __init__(self,parent):
+        tk.Frame.__init__(self,parent)
+        self.parent = parent
+        
+        self.active_name = tk.StringVar()
+        self.active_price = tk.StringVar()
+        self.active_cat = tk.StringVar()
+
+        self.item_sframe1 = tk.Frame(self)
+        self.tag_list = [*COLOR_KEY.keys()]
+        self.tag_str = tk.StringVar()
+        self.tag_str.set(self.tag_list[0])
+        self.tag_menu = tk.OptionMenu(self.item_sframe1, self.tag_str, 
+                *self.tag_list)
+        self.tag_menu.config(font=SMALL_FONT)
+
+        self.name_entry = tk.Entry(self.item_sframe1, 
+                textvariable=self.active_name,
+                width = 20, font=BIG_FONT)
+        self.item_sframe2 = tk.Frame(self)
+        self.price_entry = tk.Entry(self.item_sframe2, 
+                textvariable=self.active_price,
+                width = 7, font=BIG_FONT)
+        self.item_sframe3 = tk.Frame(self)
+        self.cat_entry = tk.Entry(self.item_sframe3, 
+                textvariable=self.active_cat,
+                width = 12, font=BIG_FONT)
+
+        self.update_bt = tk.Button(self.item_sframe3, text='Update Line',
+                font=SMALL_FONT, command=self.update_item)
+
+        self.sum_str = tk.StringVar()
+        self.sum_label = tk.Label(self.item_sframe2, textvariable=self.sum_str,
+                font=BIG_FONT)
+
+        self.item_sframe1.pack(side='top', fill='x')
+        self.name_entry.pack(side='right')
+        self.tag_menu.pack(side='left')
+
+        self.item_sframe2.pack(side='top', fill='x')
+        self.price_entry.pack(side='right')
+        self.sum_label.pack(side='left')
+
+        self.item_sframe3.pack(side='top', fill='x')
+        self.cat_entry.pack(side='right')
+        self.update_bt.pack(side='left')
+
+    def update_item(self):
+        index = self.parent.data_list.curselection()[0]
+        tag, item = self.parent.parsed_lines[index]
+        if tag == 'item':
+            self.update_price(index)
+            self.update_cat(index)
+        if tag == 'catg':
+            self.update_cat(index)
+        if index != self.parent.active_item:
+            self.parent.active_item = index
+
+    def update_price(self,index):
+        '''
+        get the selection index
+        if selection index == self.active_item then update the price
+         in self.parsed_lines and update the line at selection index
+        else pull price from self.parsed_lines and put in self.price_entry
+        '''
+        #index = self.parent.data_list.curselection()[0]
+        tag, item = self.parent.parsed_lines[index]
+        #update the item's info from fields
+        if index == self.parent.active_item:
+            price = int(self.active_price.get())
+            if type(item) is tuple:
+                name, _, category = item
+                self.parent.parsed_lines.update(
+                        {index: (tag, (name, price, category))})
+                #self.data_list.delete(index)
+                self.parent.update_line(index, *self.parent.parsed_lines[index])
+                self.parent.check_receipt()
+        #update the fields with item info
+        else:
+            #self.parent.active_item = index
+            if type(item) is tuple:
+                _, price, _ = item
+                self.active_price.set(str(price))
+
+    def update_cat(self,index):
+        '''
+        '''
+        #index = self.parent.data_list.curselection()[0]
+        tag, item = self.parent.parsed_lines[index]
+        #update the item's info from fields
+        if index == self.parent.active_item:
+            cat = self.active_cat.get()
+            if type(item) is tuple:
+                name, price, _ = item
+                self.parent.parsed_lines.update(
+                        {index: (tag, (name, price, cat))})
+                #self.data_list.delete(index)
+                #self.parent.check_receipt()
+            elif tag == 'catg':
+                self.parent.parsed_lines.update(
+                        {index: (tag, cat)})
+                #self.data_list.delete(index)
+            self.parent.update_line(index, *self.parent.parsed_lines[index])
+
+        #update the fields with item info
+        else:
+            #self.parent.active_item = index
+            if type(item) is tuple:
+                _, _, cat = item
+            elif tag == 'catg':
+                cat = item 
+            self.active_cat.set(cat)
 
 class Datapane(tk.Frame):
     def __init__(self,parent):
@@ -39,63 +152,26 @@ class Datapane(tk.Frame):
         
         self.parent = parent
 
-        self.item_frame = tk.Frame(self)
         self.file_frame = tk.Frame(self)
+        self.item_frame = Entrypane(self)
 
         self.data_list = tk.Listbox(self, font=BIG_FONT)
         
-        self.active_price = tk.StringVar()
         self.active_item = -1
-
-        self.price_entry = tk.Entry(self.item_frame, 
-                textvariable=self.active_price,
-                width = 7, font=BIG_FONT)
-
-        self.update_bt = tk.Button(self.item_frame, text='Update Price',
-                font=SMALL_FONT, command=self.update_price)
-
-        self.sum_str = tk.StringVar()
-        self.sum_label = tk.Label(self.item_frame, textvariable=self.sum_str,
-                font=BIG_FONT)
 
         self.save_bt = tk.Button(self.file_frame, text='Save List', 
                 state=tk.DISABLED,
                 font=SMALL_FONT, command=self.save_list)
         
         self.pack_propagate(0)
+        
         self.file_frame.pack(side='top', fill='x')
-        self.data_list.pack(side='top', fill='both', expand=True)
-        self.item_frame.pack(side='top', fill='x')
-        self.price_entry.pack(side='left')
-        self.update_bt.pack(side='left')
-        self.sum_label.pack(side='left')
         self.save_bt.pack(side='right')
 
-    def update_price(self):
-        '''
-        get the selection index
-        if selection index == self.active_item then update the price
-         in self.parsed_lines and update the line at selection index
-        else pull price from self.parsed_lines and put in self.price_entry
-        '''
-        index = self.data_list.curselection()[0]
-        #print(index)
-        #print(self.active_item)
-        if index == self.active_item:
-            price = int(self.active_price.get())
-            tag, item = self.parsed_lines[index]
-            if type(item) is tuple:
-                name, _, category = item
-                self.parsed_lines.update({index: (tag, (name, price, category))})
-                #self.data_list.delete(index)
-                self.update_line(index, *self.parsed_lines[index])
-                self.check_receipt()
-        else:
-            self.active_item = index
-            _, item = self.parsed_lines[index]
-            if type(item) is tuple:
-                _, price, _ = item
-                self.active_price.set(str(price))
+        self.data_list.pack(side='top', fill='both', expand=True)
+        
+        self.item_frame.pack(side='top', fill='x')
+    
 
     def parse_file(self, path='./img'):
         img_path = self.parent.filepane.sel_file_str.get()
@@ -158,7 +234,7 @@ class Datapane(tk.Frame):
         else:
             self.update_line(self.balance_idx, 'fsum', entry)
             self.save_bt.config(state=tk.DISABLED)
-        self.sum_str.set('CURRENT SUM: '+str(price_sum))
+        self.item_frame.sum_str.set('CURRENT SUM: '+str(price_sum))
 
     def save_list(self):
         #receipt.saveList(r_id,...)
@@ -182,7 +258,7 @@ class Fileops(tk.Frame):
         self.user_str = tk.StringVar()
         self.user_str.set(self.user_list[0])
         self.user_menu = tk.OptionMenu(self, self.user_str, *self.user_list)
-        self.user_menu.config(font=SMALL_FONT, )
+        self.user_menu.config(font=SMALL_FONT)
         self.user_bt = tk.Button(self, text="tag with user:", font=SMALL_FONT)#,
         #        command=self.parent.filepane.tag_file)
         
