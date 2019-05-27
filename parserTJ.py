@@ -238,7 +238,7 @@ def parseLine2(row):
             row = row[0:18]
         date = acertainDateValue2(row)
         if time_change:
-           date.hour += 12
+           date = date.replace(hour = date.hour + 12)
         #print(date)
         return ('date', date)
     elif(row.count('/') == 2):
@@ -253,7 +253,7 @@ def parseLine2(row):
         #print(row)
         date = acertainDateValue2(row)
         if time_change:
-            date.hour += 12
+            date = date.replace(hour = date.hour + 12)
         #print(date)
         return ('date', date)
     
@@ -267,8 +267,12 @@ def parseLine2(row):
     if('FLOZ' in row or '@' in row):
         return('none', row)
     
-    if any(c.islower() for c in row):
-        return ('head', row)
+    #if any(c.islower() for c in row):
+    #    return ('head', row)
+
+    words = row.split(" ")
+    if not(any(word.isupper() for word in words)):
+        return('head', row)
     
     name, price = separatePrice1(row)
 
@@ -335,7 +339,7 @@ if __name__ == '__main__':
         #print('  Images in History File:', *history_list, sep='\n')
         receipt_dict = {}
         #for each image found in /img folder
-        one = tesseractImage('img/'+ img_list[24]).splitlines()
+        one = tesseractImage('img/'+ img_list[46]).splitlines()
         #print(one)
         for i in one:
             print(i)
