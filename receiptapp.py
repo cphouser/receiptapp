@@ -232,8 +232,9 @@ class Filepane(tk.Frame):
         if filename is not None:
             image = Image.open(path + '/' + filename)
             img_width = self.winfo_width()
-            print(img_width)
-            image.thumbnail((img_width,800))
+            img_height = self.winfo_height()
+            #print(img_width)
+            image.thumbnail((img_width,img_height))
             photo = ImageTk.PhotoImage(image)
             img_widget.config(image=photo)
             img_widget.image = photo
