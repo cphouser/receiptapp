@@ -51,66 +51,6 @@ def tesseractImage(filepath):
     text = pytesseract.image_to_string(im, config='-l eng --oem 1 --psm 3')
     return text
 
-# MOD IT
-def acertainDateValue2(date_string):
-    """
-    given a line, if a date exists in the format dd/mm/yy hh:mm, 
-    return it as a datetime object.
-
-    """
-    #date = datetime.strptime,(date_string, "%m-%d-%Y %H:%M")
-    #date = datetime.strptime(date_string, '%m/%d/%Y')
-    
-    print(date_string)
-    i = date_string.find('/')
-    j = date_string.find('/', i+1)
-
-    l = date_string.find('-')
-    m = date_string.find('-', i+1)
-
-
-    o = date_string.find(':')
-    p = date_string.find(':', o+1)
-    #print(l)
-
-    if o > 0:
-        if(date_string[o+1:o+3].isnumeric() == False):
-            date_string = date_string[0:o-3]
-            print(date_string)
-        if(date_string[o-2:o].isnumeric() ==  False):
-            date_string = date_string[0:o-3]
-            print(date_string)
-
-    if p > 0:
-        if(date_string[p+1:p+3].isnumeric() == False):
-            date_string = date_string[0:p]
-            print(date_string)
-
-    k = date_string.count(':')
-
-    if all(dash > 0 for dash in [i, j]):
-        if k == 0:
-            date = datetime.strptime(date_string, "%m/%d/%Y")
-        elif k == 1:
-            date = datetime.strptime(date_string, "%m/%d/%Y %H:%M")
-            #date = change_to_24(time, date)
-        elif k == 2:
-            date = datetime.strptime(date_string, "%m/%d/%Y %H:%M:%S")
-            #date = change_to_24(time, date)
-    elif all(amper > 0 for amper in [l, m]):
-        if k == 0:
-            date = datetime.strptime(date_string, "%m-%d-%Y")
-        elif k == 1:
-            date = datetime.strptime(date_string, "%m-%d-%Y %H:%M")
-            #date = change_to_24(time, date)
-        elif k == 2:
-            date = datetime.strptime(date_string, "%m-%d-%Y %H:%M:%S")
-            #date = change_to_24(time, date)
-    
-    return date
-    
-
-
 # BORROW
 def lastDigit(string):
     """
@@ -221,42 +161,96 @@ def tryPrice1(name, price):
         else:    
             return ('item', (name, int_price))
 
+#-----------------------------------------------------------------------------------
+
+def acertainDateValue2(date_string):
+    """
+    given a line, if a date exists in the format dd/mm/yy hh:mm, 
+    return it as a datetime object.
+
+    """
+    #date = datetime.strptime,(date_string, "%m-%d-%Y %H:%M")
+    #date = datetime.strptime(date_string, '%m/%d/%Y')
+    
+    #print(date_string)
+    i = date_string.find('/')
+    j = date_string.find('/', i+1)
+
+    l = date_string.find('-')
+    m = date_string.find('-', i+1)
+
+
+    o = date_string.find(':')
+    p = date_string.find(':', o+1)
+    #print(l)
+
+    if o > 0:
+        if(date_string[o+1:o+3].isdigit() == False):
+            date_string = date_string[0:o-3]
+            #print(date_string)
+        if(date_string[o-2:o].isdigit() ==  False):
+            date_string = date_string[0:o-3]
+            #print(date_string)
+
+    if p > 0:
+        if(date_string[p+1:p+3].isdigit() == False):
+            date_string = date_string[0:p]
+            #print(date_string)
+
+    k = date_string.count(':')
+
+    if all(dash > 0 for dash in [i, j]):
+        if k == 0:
+            date = datetime.strptime(date_string, "%m/%d/%Y")
+        elif k == 1:
+            date = datetime.strptime(date_string, "%m/%d/%Y %H:%M")
+            #date = change_to_24(time, date)
+        elif k == 2:
+            date = datetime.strptime(date_string, "%m/%d/%Y %H:%M:%S")
+            #date = change_to_24(time, date)
+    elif all(amper > 0 for amper in [l, m]):
+        if k == 0:
+            date = datetime.strptime(date_string, "%m-%d-%Y")
+        elif k == 1:
+            date = datetime.strptime(date_string, "%m-%d-%Y %H:%M")
+            #date = change_to_24(time, date)
+        elif k == 2:
+            date = datetime.strptime(date_string, "%m-%d-%Y %H:%M:%S")
+            #date = change_to_24(time, date)
+    
+    return date
+
 def parseLine2(row):
     time_change = 0
 
     if(len(row) < 4):
         return('none', row)
     
-    if(row.count('-') == 2):
+    if(row.count('-') == 2 or row.count('/') == 2):
         if 'PM' in row:
             time_change = 1
+        # take away the non-numeric chars preceding the date
+        if not(row[0].isnumeric()):
+            for c in row:
+                if(c.isnumeric()):
+                    break
+                row = row.strip(c)
+            print(row)
+        
         if row.count(':') == 0:
             row = row[0:10]
         elif row.count(':') == 1:
             row = row[0:16]
         elif row.count(':') == 2:
             row = row[0:18]
+        
         date = acertainDateValue2(row)
+        
         if time_change:
            date = date.replace(hour = date.hour + 12)
         #print(date)
         return ('date', date)
-    elif(row.count('/') == 2):
-        if 'PM' in row:
-            time_change = 1
-        if row.count(':') == 0:
-            row = row[0:10]
-        elif row.count(':') == 1:
-            row = row[0:16]
-        elif row.count(':') == 2:
-            row = row[0:18]
-        #print(row)
-        date = acertainDateValue2(row)
-        if time_change:
-            date = date.replace(hour = date.hour + 12)
-        #print(date)
-        return ('date', date)
-    
+
     if(fuzz.partial_ratio('TRADER JOES', row) >= 91):
         #print(line)
         return ('head', 'Trader Joes')
@@ -267,12 +261,9 @@ def parseLine2(row):
     if('FLOZ' in row or '@' in row):
         return('none', row)
     
-    #if any(c.islower() for c in row):
-    #    return ('head', row)
-
-    words = row.split(" ")
-    if not(any(word.isupper() for word in words)):
-        return('head', row)
+    if any(c.islower() for c in row) and '.' not in row:
+        #print(row)
+        return ('head', row)
     
     name, price = separatePrice1(row)
 
@@ -284,36 +275,45 @@ def parseLine2(row):
 def parseTJ(lines):
     end = False
     items = {} 
+    
     for line in lines:
+
         index = len(items)
 
-        if len(line) < 1:
+        if len(line) <= 1:
             continue
 
         try:
             tag, item = parseLine2(line)
         except:
             #print("Invalid Data Passed in")
-            #print(item)
-            items.update({index: ('none', item)})
-
+            #print(i)
+            tag = 'none'
+            item = line
+            
         if not end:
             if tag == 'item':
                 #print(fuzz.ratio('CR', 'CRV'))
                 if fuzz.ratio('CR', item[0]) >= 80:
                     tag = 'none'
-                elif fuzz.ratio('SUBTOTAL', item[0]) == 100:
+                #elif fuzz.ratio('SUBTOTAL', item[0]) == 90:
+                #   tag = 'none'
+                elif 'SUBTOTAL' in item[0]:
                     tag = 'none'
                 elif fuzz.ratio('TOTAL', item[0]) == 100:
                     tag = 'fsum'
+                else:
+                    items.update({index: (tag, item)})
+            if tag == 'none':
+                #print(fuzz.partial_ratio('Store #', 'Stare #193 - (831) 425-d149'))
+                if(fuzz.partial_ratio('Store #', item) > 85):
+                    tag = 'head'
                 else:
                     items.update({index: (tag, item)})
             if tag == 'head':
                 items.update({index: (tag, item)})
             #if tag == 'foot':
             #   items.update({index: ('foot', item)})
-            if tag == 'none':
-                items.update({index: (tag, item)})
             if tag == 'subt':
                 items.update({index: (tag, item)})
             if tag == 'fsum':
@@ -333,26 +333,20 @@ if __name__ == '__main__':
         
         img_list, history_list = findImages()
         
-        for i in range(0, len(img_list)):
-            print((i, img_list[i]))
+        #for i in range(0, len(img_list)):
+        #    print((i, img_list[i]))
         #print('  Images to Scan:', *img_list, sep='\n')
         #print('  Images in History File:', *history_list, sep='\n')
         receipt_dict = {}
         #for each image found in /img folder
-        one = tesseractImage('img/'+ img_list[20]).splitlines()
+        one = tesseractImage('img/'+ img_list[42]).splitlines()
         #print(one)
-        for i in one:
-            print(i)
+        #for i in one:
+        #    print(i)
 
         parsed = parseTJ(one)
         for i in parsed:
             print(parsed[i])
-
-        #two = tesseractImage('img/'+ img_list[20]).splitlines()
-        #print(two)
-        #print(type(two))
-        #print(parseTJ(two))
-            
     
 
 
