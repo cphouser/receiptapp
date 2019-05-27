@@ -186,7 +186,6 @@ class Fileops(tk.Frame):
         self.user_bt = tk.Button(self, text="tag with user:", font=SMALL_FONT)#,
         #        command=self.parent.filepane.tag_file)
         
-        self.read_file()
         self.refresh_bt.pack(side='left')
         self.read_bt.pack(side='left')
         self.readall_bt.pack(side='left')
@@ -232,7 +231,9 @@ class Filepane(tk.Frame):
     def read_image(self, img_widget, filename, path='./img'):
         if filename is not None:
             image = Image.open(path + '/' + filename)
-            image.thumbnail((400,800))
+            img_width = self.winfo_width()
+            print(img_width)
+            image.thumbnail((img_width,800))
             photo = ImageTk.PhotoImage(image)
             img_widget.config(image=photo)
             img_widget.image = photo
@@ -267,8 +268,12 @@ class FilepaneApplication(tk.Frame):
         self.datapane.pack(side="right", fill="both", expand=True)
         self.filepane.pack(side="left", fill="both", expand=True)
 
-
 if __name__ == "__main__":
     root = tk.Tk()
-    FilepaneApplication(root).pack(side="top", fill="both", expand=True)
+    app = FilepaneApplication(root)
+    app.pack(side="top", fill="both", expand=True)
+    root.update()
+
+    app.fileops.read_file()
+
     root.mainloop()
