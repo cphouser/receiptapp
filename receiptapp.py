@@ -219,7 +219,7 @@ class Filepane(tk.Frame):
         #self.read_image(self.file_view,self.sel_file_str.get())
         self.file_list.pack(side='top', fill='x')
         self.file_label.pack(side='top')
-        self.file_view.pack(side='top')
+        self.file_view.pack(side='top', fill='both', expand=True)
 
     def read_files(self, path='./img'):
         new_imgs, old_imgs = receipt.findImages(path)
@@ -231,9 +231,9 @@ class Filepane(tk.Frame):
     def read_image(self, img_widget, filename, path='./img'):
         if filename is not None:
             image = Image.open(path + '/' + filename)
-            img_width = self.winfo_width()
-            img_height = self.winfo_height()
-            #print(img_width)
+            img_width = self.file_view.winfo_width()
+            img_height = self.file_view.winfo_height()
+            print(img_width,img_height)
             image.thumbnail((img_width,img_height))
             photo = ImageTk.PhotoImage(image)
             img_widget.config(image=photo)
