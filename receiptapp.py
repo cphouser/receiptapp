@@ -129,14 +129,9 @@ class Entrypane(tk.Frame):
         if index == self.parent.active_item:
             name = self.active_name.get()
             if type(item) is tuple:
-                if len(item) == 3:
-                    _, price, cat = item
-                    self.parent.parsed_lines.update(
-                            {index: (tag, (name, price, cat))})
-                else:
-                    _, price = item
-                    self.parent.parsed_lines.update(
-                            {index: (tag, (name, price))})
+                _, price, cat = item
+                self.parent.parsed_lines.update(
+                        {index: (tag, (name, price, cat))})
                 #self.data_list.delete(index)
                 #self.parent.check_receipt()
             else:
@@ -148,10 +143,7 @@ class Entrypane(tk.Frame):
         else:
             #self.parent.active_item = index
             if type(item) is tuple:
-                if len(item) == 3:
-                    name, _, _ = item
-                else:
-                    name, _ = item
+                name, _, _ = item
             else:
                 name = item
             self.active_name.set(name)

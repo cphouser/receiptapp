@@ -294,16 +294,16 @@ def parseTJ(lines):
         if not end:
             if tag == 'item':
                 #print(fuzz.ratio('CR', 'CRV'))
-                if fuzz.ratio('CR', item[0]) >= 80:
-                    tag = 'none'
+                #if fuzz.ratio('CR', item[0]) >= 80:
+                #    tag = 'none'
                 #elif fuzz.ratio('SUBTOTAL', item[0]) == 90:
                 #   tag = 'none'
-                elif 'SUBTOTAL' in item[0]:
+                if 'SUBTOTAL' in item[0]:
                     tag = 'none'
                 elif fuzz.ratio('TOTAL', item[0]) == 100:
                     tag = 'fsum'
                 else:
-                    items.update({index: (tag, item)})
+                    items.update({index: (tag, (*item, None))})
             if tag == 'none':
                 #print(fuzz.partial_ratio('Store #', 'Stare #193 - (831) 425-d149'))
                 if(fuzz.partial_ratio('Store #', item) > 85):
@@ -323,6 +323,13 @@ def parseTJ(lines):
             if tag == 'date':
                 items.update({index: (tag, item)})
             else:
+                if type(item) is tuple:
+                    if item[1] is None:
+                        item = item[0]
+                    elif item[0] is None:
+                        item = item[1]
+                    else:
+                        item = item[0] + str(item[1])
                 items.update({index: ('foot', item)})
     
     return items
