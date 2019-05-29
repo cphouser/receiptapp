@@ -6,14 +6,14 @@ import parserTJ as tj
 from PIL import Image, ImageTk
 
 COLOR_KEY = {#line tag:color
-        'catg':'#ccffcc',#category
-        'coup':'#e5ccff',#coupon
+        'catg':'#ccffcc',#category 
+        'coup':'#e5ccff',#coupon    (tuple)
         'date':'#ffffcc',#date value
-        'errr':'#ffcccc',#error
+        'errr':'#ffcccc',#error     (tuple)
         'foot':'#ccccff',#footer
         'fsum':'#ffe5cc',#balance (doesnt match sum of prices)
         'head':'#ccccff',#header
-        'item':'#e5ffcc',#item w/ price
+        'item':'#e5ffcc',#item w/ price (tuple)
         'none':'#e0e0e0',#discarded line
         'rate':'#ccffff',#rate pricing
         'tsum':'#cce5ff',#balance (matches sum of prices)
@@ -83,10 +83,13 @@ class Entrypane(tk.Frame):
     def update_item(self):
         index = self.parent.data_list.curselection()[0]
         tag, item = self.parent.parsed_lines[index]
-        if tag == 'item':
+        if tag == 'item' or tag == 'errr':
+            self.update_name(index)
             self.update_price(index)
             self.update_cat(index)
         if tag == 'catg':
+            self.active_name.set('')
+            self.active_price.set('')
             self.update_cat(index)
         if index != self.parent.active_item:
             self.parent.active_item = index
@@ -116,6 +119,42 @@ class Entrypane(tk.Frame):
             if type(item) is tuple:
                 _, price, _ = item
                 self.active_price.set(str(price))
+
+    def update_name(self,index):
+        '''
+        '''
+        #index = self.parent.data_list.curselection()[0]
+        tag, item = self.parent.parsed_lines[index]
+        #update the item's info from fields
+        if index == self.parent.active_item:
+            name = self.active_name.get()
+            if type(item) is tuple:
+                if len(item) == 3:
+                    _, price, cat = item
+                    self.parent.parsed_lines.update(
+                            {index: (tag, (name, price, cat))})
+                else:
+                    _, price = item
+                    self.parent.parsed_lines.update(
+                            {index: (tag, (name, price))})
+                #self.data_list.delete(index)
+                #self.parent.check_receipt()
+            else:
+                self.parent.parsed_lines.update(
+                        {index: (tag, name)})
+                #self.data_list.delete(index)
+            self.parent.update_line(index, *self.parent.parsed_lines[index])
+        #update the fields with item info
+        else:
+            #self.parent.active_item = index
+            if type(item) is tuple:
+                if len(item) == 3:
+                    name, _, _ = item
+                else:
+                    name, _ = item
+            else:
+                name = item
+            self.active_name.set(name)
 
     def update_cat(self,index):
         '''

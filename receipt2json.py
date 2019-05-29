@@ -221,7 +221,8 @@ def parseLine1(line):
             return ('none', line)
 
         #safeway categories are uppercase
-        if all((i.isupper() if i.isalpha() else True) for i in line):
+        if (all((i.isupper() if i.isalpha() else True) for i in line) 
+                and fuzz.partial_ratio('SAFEWAY',name) < 75):
             return ('catg', line)
 
         #otherwise discard
