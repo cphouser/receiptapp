@@ -290,6 +290,9 @@ def parseTJ(lines):
             #print(i)
             tag = 'none'
             item = line
+
+        if tag == 'errr':
+            items.update('errr', item)
             
         if not end:
             if tag == 'item':
