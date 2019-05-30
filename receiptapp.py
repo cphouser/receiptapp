@@ -7,16 +7,16 @@ from PIL import Image, ImageTk
 
 COLOR_KEY = {#line tag:color
         'catg':'#ccffcc',#category 
-        'coup':'#e5ccff',#coupon    (tuple)
+        'coup':'#e5ccff',#coupon                                (tuple)
         'date':'#ffffcc',#date value
-        'errr':'#ffcccc',#error     (tuple)
+        'errr':'#ffcccc',#error                                 (tuple)
         'foot':'#ccccff',#footer
-        'fsum':'#ffe5cc',#balance (doesnt match sum of prices)
+        'fsum':'#ffe5cc',#balance (doesnt match sum of prices)  (tuple)
         'head':'#ccccff',#header
-        'item':'#e5ffcc',#item w/ price (tuple)
+        'item':'#e5ffcc',#item w/ price                         (tuple)
         'none':'#e0e0e0',#discarded line
-        'rate':'#ccffff',#rate pricing
-        'tsum':'#cce5ff',#balance (matches sum of prices)
+        #'rate':'#ccffff',#rate pricing
+        'tsum':'#cce5ff',#balance (matches sum of prices)       (tuple)
     }
 
 STORE_KEY = {
@@ -104,14 +104,14 @@ class Entrypane(tk.Frame):
         #update the line from entry fields
             index = self.parent.active_item
             tag = self.tag_str.get()
-            if tag == 'item':
-                self.update_item(index)
+            if any(tag == t_st for t_st in 
+                    ['item','coup','errr','fsum','tsum']):
+                self.update_item(index,tag)
                 #self.update_name(index)
                 #self.update_price(index)
                 #self.update_cat(index)
-            if tag == 'catg':
-                self.active_name.set('')
-                self.active_price.set('')
+            elif tag == 'catg':
+                #TODO also update successive items
                 self.update_cat(index)
 
     def load_price(self, item):
@@ -129,7 +129,7 @@ class Entrypane(tk.Frame):
         _, _, cat = item
         self.active_cat.set(cat)
 
-    def update_item(self,index):
+    def update_item(self,index,tag):
         '''
         update the name,price,cat in self.parsed_lines and update the line 
         at selection index using vals in entry fields
@@ -144,7 +144,7 @@ class Entrypane(tk.Frame):
         #else:
         #    name = "None"
         self.parent.parsed_lines.update(
-                    {index: ('item', (name, price, cat))})
+                    {index: (tag, (name, price, cat))})
             #self.data_list.delete(index)
         print(self.parent.parsed_lines[index])
         self.parent.update_line(index, *self.parent.parsed_lines[index])
