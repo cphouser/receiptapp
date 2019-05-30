@@ -51,7 +51,7 @@ class Entrypane(tk.Frame):
 
         self.name_entry = tk.Entry(self.item_sframe1, 
                 textvariable=self.active_name,
-                width = 20, font=BIG_FONT)
+                width = 40, font=BIG_FONT)
         self.item_sframe2 = tk.Frame(self)
         self.price_entry = tk.Entry(self.item_sframe2, 
                 textvariable=self.active_price,
@@ -62,7 +62,7 @@ class Entrypane(tk.Frame):
                 width = 12, font=BIG_FONT)
 
         self.update_bt = tk.Button(self.item_sframe3, text='Update Line',
-                font=SMALL_FONT, command=self.update_item)
+                font=SMALL_FONT, command=self.change_line)
 
         self.sum_str = tk.StringVar()
         self.sum_label = tk.Label(self.item_sframe2, textvariable=self.sum_str,
@@ -80,45 +80,76 @@ class Entrypane(tk.Frame):
         self.cat_entry.pack(side='right')
         self.update_bt.pack(side='left')
 
-    def update_item(self):
-        index = self.parent.data_list.curselection()[0]
-        tag, item = self.parent.parsed_lines[index]
-        if tag == 'item' or tag == 'errr':
-            self.update_name(index)
-            self.update_price(index)
-            self.update_cat(index)
-        if tag == 'catg':
-            self.active_name.set('')
-            self.active_price.set('')
-            self.update_cat(index)
-        if index != self.parent.active_item:
+    def change_line(self):
+        print(self.parent.data_list.curselection())
+        try:
+            #raises exception if nothing is selected
+            index = self.parent.data_list.curselection()[0]
+            tag, item = self.parent.parsed_lines[index]
+        except:
+            index = None
+        #load the line into entry fields
+        if (index != self.parent.active_item and index is not None):
+            self.tag_str.set(tag)
+            if type(item) is tuple:
+                self.load_name(item)
+                self.load_price(item)
+                self.load_cat(item)
+            else:
+                self.load_name(item)
+                self.active_price.set('')
+                self.active_cat.set('')
             self.parent.active_item = index
-
-    def update_price(self,index):
-        '''
-        get the selection index
-        if selection index == self.active_item then update the price
-         in self.parsed_lines and update the line at selection index
-        else pull price from self.parsed_lines and put in self.price_entry
-        '''
-        #index = self.parent.data_list.curselection()[0]
-        tag, item = self.parent.parsed_lines[index]
-        #update the item's info from fields
-        if index == self.parent.active_item:
-            price = int(self.active_price.get())
-            if type(item) is tuple:
-                name, _, category = item
-                self.parent.parsed_lines.update(
-                        {index: (tag, (name, price, category))})
-                #self.data_list.delete(index)
-                self.parent.update_line(index, *self.parent.parsed_lines[index])
-                self.parent.check_receipt()
-        #update the fields with item info
         else:
-            #self.parent.active_item = index
-            if type(item) is tuple:
-                _, price, _ = item
-                self.active_price.set(str(price))
+        #update the line from entry fields
+            index = self.parent.active_item
+            tag = self.tag_str.get()
+            if tag == 'item':
+                self.update_item(index)
+                #self.update_name(index)
+                #self.update_price(index)
+                #self.update_cat(index)
+            if tag == 'catg':
+                self.active_name.set('')
+                self.active_price.set('')
+                self.update_cat(index)
+
+    def load_price(self, item):
+        _, price, _ = item
+        self.active_price.set(str(price))
+
+    def load_name(self,item):
+        if type(item) is tuple:
+            name, _, _ = item
+        else:
+            name = item
+        self.active_name.set(str(name))
+
+    def load_cat(self,item):
+        _, _, cat = item
+        self.active_cat.set(cat)
+
+    def update_item(self,index):
+        '''
+        update the name,price,cat in self.parsed_lines and update the line 
+        at selection index using vals in entry fields
+        '''
+        #update the item's info from fields
+        #_, item = self.parent.parsed_lines[index]
+        name = self.active_name.get()
+        price = int(self.active_price.get())
+        cat = self.active_cat.get()
+        #if type(item) is tuple:
+        #    name, _, category = item
+        #else:
+        #    name = "None"
+        self.parent.parsed_lines.update(
+                    {index: ('item', (name, price, cat))})
+            #self.data_list.delete(index)
+        print(self.parent.parsed_lines[index])
+        self.parent.update_line(index, *self.parent.parsed_lines[index])
+        self.parent.check_receipt()
+        #update the fields with item info
 
     def update_name(self,index):
         '''
