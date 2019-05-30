@@ -292,7 +292,7 @@ def parseTJ(lines):
             item = line
 
         if tag == 'errr':
-            items.update('errr', item)
+            items.update({index: (tag, item)})
             
         if not end:
             if tag == 'item':
