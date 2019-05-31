@@ -182,31 +182,43 @@ class Entrypane(tk.Frame):
     def update_cat(self,index):
         '''
         '''
-        #index = self.parent.data_list.curselection()[0]
-        tag, item = self.parent.parsed_lines[index]
-        #update the item's info from fields
-        if index == self.parent.active_item:
-            cat = self.active_cat.get()
-            if type(item) is tuple:
-                name, price, _ = item
-                self.parent.parsed_lines.update(
+        cat = self.active_name.get()
+        self.parent.parsed_lines.update({index: ('catg', cat)})
+        self.parent.update_line(index, *self.parent.parsed_lines[index])
+        index += 1
+        while (index < len(self.parent.parsed_lines)): 
+            tag, item = self.parent.parsed_lines[index]
+            if tag == 'foot' or tag == 'date' or tag == 'catg':
+                break
+            if type(item) is not tuple:
+                index += 1
+                continue
+            name, price, _ = item
+            self.parent.parsed_lines.update(
                         {index: (tag, (name, price, cat))})
-                #self.data_list.delete(index)
-                #self.parent.check_receipt()
-            elif tag == 'catg':
-                self.parent.parsed_lines.update(
-                        {index: (tag, cat)})
-                #self.data_list.delete(index)
             self.parent.update_line(index, *self.parent.parsed_lines[index])
+            index += 1
+        #update the item's info from fields
+        #if index == self.parent.active_item:
+        #    cat = self.active_name.get()
+        #    if type(item) is tuple:
+        #        name, price, _ = item
+        #        self.parent.parsed_lines.update(
+        #                {index: (tag, (name, price, cat))})
+        #    elif tag == 'catg':
+        #        self.parent.parsed_lines.update(
+        #                {index: (tag, cat)})
+        #        #self.data_list.delete(index)
+        #    self.parent.update_line(index, *self.parent.parsed_lines[index])
 
-        #update the fields with item info
-        else:
-            #self.parent.active_item = index
-            if type(item) is tuple:
-                _, _, cat = item
-            elif tag == 'catg':
-                cat = item 
-            self.active_cat.set(cat)
+        ##update the fields with item info
+        #else:
+        #    #self.parent.active_item = index
+        #    if type(item) is tuple:
+        #        _, _, cat = item
+        #    elif tag == 'catg':
+        #        cat = item 
+        #    self.active_cat.set(cat)
 
 class Datapane(tk.Frame):
     def __init__(self,parent):
