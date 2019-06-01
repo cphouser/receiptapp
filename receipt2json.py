@@ -106,8 +106,10 @@ def acertainDateValue(date_string):
         hour = int(date_string[k-2:k])
         minute = int(date_string[k+1:k+3])
     else:
+        print(date_string)
         return None
     if year > 99 or month > 12 or day > 31 or hour > 23 or minute > 59:
+        print(year,month,day,hour,minute)
         return None
     else: return datetime(year+CENTURY,month,day,hour,minute)
 
@@ -208,7 +210,10 @@ def parseLine1(line):
     #if the line has two "/" and one ":", it might be the transaction date
     if line.count('/') == 2 and line.count(':') == 1:
         date = acertainDateValue(line)
-        return ('date', date)
+        if date is not None:
+            return ('date', date)
+        else:
+            return ('none', line)
 
     #try extracting a price from the right side
     name,price = separatePrice1(line)

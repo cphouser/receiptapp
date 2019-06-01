@@ -292,7 +292,7 @@ def parseTJ(lines):
             item = line
 
         if tag == 'errr':
-            items.update({index: (tag, item)})
+            items.update({index: (tag, (*item, None))})
             
         if not end:
             if tag == 'item':
@@ -303,6 +303,7 @@ def parseTJ(lines):
                 #   tag = 'none'
                 if 'SUBTOTAL' in item[0]:
                     tag = 'none'
+                    item = line
                 elif fuzz.ratio('TOTAL', item[0]) == 100:
                     tag = 'fsum'
                 else:
@@ -320,7 +321,7 @@ def parseTJ(lines):
             if tag == 'subt':
                 items.update({index: (tag, item)})
             if tag == 'fsum':
-                items.update({index: (tag, item)})
+                items.update({index: (tag, (*item, None))})
                 end = True
         else:
             if tag == 'date':

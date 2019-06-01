@@ -3,6 +3,7 @@
 import tkinter as tk
 import receipt2json as receipt
 import parserTJ as tj
+from datetime import datetime, date
 from PIL import Image, ImageTk
 
 COLOR_KEY = {#line tag:color
@@ -81,7 +82,7 @@ class Entrypane(tk.Frame):
         self.update_bt.pack(side='left')
 
     def change_line(self):
-        print(self.parent.data_list.curselection())
+        #print(self.parent.data_list.curselection())
         try:
             #raises exception if nothing is selected
             index = self.parent.data_list.curselection()[0]
@@ -145,7 +146,7 @@ class Entrypane(tk.Frame):
         self.parent.parsed_lines.update(
                     {index: (tag, (name, price, cat))})
             #self.data_list.delete(index)
-        print(self.parent.parsed_lines[index])
+        #print(self.parent.parsed_lines[index])
         self.parent.update_line(index, *self.parent.parsed_lines[index])
         self.parent.check_receipt()
         #update the fields with item info
@@ -169,6 +170,7 @@ class Entrypane(tk.Frame):
                         {index: (tag, (name, price, cat))})
             self.parent.update_line(index, *self.parent.parsed_lines[index])
             index += 1
+
 
 class Datapane(tk.Frame):
     def __init__(self,parent):
@@ -207,6 +209,7 @@ class Datapane(tk.Frame):
         self.save_bt.pack(side='right')
         self.store_menu.pack(side='left')
         self.reparse_bt.pack(side='left')
+        self.date_entry.pack()
 
         self.data_list.pack(side='top', fill='both', expand=True)
         
@@ -235,6 +238,28 @@ class Datapane(tk.Frame):
 
         self.update_pane()
 
+    def fill_date_entry(self):
+        self.rec_date.set('')
+        self.date_entry.config(bg='#ffffff')
+        #print('filling date')
+        for _, (tag, item) in self.parsed_lines.items():
+            if tag == 'date' and self.rec_date.get() == '':
+                self.rec_date.set(datetime.strftime(item, '%Y-%m-%d %H:%M'))
+            elif tag == 'date' and datetime.strftime(item, '%Y-%m-%d %H:%M') \
+                    != self.rec_date.get():
+                self.date_entry.config(bg=COLOR_KEY['errr'])
+        if self.rec_date.get() == '':
+            self.rec_date.set('YYYY-MM-DD HH:MM')
+
+    def pull_date_entry(self):
+        #print('pulling date')
+        date_str = self.rec_date.get()
+        try:
+            date_v = datetime.strptime(date_str, '%Y-%m-%d %H:%M')
+            return date_v
+        except:
+            return None
+
     def update_line(self,idx,tag,line):
         if type(line) is tuple:
             item = ' ## '.join([str(i) for i in line])
@@ -256,6 +281,7 @@ class Datapane(tk.Frame):
             self.update_line(idx, tag, line)
             if tag == 'tsum' or tag == 'fsum':
                 self.balance_idx = idx
+        self.fill_date_entry()
         self.check_receipt()
 
     def check_receipt(self):
@@ -271,18 +297,20 @@ class Datapane(tk.Frame):
                 else:
                     _, price = line
                 price_sum += price
+        self.item_frame.sum_str.set('CURRENT SUM: '+str(price_sum))
+
         _, entry = self.parsed_lines[self.balance_idx]
-        if len(entry) == 3:
-            name, total, cat = entry
-        else:
-            name, total = entry
+        _, total, _ = entry
         if price_sum == total:
             self.update_line(self.balance_idx, 'tsum', entry)
+            self.parsed_lines[self.balance_idx] = ('tsum', entry)
             self.save_bt.config(state=tk.NORMAL)
         else:
             self.update_line(self.balance_idx, 'fsum', entry)
+            self.parsed_lines[self.balance_idx] = ('fsum', entry)
             self.save_bt.config(state=tk.DISABLED)
-        self.item_frame.sum_str.set('CURRENT SUM: '+str(price_sum))
+        if self.pull_date_entry() is None:
+            self.save_bt.config(state=tk.DISABLED)
 
     def save_list(self):
         #receipt.saveList(r_id,...)
@@ -357,7 +385,7 @@ class Filepane(tk.Frame):
             image = Image.open(path + '/' + filename)
             img_width = self.file_view.winfo_width()
             img_height = self.file_view.winfo_height()
-            print(img_width,img_height)
+            #print(img_width,img_height)
             image.thumbnail((img_width,img_height))
             photo = ImageTk.PhotoImage(image)
             img_widget.config(image=photo)
