@@ -24,7 +24,8 @@ STORE_KEY = {
         'safeway': receipt.parseSafeway,
         'traderjoes': tj.parseTJ,
         'costco': receipt.parseSafeway,
-        'newleaf': receipt.parseSafeway
+        'newleaf': receipt.parseSafeway,
+        'groceryoutlet': receipt.parseSafeway
     }
 
 def parseByStore(store,lines):
