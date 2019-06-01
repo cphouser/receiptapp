@@ -111,7 +111,6 @@ class Entrypane(tk.Frame):
                 #self.update_price(index)
                 #self.update_cat(index)
             elif tag == 'catg':
-                #TODO also update successive items
                 self.update_cat(index)
 
     def load_price(self, item):
@@ -151,34 +150,6 @@ class Entrypane(tk.Frame):
         self.parent.check_receipt()
         #update the fields with item info
 
-    def update_name(self,index):
-        '''
-        '''
-        #index = self.parent.data_list.curselection()[0]
-        tag, item = self.parent.parsed_lines[index]
-        #update the item's info from fields
-        if index == self.parent.active_item:
-            name = self.active_name.get()
-            if type(item) is tuple:
-                _, price, cat = item
-                self.parent.parsed_lines.update(
-                        {index: (tag, (name, price, cat))})
-                #self.data_list.delete(index)
-                #self.parent.check_receipt()
-            else:
-                self.parent.parsed_lines.update(
-                        {index: (tag, name)})
-                #self.data_list.delete(index)
-            self.parent.update_line(index, *self.parent.parsed_lines[index])
-        #update the fields with item info
-        else:
-            #self.parent.active_item = index
-            if type(item) is tuple:
-                name, _, _ = item
-            else:
-                name = item
-            self.active_name.set(name)
-
     def update_cat(self,index):
         '''
         '''
@@ -198,27 +169,6 @@ class Entrypane(tk.Frame):
                         {index: (tag, (name, price, cat))})
             self.parent.update_line(index, *self.parent.parsed_lines[index])
             index += 1
-        #update the item's info from fields
-        #if index == self.parent.active_item:
-        #    cat = self.active_name.get()
-        #    if type(item) is tuple:
-        #        name, price, _ = item
-        #        self.parent.parsed_lines.update(
-        #                {index: (tag, (name, price, cat))})
-        #    elif tag == 'catg':
-        #        self.parent.parsed_lines.update(
-        #                {index: (tag, cat)})
-        #        #self.data_list.delete(index)
-        #    self.parent.update_line(index, *self.parent.parsed_lines[index])
-
-        ##update the fields with item info
-        #else:
-        #    #self.parent.active_item = index
-        #    if type(item) is tuple:
-        #        _, _, cat = item
-        #    elif tag == 'catg':
-        #        cat = item 
-        #    self.active_cat.set(cat)
 
 class Datapane(tk.Frame):
     def __init__(self,parent):
@@ -232,20 +182,45 @@ class Datapane(tk.Frame):
         self.data_list = tk.Listbox(self, font=BIG_FONT)
         
         self.active_item = -1
+        self.store_str = tk.StringVar()
+        self.store_list = [*STORE_KEY.keys()]
+        self.store_str.set(self.store_list[0])
+        self.store_menu = tk.OptionMenu(self.file_frame, self.store_str, 
+                *self.store_list)
+        self.store_menu.config(font=SMALL_FONT)
+        self.reparse_bt = tk.Button(self.file_frame, text='Reparse',
+                font=SMALL_FONT, command=self.reparse)
 
         self.save_bt = tk.Button(self.file_frame, text='Save List', 
                 state=tk.DISABLED,
                 font=SMALL_FONT, command=self.save_list)
         
+        self.rec_date = tk.StringVar()
+
+        self.date_entry = tk.Entry(self.file_frame, 
+                textvariable=self.rec_date,
+                width = 20, font=BIG_FONT)
+
         self.pack_propagate(0)
         
         self.file_frame.pack(side='top', fill='x')
         self.save_bt.pack(side='right')
+        self.store_menu.pack(side='left')
+        self.reparse_bt.pack(side='left')
 
         self.data_list.pack(side='top', fill='both', expand=True)
         
         self.item_frame.pack(side='top', fill='x')
     
+    def reparse(self, path='./img'):
+        img_path = self.parent.filepane.sel_file_str.get()
+        self.data_list.delete(0,tk.END)
+
+        lines = receipt.tesseractImage(path + '/' + img_path).splitlines()
+        store = self.store_str.get()
+        self.parsed_lines = parseByStore(store,lines)
+        
+        self.update_pane()
 
     def parse_file(self, path='./img'):
         img_path = self.parent.filepane.sel_file_str.get()
@@ -253,9 +228,8 @@ class Datapane(tk.Frame):
 
         lines = receipt.tesseractImage(path + '/' + img_path).splitlines()
         store = receipt.matchHeader(lines)
-
+        self.store_str.set(store)
         self.parsed_lines = parseByStore(store,lines)
-
 
         #self.parsed_lines = receipt.parseSafeway(lines)
 
