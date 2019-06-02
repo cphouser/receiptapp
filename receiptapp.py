@@ -2,9 +2,7 @@
 #https://stackoverflow.com/a/17470842 
 import tkinter as tk
 import receipt2json as receipt
-import parserTJ as tj
-import parserCostco as costco
-import parserGO as go
+import newreceipt2json as nr
 from datetime import datetime, date
 from PIL import Image, ImageTk
 
@@ -24,10 +22,11 @@ COLOR_KEY = {#line tag:color
 
 STORE_KEY = {
         'safeway': receipt.parseSafeway,
-        'traderjoes': tj.parseTJ,
-        'costco': costco.parseCostco,
-        'newleaf': receipt.parseSafeway,
-        'groceryoutlet': go.parseGO
+        #'safeway': nr.parseSafeway,
+        'traderjoes': nr.parseTJ,
+        'costco': nr.parseCostco,
+        'newleaf': nr.parseNL,
+        'groceryoutlet': nr.parseGO
     }
 
 def parseByStore(store,lines):

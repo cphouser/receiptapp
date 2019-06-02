@@ -162,145 +162,183 @@ def tryPrice1(name, price):
             return ('item', (name, int_price))
 
 #-----------------------------------------------------------------------------------
-# mod it by adding second
-def acertainDateValue1(date_string):
+
+def acertainDateValue3(date_string):
     """
     given a line, if a date exists in the format dd/mm/yy hh:mm, 
     return it as a datetime object.
 
     """
-    CENTURY = 2000
-    i = date_string.find('/')
-    j = date_string.find('/',i+1)
-    k = date_string.find(':')
-    l = date_string.find(':', k+1)
+    #date = datetime.strptime,(date_string, "%m-%d-%Y %H:%M")
+    #date = datetime.strptime(date_string, '%m/%d/%Y')
     
-    if date_string[i+1:i+3] == date_string[j-2:j]:
-        month = int(date_string[i-2:i])
-        day = int(date_string[j-2:j])
-        year = int(date_string[j+1:j+3])
-        hour = int(date_string[k-2:k])
-        minute = int(date_string[k+1:k+3])
-        
-        if l is not None:
-            second = int(date_string[l+1:l+3])
-    else:
-        return None
-    if year > 99 or month > 12 or day > 31 or hour > 23 or minute > 59 or second > 59:
-        return None
-    elif l is not None: 
-        return datetime(year+CENTURY,month,day,hour,minute,second)
-    else:
-        return datetime(year+CENTURY,month,day,hour,minute,second)
+    #print(date_string)
+    i = date_string.find('/')
+    j = date_string.find('/', i+1)
 
-def parseLine5(line):
-    #don't consider any line with less than 4 characters
-    if len(line) < 4:
-        return ('none', line)
+    l = date_string.find('-')
+    m = date_string.find('-', i+1)
 
-    #if the line has two "/" and one ":", it might be the transaction date
-    if line.count('/') == 2 and line.count(':') == 2:
-        date = acertainDateValue1(line)
-        return ('date', date)
 
-    if (any(i.islower() for i in line) and '.' not in line):
-            return ('catg', line)
+    o = date_string.find(':')
+    p = date_string.find(':', o+1)
+    #print(l)
 
-    #try extracting a price from the right side
-    name,price = separatePrice1(line)
+    if o > 0:
+        if(date_string[o+1:o+3].isdigit() == False):
+            date_string = date_string[0:o-3]
+            #print(date_string)
+        if(date_string[o-2:o].isdigit() ==  False):
+            date_string = date_string[0:o-3]
+            #print(date_string)
 
-    #if no price it might be a category
-    if price is None:
-        '''
-        #exclude lines that include QTY
-        fuz = fuzz.partial_ratio('QTY',name)
-        if fuz > 60:
-            return ('none', line)
-        '''
-        #safeway categories are uppercase
-        #if (any(not i.isupper() for i in line)):
-         #   return ('catg', line)
+    if p > 0:
+        if(date_string[p+1:p+3].isdigit() == False):
+            date_string = date_string[0:p]
+            #print(date_string)
 
-        #otherwise discard
-        return ('none', line)
+    k = date_string.count(':')
 
-    #ignore if theres no item name
-    elif name is None or '@' in line:
-        return ('none', line)
+    if all(dash > 0 for dash in [i, j]):
+        if k == 0:
+            date = datetime.strptime(date_string, "%m/%d/%Y")
+        elif k == 1:
+            date = datetime.strptime(date_string, "%m/%d/%Y %H:%M")
+            #date = change_to_24(time, date)
+        elif k == 2:
+            date = datetime.strptime(date_string, "%m/%d/%Y %H:%M:%S")
+            #date = change_to_24(time, date)
+    elif all(amper > 0 for amper in [l, m]):
+        if k == 0:
+            date = datetime.strptime(date_string, "%m-%d-%Y")
+        elif k == 1:
+            date = datetime.strptime(date_string, "%m-%d-%Y %H:%M")
+            #date = change_to_24(time, date)
+        elif k == 2:
+            date = datetime.strptime(date_string, "%m-%d-%Y %H:%M:%S")
+            #date = change_to_24(time, date)
+    
+    return date
 
-    else: return tryPrice1(name, price)
+def parseLine4(row):
+	time_change = 0
 
-def parseGO(lines):
-    # rebecca: deleted some lines
-    def excludeMatch(name):
-        """
-        check for keywords in item field
-        """
-        list_end = 'BALANCE'
-        if fuzz.partial_ratio(list_end,name) > 90:
-            return 'fsum'
-        return 'item'
+	if len(row) < 4:
+		return ('none', row)
 
-    #initiate flags for iterating over lines
-    category_head = None
-    ended = False
-    end_header = False
+	if(row.count('-') == 2 or row.count('/') == 2):
+		if 'PM' in row or 'pm' in row:
+			time_change = 1
+		# take away the non-numeric chars preceding the date
+		if not(row[0].isnumeric()):
+			for c in row:
+				if(c.isnumeric()):
+					break
+				row = row.strip(c)
+			#print(row)
+		row.replace('Time: ', '')#print(row)
 
-    #return lines as a dict, keyed by line number
-    items = {}
+		if row.count(':') == 0:
+			row = row[0:10]
+		elif row.count(':') == 1:
+			row = row[0:16]
+		elif row.count(':') == 2:
+			row = row[0:18]
+
+		date = acertainDateValue3(row)
+		#print(date)
+		if time_change:
+			date = date.replace(hour = date.hour + 12)
+		#print(date)
+		return ('date', date)
+
+	if any(c.islower() for c in row) and '.' not in row:
+		#print(row)
+		return('head', row)
+	
+	if row.count('(') == 1 and row.count(')') == 1:
+		return('head', row)
+	
+	name, price = separatePrice1(row)
+
+	if all(val is not None for val in [name, price]):
+		return tryPrice1(name, price)
+	else:
+		return ('none', (name, price))
+
+# NOTE to self: just need to work on the date recognition
+def parseNL(lines):
+    end = False
+    end_head = False
+    found_tax = False
+    items = {} 
+    
     for line in lines:
+
         index = len(items)
-        
-        #discard all lines with less than two characters
-        if len(line) <= 1:
+
+        if len(line) <= 1 or line.isspace():
             continue
-        
-        tag, item = parseLine5(line)
-        #print(index, tag, item, sep='\t')
+        #print(line)
+        try:
+        	tag, item = parseLine4(line)
+        except:
+            #print("Invalid Data Passed in")
+            #print(i)
+            tag = 'none'
+            item = line
 
-        if all(i.isdigit() or i.isspace() for i in line):
-            end_header = True
-
+        #print((tag, item))
         if tag == 'date':
-            items.update({index: ('date', item)})
-            continue
-
-        elif ended is True:
-            items.update({index: ('foot', line)})
-            continue
-
-        if not end_header:
-            items.update({index: ('head', line)})
-            continue
-
-        if tag == 'catg':
-            category_head = item
-            items.update({index: ('catg', item)})
-            continue
-
-        if category_head is None: 
-            items.update({index: ('head', line)})
-            continue
-        
-        if tag == 'errr':
-            items.update({index: ('errr', (*item, category_head))})
-            continue
-
-        if type(item) is tuple:
-            name, _ = item
-            not_item = excludeMatch(name)
-            if not_item == 'fsum':
-                items.update({index: ('fsum', (*item, 'SUM'))})
-                ended = True
-            elif not_item == 'item':
-                if 'TAX' in name:
-                    items.update({index: ('item', (*item, 'TAX'))})
-                else:
-                    items.update({index: ('item', (*item, category_head))})
-            else:
-                items.update({index: (not_item, (*item, category_head))})
-        else:
             items.update({index: (tag, item)})
+            continue
+       
+        if(item[0] is not None):
+        	if 'BALANCE' in item[0]:
+        	   tag = 'fsum'
+        
+        if tag == 'fsum':
+                items.update({index: (tag, item)})
+                end = True
+                continue
+        elif found_tax and 'TOTAL' in item:
+        		tag = 'errr'
+        		end = True
+
+        if tag == 'errr':
+        	items.update({index: (tag, item)})
+        	continue
+        
+        #print(fuzz.partial_ratio('SE Member', 'SR Member 111847974436'))
+        if fuzz.partial_ratio('Your Checker', item) > 80:
+        	tag = 'none'
+        	end_head = True
+
+        
+        if end:
+            if type(item) is tuple:
+                if item[1] is None:
+                    item = item[0]
+                elif item[0] is None:
+                    item = item[1]
+                else:
+                    item = item[0] + str(item[1])
+            items.update({index: ('foot', item)})
+            continue
+        elif not end:
+            if tag == 'item':
+                if 'TAX' in item:
+                    found_tax = True
+                items.update({index: (tag, (*item, None))})
+                continue
+            if tag == 'none':
+                if not end_head:
+                    tag = 'head'
+            if tag == 'head':
+            	if end_head:
+            		tag = 'none'
+            items.update({index: (tag, item)})
+    
     return items
 
 
@@ -311,9 +349,11 @@ if __name__ == '__main__':
 	#for i in range(0, len(img_list)):
 	#	print((i, img_list[i]))
 
-	# Grocery Outlet receipt indicies: 23,24
+	receipt_dict = {}
 
-	test = tesseractImage('img/'+ img_list[24]).splitlines()
+	# NewLeaf receipt indicies: 4-7, 47-48
+
+	test = tesseractImage('img/'+ img_list[47]).splitlines()
 	empty = 0
 	#for i in test:
 	#	if i.isspace() or len(i) <= 1:
@@ -323,7 +363,7 @@ if __name__ == '__main__':
 	#print(len(test))
 	#print(empty)
 
-	parsed = parseGO(test)
+	parsed = parseNL(test)
 
 	#print(parsed)
 
