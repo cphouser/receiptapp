@@ -163,7 +163,7 @@ def tryPrice1(name, price):
 
 #-----------------------------------------------------------------------------------
 # mod it by adding second
-def acertainDateValue(date_string):
+def acertainDateValue1(date_string):
     """
     given a line, if a date exists in the format dd/mm/yy hh:mm, 
     return it as a datetime object.
@@ -200,7 +200,7 @@ def parseLine5(line):
 
     #if the line has two "/" and one ":", it might be the transaction date
     if line.count('/') == 2 and line.count(':') == 2:
-        date = acertainDateValue(line)
+        date = acertainDateValue1(line)
         return ('date', date)
 
     if (any(i.islower() for i in line) and '.' not in line):
