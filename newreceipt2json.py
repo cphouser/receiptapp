@@ -181,7 +181,8 @@ def separatePrice1(line):
 '''
 Rebecca D:
 Added a couple of lines to the acertainDateValue function written by Calvin
-So it can extract the seconds in the date value for grocery outlet receipts as well
+So it can extract the seconds in the date value for grocery outlet receipts 
+and will work on newleaf recipts as well
 '''
 def acertainDateValue(date_string):
     """
@@ -189,6 +190,11 @@ def acertainDateValue(date_string):
     return it as a datetime object.
 
     """
+    for c in date_string:
+        if c.isalpha():
+            date_string = date_string.replace(c, '')
+    date_string =  date_string.replace(': ', '')
+
     CENTURY = 2000
     i = date_string.find('/')
     j = date_string.find('/',i+1)
@@ -413,7 +419,7 @@ def parseLine3(line):
     if len(line) < 4:
         return ('none', line)
 
-    #if the line has two "/" and one ":", it might be the transaction date
+    #if the line has two "/" and two ":", it might be the transaction date
     if line.count('/') == 2 and line.count(':') == 2:
         date = acertainDateValue(line)
         if date is not None:
@@ -436,6 +442,34 @@ def parseLine3(line):
         return ('none', line)
 
     else: return tryPrice1(name, price)
+
+def parseLine4(row):
+    time_change = 0
+
+    if len(row) < 4:
+        return ('none', row)
+
+    if(row.count('-') == 2 or row.count('/') == 2):
+        date = acertainDateValue(row)
+
+        if 'PM' or 'pm' in row and date is not None:
+            date = date.replace(hour = date.hour + 12)
+
+        return ('date', date) if date is not None else ('none', row)
+
+    if any(c.islower() for c in row) and '.' not in row:
+        #print(row)
+        return('head', row)
+    
+    if row.count('(') == 1 and row.count(')') == 1:
+        return('head', row)
+    
+    name, price = separatePrice1(row)
+
+    if all(val is not None for val in [name, price]):
+        return tryPrice1(name, price)
+    else:
+        return ('none', (name, price))
 
 def tryPrice1(name, price): 
     """
@@ -733,6 +767,80 @@ def parseGO(lines):
                 items.update({index: (not_item, (*item, category_head))})
         else:
             items.update({index: (tag, item)})
+    return items
+
+def parseNL(lines):
+    end = False
+    end_head = False
+    found_tax = False
+    items = {} 
+    
+    for line in lines:
+
+        index = len(items)
+
+        if len(line) <= 1 or line.isspace():
+            continue
+        #print(line)
+        try:
+            tag, item = parseLine4(line)
+        except:
+            #print("Invalid Data Passed in")
+            #print(i)
+            tag = 'none'
+            item = line
+
+        #print((tag, item))
+        if tag == 'date':
+            items.update({index: (tag, item)})
+            continue
+       
+        if(item[0] is not None):
+            if 'BALANCE' in item[0]:
+               tag = 'fsum'
+        
+        if tag == 'fsum':
+                items.update({index: (tag, item)})
+                end = True
+                continue
+        elif found_tax and 'TOTAL' in item:
+                tag = 'errr'
+                end = True
+
+        if tag == 'errr':
+            items.update({index: (tag, item)})
+            continue
+        
+        #print(fuzz.partial_ratio('SE Member', 'SR Member 111847974436'))
+        if fuzz.partial_ratio('Your Checker', item) > 80:
+            tag = 'none'
+            end_head = True
+
+        
+        if end:
+            if type(item) is tuple:
+                if item[1] is None:
+                    item = item[0]
+                elif item[0] is None:
+                    item = item[1]
+                else:
+                    item = item[0] + str(item[1])
+            items.update({index: ('foot', item)})
+            continue
+        elif not end:
+            if tag == 'item':
+                if 'TAX' in item:
+                    found_tax = True
+                items.update({index: (tag, (*item, None))})
+                continue
+            if tag == 'none':
+                if not end_head:
+                    tag = 'head'
+            if tag == 'head':
+                if end_head:
+                    tag = 'none'
+            items.update({index: (tag, item)})
+    
     return items
 
 def saveList(r_id, date, items):
