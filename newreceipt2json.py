@@ -178,6 +178,11 @@ def separatePrice1(line):
     #can't find an item
     return (None,line)
 
+'''
+Rebecca D:
+Added a couple of lines to the acertainDateValue function written by Calvin
+So it can extract the seconds in the date value for grocery outlet receipts as well
+'''
 def acertainDateValue(date_string):
     """
     given a line, if a date exists in the format dd/mm/yy hh:mm, 
@@ -188,55 +193,38 @@ def acertainDateValue(date_string):
     i = date_string.find('/')
     j = date_string.find('/',i+1)
     k = date_string.find(':')
+    l = date_string.find(':', k+1)
     if date_string[i+1:i+3] == date_string[j-2:j]:
         month = int(date_string[i-2:i])
         day = int(date_string[j-2:j])
         year = int(date_string[j+1:j+3])
         hour = int(date_string[k-2:k])
         minute = int(date_string[k+1:k+3])
+        second = -1
+
+        # if the second colon exists, try to get the seconds 
+        if l > 0:
+            try:
+                second = int(date_string[l+1:l+3])
+                if second > 59:
+                    second = 0
+            except:
+                second = 0
     else:
+        print(date_string)
         return None
-    if year > 99 or month > 12 or day > 31 or hour > 23 or minute > 59:
+    if year > 99 or month > 12 or day > 31 or hour > 23 or minute > 59 or second == 0:
+        if second == 0:
+            print(year,month,day,hour,minute)
+        else:
+            print(year,month,day,hour,minute,second)
         return None
+    elif second > 0: 
+        return datetime(year+CENTURY,month,day,hour,minute,second)
     else: return datetime(year+CENTURY,month,day,hour,minute)
 
 '''
-Rebecca:
-Added a couple of lines to the acertainDateValue function written by Calvin
-So it can extract the date value for grocery outlet receipts
-'''
-def acertainDateValue1(date_string):
-    """
-    given a line, if a date exists in the format dd/mm/yy hh:mm, 
-    return it as a datetime object.
-
-    """
-    CENTURY = 2000
-    i = date_string.find('/')
-    j = date_string.find('/',i+1)
-    k = date_string.find(':')
-    l = date_string.find(':', k+1)
-    
-    if date_string[i+1:i+3] == date_string[j-2:j]:
-        month = int(date_string[i-2:i])
-        day = int(date_string[j-2:j])
-        year = int(date_string[j+1:j+3])
-        hour = int(date_string[k-2:k])
-        minute = int(date_string[k+1:k+3])
-        
-        if l is not None:
-            second = int(date_string[l+1:l+3])
-    else:
-        return None
-    if year > 99 or month > 12 or day > 31 or hour > 23 or minute > 59 or second > 59:
-        return None
-    elif l is not None: 
-        return datetime(year+CENTURY,month,day,hour,minute,second)
-    else:
-        return datetime(year+CENTURY,month,day,hour,minute,second)
-
-'''
-Rebecca:
+Rebecca D:
 Extract the date from the given string of trader joes and costco receipts
 '''
 def acertainDateValue2(date_string):
@@ -306,7 +294,10 @@ def parseLine1(line):
     #if the line has two "/" and one ":", it might be the transaction date
     if line.count('/') == 2 and line.count(':') == 1:
         date = acertainDateValue(line)
-        return ('date', date)
+        if date is not None:
+            return ('date', date)
+        else:
+            return ('none', line)
 
     #try extracting a price from the right side
     name,price = separatePrice1(line)
@@ -333,7 +324,7 @@ def parseLine1(line):
     else: return tryPrice1(name, price)
 
 '''
-Rebecca:
+Rebecca D:
 Parse each given line from the trader joes and costco receipts
 Return appropriate tags for each item
 '''
@@ -375,6 +366,7 @@ def parseLine2(row):
         #print(date)
         return ('date', date)
 
+    # THIS SECTION APPLIES ONLY TO TRADER JOES
     # -------------------------------------------------------------------------
     if(fuzz.partial_ratio('TRADER JOES', row) >= 91):
         #print(line)
@@ -385,7 +377,9 @@ def parseLine2(row):
 
     if('FLOZ' in row or '@' in row):
         return('none', row)
-
+    #---------------------------------------------------------------------------
+    
+    # THIS SECTION APPLIES ONLY TO COSTCO
     #---------------------------------------------------------------------------
     #print(fuzz.partial_ratio('Costco', 'Cosrco'))
     if fuzz.partial_ratio('Costco', row) > 80 or 'WHOLESALE' in row:
@@ -393,7 +387,7 @@ def parseLine2(row):
 
     if row.count('(') == 1 and row.count(')') == 1:
         return('head', row)
-    # ---------------------------------------------------------------------------
+    # --------------------------------------------------------------------------
 
     if any(c.islower() for c in row) and '.' not in row:
         #print(row)
@@ -410,7 +404,7 @@ def parseLine2(row):
         return ('none', (name, price))
 
 '''
-Rebecca:
+Rebecca D:
 Added and deleted a couple of lines to the parseLine1 function written by Calvin
 So it can parse the line for the grocery outlet receipts
 '''
@@ -421,8 +415,11 @@ def parseLine3(line):
 
     #if the line has two "/" and one ":", it might be the transaction date
     if line.count('/') == 2 and line.count(':') == 2:
-        date = acertainDateValue1(line)
-        return ('date', date)
+        date = acertainDateValue(line)
+        if date is not None:
+            return ('date', date)
+        else:
+            return ('none', line)
 
     if (any(i.islower() for i in line) and '.' not in line):
             return ('catg', line)
@@ -493,86 +490,6 @@ def parseSafeway(lines):
 
         if ended is True:
             items.update({index: ('foot', line)})
-            continue
-
-        if tag == 'catg':
-            category_head = item
-            items.update({index: ('catg', item)})
-            continue
-
-        if category_head is None: 
-            items.update({index: ('head', line)})
-            continue
-        
-        if tag == 'errr':
-            items.update({index: ('errr', (*item, category_head))})
-            continue
-
-        if type(item) is tuple:
-            name, _ = item
-            not_item = excludeMatch(name)
-            if not_item == 'fsum':
-                items.update({index: ('fsum', (*item, 'SUM'))})
-                ended = True
-            elif not_item == 'item':
-                if 'TAX' in name:
-                    items.update({index: ('item', (*item, 'TAX'))})
-                else:
-                    items.update({index: ('item', (*item, category_head))})
-            else:
-                items.update({index: (not_item, (*item, category_head))})
-        else:
-            items.update({index: (tag, item)})
-    return items
-
-'''
-Rebecca:
-Added and deleted a couple of lines to the parseSafeway function written by Calvin
-So it can parse grocery outlet receipts instead of safeway receipts
-Those with comments are the ones that have changes 
-'''
-def parseGO(lines):
-    # Rebecca: deleted some lines here as it doesn't applies to GO receipts
-    def excludeMatch(name):
-        """
-        check for keywords in item field
-        """
-        list_end = 'BALANCE'
-        if fuzz.partial_ratio(list_end,name) > 90:
-            return 'fsum'
-        return 'item'
-
-    #initiate flags for iterating over lines
-    category_head = None
-    ended = False
-    end_header = False
-
-    #return lines as a dict, keyed by line number
-    items = {}
-    for line in lines:
-        index = len(items)
-        
-        #discard all lines with less than two characters
-        if len(line) <= 1:
-            continue
-        
-        tag, item = parseLine3(line)
-        #print(index, tag, item, sep='\t')
-
-        # Reach the end of the header in the receipt if true
-        if all(i.isdigit() or i.isspace() for i in line):
-            end_header = True
-
-        if tag == 'date':
-            items.update({index: ('date', item)})
-            continue
-
-        elif ended is True:
-            items.update({index: ('foot', line)})
-            continue
-
-        if not end_header:
-            items.update({index: ('head', line)})
             continue
 
         if tag == 'catg':
@@ -676,7 +593,7 @@ def parseCostco(lines):
 
         if len(line) <= 1 or line.isspace():
             continue
-        #print(line)
+        
         try:
             tag, item = parseLine2(line)
         except:
@@ -695,17 +612,16 @@ def parseCostco(lines):
                     tag = 'none'
                 elif 'TAX' in item[0]:
                     tag = 'item'
+                    found_tax = True
                 elif 'ITEM' not in item[0]:
-                    tag = 'fsum'
-        
-        if tag == 'fsum':
-                items.update({index: (tag, item)})
-                end = True
-                continue
-        elif found_tax and 'TOTAL' in item:
+                    items.update({index: ('fsum', item)})
+                    end = True
+                    continue
+
+        if found_tax and 'TOTAL' in item:
                 tag = 'errr'
                 end = True
-
+        
         if tag == 'errr':
             items.update({index: (tag, item)})
             continue
@@ -725,6 +641,7 @@ def parseCostco(lines):
                     item = item[0] + str(item[1])
             items.update({index: ('foot', item)})
             continue
+        
         elif not end:
             if tag == 'item':
                 if 'TAX' in item:
@@ -736,6 +653,86 @@ def parseCostco(lines):
                     tag = 'none'
             items.update({index: (tag, item)})
     
+    return items
+
+'''
+Rebecca D:
+Added and deleted a couple of lines to the parseSafeway function written by Calvin
+So it can parse grocery outlet receipts instead of safeway receipts
+Those with comments are the ones that have changes made by Rebecca D.
+'''
+def parseGO(lines):
+    # Rebecca D: deleted some lines here as it doesn't applies to GO receipts
+    def excludeMatch(name):
+        """
+        check for keywords in item field
+        """
+        list_end = 'BALANCE'
+        if fuzz.partial_ratio(list_end,name) > 90:
+            return 'fsum'
+        return 'item'
+
+    #initiate flags for iterating over lines
+    category_head = None
+    ended = False
+    end_header = False
+
+    #return lines as a dict, keyed by line number
+    items = {}
+    for line in lines:
+        index = len(items)
+        
+        #discard all lines with less than two characters
+        if len(line) <= 1:
+            continue
+        
+        tag, item = parseLine3(line)
+        #print(index, tag, item, sep='\t')
+
+        # Reach the end of the header of the receipt if true
+        if all(i.isdigit() or i.isspace() for i in line):
+            end_header = True
+
+        if tag == 'date':
+            items.update({index: ('date', item)})
+            continue
+
+        elif ended is True:
+            items.update({index: ('foot', line)})
+            continue
+
+        if not end_header:
+            items.update({index: ('head', line)})
+            continue
+
+        if tag == 'catg':
+            category_head = item
+            items.update({index: ('catg', item)})
+            continue
+
+        if category_head is None: 
+            items.update({index: ('head', line)})
+            continue
+        
+        if tag == 'errr':
+            items.update({index: ('errr', (*item, category_head))})
+            continue
+
+        if type(item) is tuple:
+            name, _ = item
+            not_item = excludeMatch(name)
+            if not_item == 'fsum':
+                items.update({index: ('fsum', (*item, 'SUM'))})
+                ended = True
+            elif not_item == 'item':
+                if 'TAX' in name:
+                    items.update({index: ('item', (*item, 'TAX'))})
+                else:
+                    items.update({index: ('item', (*item, category_head))})
+            else:
+                items.update({index: (not_item, (*item, category_head))})
+        else:
+            items.update({index: (tag, item)})
     return items
 
 def saveList(r_id, date, items):
