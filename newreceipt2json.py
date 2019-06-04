@@ -577,6 +577,7 @@ def parseTJ(lines):
 
         if tag == 'errr':
             items.update({index: (tag, (*item, None))})
+            continue
             
         if not end:
             if tag == 'item':
@@ -585,24 +586,30 @@ def parseTJ(lines):
                     item = line
                 elif fuzz.ratio('TOTAL', item[0]) == 100:
                     tag = 'fsum'
+                elif 'TAX' in item[0]:
+                	items.update({index: (tag, (*item, 'TAX'))})
+                	continue
                 else:
                     items.update({index: (tag, (*item, None))})
+                    continue
             if tag == 'none':
                 #print(fuzz.partial_ratio('Store #', 'Stare #193 - (831) 425-d149'))
                 if(fuzz.partial_ratio('Store #', item) > 85):
                     tag = 'head'
                 else:
                     items.update({index: (tag, item)})
+                    continue
             if tag == 'head':
                 items.update({index: (tag, item)})
-            if tag == 'subt':
-                items.update({index: (tag, item)})
+                continue
             if tag == 'fsum':
-                items.update({index: (tag, (*item, None))})
+                items.update({index: (tag, (*item, 'SUM'))})
                 end = True
+                continue
         else:
             if tag == 'date':
                 items.update({index: (tag, item)})
+                continue
             else:
                 if type(item) is tuple:
                     if item[1] is None:
@@ -618,7 +625,8 @@ def parseTJ(lines):
 def parseCostco(lines):
     end = False
     end_head = False
-    found_tax = False
+    found_tax = 0
+    subtotal = 0
     items = {} 
     
     for line in lines:
@@ -644,20 +652,23 @@ def parseCostco(lines):
             if 'TOTAL' in item[0]:
                 if(fuzz.ratio('SUBTOTAL', item[0]) == 100):
                     tag = 'none'
+                    subtotal = int(item[1])
                 elif 'TAX' in item[0]:
                     tag = 'item'
-                    found_tax = True
+                    found_tax = int(item[2])
                 elif 'ITEM' not in item[0]:
-                    items.update({index: ('fsum', item)})
+                    items.update({index: ('fsum', (*item, 'SUM'))})
                     end = True
                     continue
 
-        if found_tax and 'TOTAL' in item:
-                tag = 'errr'
+        if (found_tax and subtotal > 0) and 'TOTAL' in item:
+                total = found_tax + subtotal
+                items.update({index: ('fsum', ('TOTAL', total, 'SUM'))})
                 end = True
+                continue
         
         if tag == 'errr':
-            items.update({index: (tag, item)})
+            items.update({index: (tag, (*item, None))})
             continue
         
         #print(fuzz.partial_ratio('SE Member', 'SR Member 111847974436'))
@@ -679,9 +690,12 @@ def parseCostco(lines):
         elif not end:
             if tag == 'item':
                 if 'TAX' in item:
-                    found_tax = True
-                items.update({index: (tag, (*item, None))})
-                continue
+                    found_tax = int(item[1])
+                    items.update({index: (tag, (*item, 'TAX'))})
+                    continue
+                else: 
+                	items.update({index: (tag, (*item, None))})
+                	continue
             if tag == 'head':
                 if end_head:
                     tag = 'none'
@@ -800,7 +814,7 @@ def parseNL(lines):
                tag = 'fsum'
         
         if tag == 'fsum':
-                items.update({index: (tag, item)})
+                items.update({index: (tag, (*item, 'SUM'))})
                 end = True
                 continue
         elif found_tax and 'TOTAL' in item:
@@ -808,7 +822,7 @@ def parseNL(lines):
                 end = True
 
         if tag == 'errr':
-            items.update({index: (tag, item)})
+            items.update({index: (tag, (*item, None))})
             continue
         
         #print(fuzz.partial_ratio('SE Member', 'SR Member 111847974436'))
@@ -831,8 +845,11 @@ def parseNL(lines):
             if tag == 'item':
                 if 'TAX' in item:
                     found_tax = True
-                items.update({index: (tag, (*item, None))})
-                continue
+                    items.update({index: (tag, (*item, 'TAX'))})
+                    continue
+                else:
+                	items.update({index: (tag, (*item, None))})
+                	continue
             if tag == 'none':
                 if not end_head:
                     tag = 'head'
