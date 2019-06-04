@@ -654,8 +654,7 @@ def parseCostco(lines):
                     tag = 'none'
                     subtotal = int(item[1])
                 elif 'TAX' in item[0]:
-                    tag = 'item'
-                    found_tax = int(item[2])
+                    tag = 'foot'
                 elif 'ITEM' not in item[0]:
                     items.update({index: ('fsum', (*item, 'SUM'))})
                     end = True
