@@ -150,6 +150,8 @@ class Entrypane(tk.Frame):
             #self.data_list.delete(index)
         #print(self.parent.parsed_lines[index])
         self.parent.update_line(index, *self.parent.parsed_lines[index])
+        if tag == 'fsum' or tag == 'tsum':
+            self.parent.balance_idx = index
         self.parent.check_receipt()
         #update the fields with item info
 
@@ -204,7 +206,6 @@ class Datapane(tk.Frame):
         self.date_entry = tk.Entry(self.file_frame, 
                 textvariable=self.rec_date,
                 width = 20, font=BIG_FONT)
-
         self.pack_propagate(0)
         
         self.file_frame.pack(side='top', fill='x')
@@ -224,7 +225,9 @@ class Datapane(tk.Frame):
         lines = receipt.tesseractImage(path + '/' + img_path).splitlines()
         store = self.store_str.get()
         self.parsed_lines = parseByStore(store,lines)
-        
+        for idx, (tag, item) in self.parsed_lines.items():
+            if type(item) is tuple and len(item) == 2:
+                self.parsed_lines[idx] = (tag, (*item, None))
         self.update_pane()
 
     def parse_file(self, path='./img'):
@@ -235,9 +238,10 @@ class Datapane(tk.Frame):
         store = receipt.matchHeader(lines)
         self.store_str.set(store)
         self.parsed_lines = parseByStore(store,lines)
-
         #self.parsed_lines = receipt.parseSafeway(lines)
-
+        for idx, (tag, item) in self.parsed_lines.items():
+            if type(item) is tuple and len(item) == 2:
+                self.parsed_lines[idx] = (tag, (*item, None))
         self.update_pane()
 
     def fill_date_entry(self):
@@ -315,8 +319,8 @@ class Datapane(tk.Frame):
             self.save_bt.config(state=tk.DISABLED)
 
     def save_list(self):
-        #receipt.saveList(r_id,...)
-        pass
+        receipt.saveList(self.parent.fileops.user_str.get(),
+                self.rec_date.get(),self.parsed_lines)
 
 
 class Fileops(tk.Frame):

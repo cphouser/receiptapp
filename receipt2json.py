@@ -324,40 +324,50 @@ def parseSafeway(lines):
             items.update({index: (tag, item)})
     return items
 
-def saveList(r_id, date, items):
+def saveList(buyer_id, date, items):
     """
     NEEDS UPDATING - not currently used
     saves the receipt in the grocerylist file as a dict entry.
     """
-    receipt_dict_past = {}
+    item_list = []
+    for _, (tag, item) in items.items():
+        if tag == "item":
+            print(item)
+            item_list.append(item)
+
+    receipt_dict = {}
     if 'grocerylist.json' in listdir(path='dat/'):
         print('existing receipt list found at grocerylist.json')
         with open('dat/grocerylist.json') as f:
-            receipt_dict_past = json.load(f)
-        for r_id in receipt_dict:
-            if r_id in receipt_dict_past:
-                if receipt_dict[r_id][2] == receipt_dict_past[r_id][2]:
-                    print(r_id, ' already in file - items match (continuing)')
-                    continue
-                else:
-                    print(r_id, ' already in file - item differences found')
-                    while True:
-                        in_action = input(
-                            '\'o\':keep original \'n\':keep new \'v\':view') 
-                        if in_action == 'o': receipt_dict.pop(r_id); break
-                        elif in_action == 'n': break
-                        elif in_action == 'v':
-                            print('   VVV - SAVED VERSION - VVV')
-                            print(receipt_dict_past[r_id][2])
-                            print('    VVV - NEW VERSION - VVV')
-                            print(receipt_dict[r_id][2])
+            receipt_dict = json.load(f)
     else:
         print('creating new list of recipt data at grocerylist.json')
 
-    receipt_dict_past.update(receipt_dict)
-
+    if buyer_id in receipt_dict:
+        print("buyer found")
+    else: receipt_dict.update({buyer_id: {}})
+    if date in receipt_dict[buyer_id]:
+        print("receipt found, overwriting")
+    (receipt_dict[buyer_id]).update({date: item_list})
+        #for r_id in receipt_dict:
+        #    if r_id in receipt_dict_past:
+        #        if receipt_dict[r_id][2] == receipt_dict_past[r_id][2]:
+        #            print(r_id, ' already in file - items match (continuing)')
+        #            continue
+        #        else:
+        #            print(r_id, ' already in file - item differences found')
+        #            while True:
+        #                in_action = input(
+        #                    '\'o\':keep original \'n\':keep new \'v\':view') 
+        #                if in_action == 'o': receipt_dict.pop(r_id); break
+        #                elif in_action == 'n': break
+        #                elif in_action == 'v':
+        #                    print('   VVV - SAVED VERSION - VVV')
+        #                    print(receipt_dict_past[r_id][2])
+        #                    print('    VVV - NEW VERSION - VVV')
+        #                    print(receipt_dict[r_id][2])
     with open('dat/grocerylist.json', 'w') as f:
-        json.dump(receipt_dict_past, f, indent=2, sort_keys=True, default=str)
+        json.dump(receipt_dict, f, indent=2, sort_keys=True, default=str)
     
 def priceCheck(items):
     """

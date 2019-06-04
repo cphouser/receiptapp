@@ -1,32 +1,78 @@
 {
-  "000101010000002930": [
-    "0001-01-01 00:00:00",
-    2930,
-    [
+  "Calvin": {
+    "2019-04-15 19:46": [
       [
-        "NBC OREO CKY DBL",
-        334,
+        "PHILZ MANHATTAN NP",
+        1499,
+        null
+      ],
+      [
+        "TAX",
+        0,
+        null
+      ]
+    ],
+    "2019-04-24 21:51": [
+      [
+        "PHIL\u00e9 MANHATTAN NP",
+        1499,
+        null
+      ],
+      [
+        "SCHOCH RAW MILK NP",
+        949,
+        null
+      ],
+      [
+        "BOTTLE DEPOSIT NP",
+        200,
+        null
+      ],
+      [
+        "TAX",
+        0,
+        null
+      ]
+    ],
+    "2019-05-02 22:01": [
+      [
+        "PHILZ MANHATTAN NP",
+        1499,
+        null
+      ],
+      [
+        "TAX",
+        0,
+        null
+      ]
+    ],
+    "2019-05-03 16:24": [
+      [
+        "JOE JOES NEAPOLITAN",
+        299,
+        null
+      ],
+      [
+        "COLD BREW ORGANIC BLACK",
+        269,
+        null
+      ],
+      [
+        "CRV",
+        5,
+        null
+      ]
+    ],
+    "2019-05-09 22:11": [
+      [
+        "SIG 100% JCE GRPFT",
+        349,
         "GROCERY"
       ],
       [
-        "CLOVER ORGANIC MLK",
-        499,
-        "REFRIG/FROZEN"
-      ],
-      [
-        "SAN LUIS BREAD",
-        499,
-        "BAKED GOODS"
-      ],
-      [
-        "PT OVEN RST TURKEY",
-        799,
-        "| DELI"
-      ],
-      [
-        "BH CHS MUENSTER",
-        799,
-        "| DELI"
+        "S SEL COFFEE SUN",
+        699,
+        "GROCERY"
       ],
       [
         "TAX",
@@ -34,6 +80,498 @@
         "TAX"
       ]
     ],
-    "doc4-CS.jpg"
-  ]
+    "2019-05-10 18:32": [
+      [
+        "SIG COND MILK SWEE",
+        349,
+        "GROCERY"
+      ],
+      [
+        "STRAUS MLK RF",
+        599,
+        "REFRIG/FROZEN"
+      ],
+      [
+        "DEPOSIT MLK",
+        200,
+        "REFRIG/FROZEN"
+      ],
+      [
+        "TAX",
+        0,
+        "REFRIG/FROZEN"
+      ]
+    ],
+    "2019-05-15 23:17": [
+      [
+        "STG 100% JCE GRPFT",
+        349,
+        "GROCERY"
+      ],
+      [
+        "SMOKED SALMON LOX",
+        499,
+        "SEAFOOD"
+      ],
+      [
+        "UT RADISH DAIKON",
+        271,
+        "PRODUCE"
+      ],
+      [
+        "2 QTY TRUMER PIL",
+        1798,
+        "LIQUOR"
+      ],
+      [
+        "CRY BEER 6 PK TAX",
+        60,
+        "TAX"
+      ],
+      [
+        "TAX",
+        172,
+        "TAX"
+      ]
+    ]
+  },
+  "Celine": {
+    "2019-04-22 20:20": [
+      [
+        "BARNANA BRITTLE",
+        99,
+        "Grocery"
+      ],
+      [
+        "ORGANIC SEAWEED",
+        99,
+        "Grocery"
+      ],
+      [
+        "ST SPROUTED WHEAT",
+        299,
+        "Grocery"
+      ],
+      [
+        "AVOCADO HASS SINGLE",
+        500,
+        "Produce"
+      ],
+      [
+        "TOMATO ROMA SINGLE",
+        100,
+        "Produce"
+      ],
+      [
+        "BASIL SD TOM ORGNC",
+        299,
+        "Deli"
+      ],
+      [
+        "CHOG CHIP CKIE",
+        198,
+        "Deli"
+      ],
+      [
+        "DIP SPREAD VEGAN",
+        100,
+        "Deli"
+      ],
+      [
+        "FLAX MILK VANILLA",
+        299,
+        "Deli"
+      ]
+    ],
+    "2019-05-02 14:43": [
+      [
+        "EGGS LARGE BROWN PASTURE - RAI",
+        399,
+        null
+      ],
+      [
+        "TUFU SPR FRM HGH PRTN ORG",
+        249,
+        null
+      ],
+      [
+        "SPREAD KALE PESTO",
+        379,
+        null
+      ],
+      [
+        "CP GREEN JUICE",
+        399,
+        null
+      ],
+      [
+        "CRY",
+        5,
+        null
+      ]
+    ],
+    "2019-05-09 20:48": [
+      [
+        "VEGAN CHOC CHIP WALNUT COOKIES",
+        449,
+        null
+      ],
+      [
+        "TORTILLA ROL LED CHILI LIME",
+        249,
+        null
+      ]
+    ]
+  },
+  "Person1": {
+    "2019-04-11 19:52": [
+      [
+        "2 QTY MELITTA CO",
+        499,
+        "GROCERY"
+      ],
+      [
+        "PEETS BRAZIL",
+        1299,
+        "GROCERY"
+      ],
+      [
+        "NEW YORK STYLE",
+        499,
+        "MEAT"
+      ],
+      [
+        "AIDELLS SSG PORK",
+        999,
+        "MEAT"
+      ],
+      [
+        "WT MDNGHT SDLS ORANGE",
+        118,
+        "PRODUCE"
+      ],
+      [
+        "RADISHES",
+        125,
+        "PRODUCE"
+      ],
+      [
+        "WT ORG GALA APPLES",
+        436,
+        "PRODUCE"
+      ],
+      [
+        "MR 2 QTY RCYCBLE BA",
+        950,
+        "MISCELLANEOUS"
+      ],
+      [
+        "TAX",
+        46,
+        "TAX"
+      ]
+    ],
+    "2019-04-15 18:53": [
+      [
+        "E 31865 BAGELS",
+        599,
+        "None"
+      ],
+      [
+        "E 3133113 KS PEPGRINDR",
+        689,
+        "None"
+      ],
+      [
+        "E 1287213 SALMON DIP",
+        999,
+        "None"
+      ],
+      [
+        "E 867221 ORG STACY28Z",
+        699,
+        "None"
+      ],
+      [
+        "E 1068080 PASTURE EGGS",
+        749,
+        "None"
+      ],
+      [
+        "E 22093 KS SHRP CHDR",
+        499,
+        "None"
+      ],
+      [
+        "E 7874 PANCAKE MIX",
+        599,
+        "None"
+      ],
+      [
+        "FE eedl491 OREO",
+        5205,
+        null
+      ],
+      [
+        "E 1169942 GINGER BEER",
+        1499,
+        "None"
+      ],
+      [
+        "E 841942 KS JASM",
+        3799,
+        null
+      ],
+      [
+        "1040486 21ST VARIETY",
+        2399,
+        null
+      ],
+      [
+        "6000000000 CA REDEMP VA",
+        120,
+        null
+      ],
+      [
+        "1040486 21ST VARIETY",
+        2399,
+        null
+      ],
+      [
+        "6000000000 CA REDEMP VA",
+        120,
+        null
+      ],
+      [
+        "512599 KS TOWEL",
+        1649,
+        null
+      ]
+    ],
+    "2019-04-15 18:55": [
+      [
+        "1053843 RACER 5 24PK",
+        2599,
+        null
+      ],
+      [
+        "DEMP VA",
+        120,
+        null
+      ],
+      [
+        "VARIETY",
+        2399,
+        null
+      ],
+      [
+        "DEMP VA",
+        120,
+        null
+      ],
+      [
+        "E 1169666 ORG jRF BEAN",
+        899,
+        null
+      ],
+      [
+        "E 44871 SOUMDOGH 2PK",
+        499,
+        null
+      ],
+      [
+        "E 111894 GARFIC SALT",
+        699,
+        null
+      ],
+      [
+        "E 995590 CHEF CHEVRE",
+        599,
+        null
+      ],
+      [
+        "E 1172471 IRIBH BUTTER",
+        1169,
+        null
+      ],
+      [
+        "E 96716 ORGANIC SPIN",
+        399,
+        null
+      ],
+      [
+        "E 1080210 ANTIPASTO",
+        1199,
+        null
+      ],
+      [
+        "E 817974 PORK TAMALE",
+        1599,
+        null
+      ],
+      [
+        "E 817965 CHKN TAMALE",
+        1599,
+        null
+      ],
+      [
+        "E \u2014- 1156352 OG ARTISAN",
+        379,
+        null
+      ],
+      [
+        "E 759072 EGGNS 72CT",
+        999,
+        null
+      ],
+      [
+        "E 1068080 PASTURE EGGS",
+        749,
+        null
+      ],
+      [
+        "E 866185 TERIYKI MTBL",
+        1379,
+        null
+      ],
+      [
+        "888117 KS 1EQ SIVLR",
+        1999,
+        null
+      ],
+      [
+        "E 736083 KS ORG LEMON",
+        599,
+        null
+      ],
+      [
+        "E 9700000000 CA REDEMP VA",
+        20,
+        "None"
+      ],
+      [
+        "E 33336 BUTER CROISS",
+        599,
+        null
+      ],
+      [
+        "E 984866 MANGP NECTAR",
+        599,
+        null
+      ],
+      [
+        "E 0000208188 /984%66 1 50",
+        150,
+        "None"
+      ],
+      [
+        "E 9700000000 CA REDEMP VA",
+        20,
+        null
+      ],
+      [
+        "E 18600 CLEMBNTINES",
+        599,
+        "None"
+      ],
+      [
+        "TAX",
+        369,
+        "None"
+      ]
+    ]
+  },
+  "Rebecca": {
+    "2018-02-14 16:49": [
+      [
+        "DEEP DISH aye CHIP COOKIE",
+        399,
+        null
+      ],
+      [
+        "GUMMY BEARS",
+        199,
+        null
+      ],
+      [
+        "AVOCADG EACH HASS",
+        129,
+        null
+      ]
+    ],
+    "2018-10-28 16:11": [
+      [
+        "LAYS BARBECUE",
+        300,
+        "GROCERY"
+      ],
+      [
+        "LAYS SOUR CREAM",
+        300,
+        "GROCERY"
+      ],
+      [
+        "MARIE CALLENDERS",
+        350,
+        "REFRIG/FROZEN"
+      ],
+      [
+        "TAX",
+        0,
+        "TAX"
+      ]
+    ],
+    "2019-02-05 17:45": [
+      [
+        "SIG CHESE BL BARRL",
+        500,
+        "GROCERY"
+      ],
+      [
+        "CRMY RNCH DP 15 OZ",
+        350,
+        "GROCERY"
+      ],
+      [
+        "2 QTY KEWPIE MAY",
+        898,
+        "GROCERY"
+      ],
+      [
+        "LUCERNE CHEESE MD",
+        699,
+        "REFRIG/FROZEN"
+      ],
+      [
+        "OUI BY YOPLAIT",
+        150,
+        "REFRIG/FROZEN"
+      ],
+      [
+        "OUI BY YOPLAIT",
+        150,
+        "REFRIG/FROZEN"
+      ],
+      [
+        "CLIF BAR CHOC CHIP",
+        125,
+        "GEN MERCHANDISE"
+      ],
+      [
+        "LASAGNE ROAST PAN",
+        899,
+        "GEN MERCHANDISE"
+      ],
+      [
+        "LRG HASS AVOCADOS",
+        352,
+        "PRODUCE"
+      ],
+      [
+        "TAX",
+        83,
+        "TAX"
+      ]
+    ]
+  }
 }
