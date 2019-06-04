@@ -349,23 +349,6 @@ def saveList(buyer_id, date, items):
     if date in receipt_dict[buyer_id]:
         print("receipt found, overwriting")
     (receipt_dict[buyer_id]).update({date: item_list})
-        #for r_id in receipt_dict:
-        #    if r_id in receipt_dict_past:
-        #        if receipt_dict[r_id][2] == receipt_dict_past[r_id][2]:
-        #            print(r_id, ' already in file - items match (continuing)')
-        #            continue
-        #        else:
-        #            print(r_id, ' already in file - item differences found')
-        #            while True:
-        #                in_action = input(
-        #                    '\'o\':keep original \'n\':keep new \'v\':view') 
-        #                if in_action == 'o': receipt_dict.pop(r_id); break
-        #                elif in_action == 'n': break
-        #                elif in_action == 'v':
-        #                    print('   VVV - SAVED VERSION - VVV')
-        #                    print(receipt_dict_past[r_id][2])
-        #                    print('    VVV - NEW VERSION - VVV')
-        #                    print(receipt_dict[r_id][2])
     with open('dat/grocerylist.json', 'w') as f:
         json.dump(receipt_dict, f, indent=2, sort_keys=True, default=str)
     
