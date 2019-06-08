@@ -327,14 +327,15 @@ class Fileops(tk.Frame):
     def __init__(self,parent):
         tk.Frame.__init__(self,parent)
         self.parent = parent
-        self.refresh_bt = tk.Button(self, text='Refresh File List',
-                font=SMALL_FONT)
+        #self.refresh_bt = tk.Button(self, text='Refresh File List',
+        #        font=SMALL_FONT)
         self.read_bt = tk.Button(self, text='Read Selected File',
                 font=SMALL_FONT, command=self.read_file)
         #read_bt.bind('<Button-1>', parent.filepane.update_view())
-        self.readall_bt = tk.Button(self, text='Read All', font=SMALL_FONT)
+        self.readall_bt = tk.Button(self, text='Read All', 
+                state=tk.DISABLED, font=SMALL_FONT)
         self.history_ch = tk.Checkbutton(self, text='Ignore history.csv',
-                font=SMALL_FONT) 
+                font=SMALL_FONT, state=tk.DISABLED) 
         self.user_list = receipt.readUsers()
         #print(*self.user_list,sep="\n")
         self.user_str = tk.StringVar()
@@ -344,7 +345,7 @@ class Fileops(tk.Frame):
         self.user_bt = tk.Button(self, text="tag with user:", font=SMALL_FONT)#,
         #        command=self.parent.filepane.tag_file)
         
-        self.refresh_bt.pack(side='left')
+        #self.refresh_bt.pack(side='left')
         self.read_bt.pack(side='left')
         self.readall_bt.pack(side='left')
         self.history_ch.pack(side='left')
