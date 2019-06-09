@@ -1,5 +1,283 @@
 {
   "Calvin": {
+    "2019-03-11 18:15": [
+      [
+        "1040486 21ST VARIETY",
+        2399,
+        null
+      ],
+      [
+        "6000000000 CA REDEMP VA",
+        120,
+        null
+      ],
+      [
+        "E 47019 AVOCADOS",
+        549,
+        null
+      ],
+      [
+        "E 43182 PACFC SHRIMP",
+        1499,
+        null
+      ],
+      [
+        "E 22496 ORGNC BS THG",
+        2116,
+        null
+      ],
+      [
+        "E 56366 12 0Z RASPS",
+        599,
+        null
+      ],
+      [
+        "E 56366 12 OZ RASPS",
+        599,
+        null
+      ],
+      [
+        "E 1068080 PASTURE EGGS",
+        749,
+        null
+      ],
+      [
+        "E 1172471 IRISH BUTTER",
+        1169,
+        null
+      ],
+      [
+        "E 1169666 ORG RF BEAN",
+        899,
+        null
+      ],
+      [
+        "TAX",
+        233,
+        "TAX"
+      ]
+    ],
+    "2019-04-07 22:07": [
+      [
+        "SIG 100% JCE GRPFT",
+        349,
+        "GROCERY"
+      ],
+      [
+        "FY PASTA SC",
+        199,
+        "GROCERY"
+      ],
+      [
+        "SIG PSTA SCE TRAD",
+        179,
+        "GROCERY"
+      ],
+      [
+        "S SEL PASTA SAUCE",
+        179,
+        "GROCERY"
+      ],
+      [
+        "OREO COOKIES",
+        499,
+        "GROCERY"
+      ],
+      [
+        "BARILLA FARFALLE",
+        134,
+        "GROCERY"
+      ],
+      [
+        "SIG BATH TISSUE PK",
+        1599,
+        "GROC NONEDIBLE"
+      ],
+      [
+        "RICE PUDDING",
+        100,
+        "REFRIG/FROZEN"
+      ],
+      [
+        "REYNALDOS FLAN",
+        100,
+        "REFRIG/FROZEN"
+      ],
+      [
+        "STRAUS MILK RF",
+        337,
+        "REFRIG/FROZEN"
+      ],
+      [
+        "DEPOSIT MLK",
+        200,
+        "REFRIG/FROZEN"
+      ],
+      [
+        "BERETTA ANTIPASTO",
+        799,
+        "DELI"
+      ],
+      [
+        "SIERRA NEVADA IPA",
+        1699,
+        "LIQUOR"
+      ],
+      [
+        "CRV BEER 12PK TAX",
+        60,
+        "TAX"
+      ],
+      [
+        "TAX",
+        311,
+        "TAX"
+      ]
+    ],
+    "2019-04-11 20:33": [
+      [
+        "HEINZ KETCHUP TOM",
+        399,
+        "GROCERY"
+      ],
+      [
+        "2 QTY SIG 100% J",
+        698,
+        "GROCERY"
+      ],
+      [
+        "SIG SUGAR POWDERED",
+        199,
+        "GROCERY"
+      ],
+      [
+        "SIG CORN STRCH",
+        149,
+        "GROCERY"
+      ],
+      [
+        "HUY FONG SAMBAL",
+        249,
+        "GROCERY"
+      ],
+      [
+        "CHAOKO COCNT",
+        299,
+        "GROCERY"
+      ],
+      [
+        "THAI FISH SAUCE",
+        399,
+        "GROCERY"
+      ],
+      [
+        "SIG SEL IC CRM LT",
+        0,
+        "REFRIG/FROZEN"
+      ],
+      [
+        "SS HOMESTYLE VAN AC",
+        499,
+        "REFRIG/FROZEN"
+      ],
+      [
+        "2 QTY FAGE GREEK",
+        358,
+        "REFRIG/FROZEN"
+      ],
+      [
+        "STRAUS MLK RF",
+        599,
+        "REFRIG/FROZEN"
+      ],
+      [
+        "DEPOSIT MLK",
+        200,
+        "REFRIG/FROZEN"
+      ],
+      [
+        "SIG HAM BUNS",
+        200,
+        "BAKED GOODS"
+      ],
+      [
+        "UT LICORICE ALLSORTS",
+        579,
+        "PRODUCE"
+      ],
+      [
+        "UT BANANAS YELLOW",
+        186,
+        "PRODUCE"
+      ],
+      [
+        "TAX",
+        0,
+        "TAX"
+      ]
+    ],
+    "2019-04-15 18:53": [
+      [
+        "E 31865 BAGELS",
+        599,
+        "None"
+      ],
+      [
+        "E 3133113 KS PEPGRINDR",
+        689,
+        "None"
+      ],
+      [
+        "E 1287213 SALMON DIP",
+        999,
+        "None"
+      ],
+      [
+        "E 867221 ORG STACY28Z",
+        699,
+        "None"
+      ],
+      [
+        "E 1068080 PASTURE EGGS",
+        749,
+        "None"
+      ],
+      [
+        "E 22093 KS SHRP CHDR",
+        499,
+        "None"
+      ],
+      [
+        "E 7874 PANCAKE MIX",
+        599,
+        "None"
+      ],
+      [
+        "FE eedl491 OREO",
+        849,
+        "None"
+      ],
+      [
+        "E 1169942 GINGER BEER",
+        1499,
+        "None"
+      ],
+      [
+        "4500000000 CA REDEMP VA",
+        60,
+        "None"
+      ],
+      [
+        "E 841942 KS JASM",
+        3799,
+        null
+      ],
+      [
+        "512599 KS TOWEL",
+        1649,
+        null
+      ]
+    ],
     "2019-04-15 19:46": [
       [
         "PHILZ MANHATTAN NP",
@@ -10,6 +288,28 @@
         "TAX",
         0,
         null
+      ]
+    ],
+    "2019-04-22 23:55": [
+      [
+        "SIG 100% JCE GRPFT",
+        349,
+        "GROCERY"
+      ],
+      [
+        "ARWHD DISTLD WATER",
+        399,
+        "GROCERY"
+      ],
+      [
+        "CRY SFTDK SNGL HTX",
+        10,
+        "GROCERY"
+      ],
+      [
+        "TAS",
+        0,
+        "GROCERY"
       ]
     ],
     "2019-04-24 21:51": [
@@ -34,6 +334,55 @@
         null
       ]
     ],
+    "2019-04-29 00:10": [
+      [
+        "SS CRML CARIBOU",
+        350,
+        "REFRIG/FROZEN"
+      ],
+      [
+        "STRAUS MILK WHOLE",
+        449,
+        "REFRIG/FROZEN"
+      ],
+      [
+        "DEPOSIT MLK",
+        200,
+        "REFRIG/FROZEN"
+      ],
+      [
+        "WT RADISH DAIKON",
+        515,
+        "PRODUCE"
+      ],
+      [
+        "TAX",
+        0,
+        "TAX"
+      ]
+    ],
+    "2019-04-30 21:27": [
+      [
+        "2 QTY J RANCHER",
+        798,
+        "GROCERY"
+      ],
+      [
+        "QUCK BLAST FIRE",
+        149,
+        "GROCERY"
+      ],
+      [
+        "VITALI VODKA",
+        699,
+        "LIQUOR"
+      ],
+      [
+        "TAX",
+        65,
+        "TAX"
+      ]
+    ],
     "2019-05-02 22:01": [
       [
         "PHILZ MANHATTAN NP",
@@ -44,6 +393,53 @@
         "TAX",
         0,
         null
+      ]
+    ],
+    "2019-05-02 22:30": [
+      [
+        "SIG 100% JCE GRPFT",
+        349,
+        "GROCERY"
+      ],
+      [
+        "BOLILLIO ROLL 12CT",
+        449,
+        "BAKED GOODS"
+      ],
+      [
+        "EYE OF RND STK THN",
+        304,
+        "MEAT"
+      ],
+      [
+        "EYE OF RND STK THN",
+        356,
+        "MEAT"
+      ],
+      [
+        "LN RST BNLS",
+        1196,
+        "MEAT"
+      ],
+      [
+        "LIVERWT CHUB 2",
+        200,
+        "MEAT"
+      ],
+      [
+        "CUCUMBERS",
+        300,
+        "PRODUCE"
+      ],
+      [
+        "WT JALAPENO PEPPERS",
+        110,
+        "PRODUCE"
+      ],
+      [
+        "TAX",
+        0,
+        "TAX"
       ]
     ],
     "2019-05-03 16:24": [
@@ -61,6 +457,23 @@
         "CRV",
         5,
         null
+      ]
+    ],
+    "2019-05-03 17:08": [
+      [
+        "247% UglBis IT! 7.5458",
+        754,
+        ""
+      ],
+      [
+        "SOLILLIG ROLL *ZCT",
+        449,
+        "BAKED GOODS"
+      ],
+      [
+        "\u201cay",
+        0,
+        "BAKED GOODS"
       ]
     ],
     "2019-05-09 22:11": [
@@ -89,17 +502,89 @@
       [
         "STRAUS MLK RF",
         599,
-        "REFRIG/FROZEN"
+        "-REFRIG/FROZEN"
       ],
       [
         "DEPOSIT MLK",
         200,
-        "REFRIG/FROZEN"
+        "-REFRIG/FROZEN"
       ],
       [
         "TAX",
         0,
+        "TAX"
+      ]
+    ],
+    "2019-05-12 19:32": [
+      [
+        "SIG SLCD JLPNO 1",
+        199,
+        ""
+      ],
+      [
+        "ROSARITA REFRIED",
+        150,
+        "GROCERY"
+      ],
+      [
+        "GROCERY",
+        399,
+        "GROCERY"
+      ],
+      [
+        "PHILLY CRM CHSE 6",
+        649,
+        ""
+      ],
+      [
+        "FAGE GREEK YOGURT",
+        100,
         "REFRIG/FROZEN"
+      ],
+      [
+        "TELERA ROLLS-6 CT",
+        249,
+        "BAKED GOODS"
+      ],
+      [
+        "6 QTY BAGEL BULK",
+        534,
+        "BAKED GOODS"
+      ],
+      [
+        "GR BEEF 80%LN CLUB",
+        1047,
+        "MEAT"
+      ],
+      [
+        "ROCKY CHKN THIGHS",
+        925,
+        "MEAT"
+      ],
+      [
+        "SHRMPMT CKD W/SALT",
+        948,
+        "SEAFOOD"
+      ],
+      [
+        "CARROTS 5LB BAG",
+        399,
+        "PRODUCE"
+      ],
+      [
+        "CUCUMBERS 1",
+        125,
+        "PRODUCE"
+      ],
+      [
+        "ROMAINE LETTUCE 2",
+        299,
+        "PRODUCE"
+      ],
+      [
+        "WT JALAPENO PEPPERS",
+        84,
+        "PRODUCE"
       ]
     ],
     "2019-05-15 23:17": [
@@ -131,6 +616,151 @@
       [
         "TAX",
         172,
+        "TAX"
+      ]
+    ],
+    "2019-05-17 20:31": [
+      [
+        "S SEL COFFEE SUN",
+        599,
+        "GROCERY"
+      ],
+      [
+        "SIG VINEGAR WHITE",
+        399,
+        "GROCERY"
+      ],
+      [
+        "RSRTA BEANS",
+        150,
+        "GROCERY"
+      ],
+      [
+        "GUERRERO RIQUISIMA",
+        399,
+        "GROCERY"
+      ],
+      [
+        "HERDEZ VERDE S MLD.",
+        200,
+        "GROCERY"
+      ],
+      [
+        "SS FRENCH VAN",
+        350,
+        "REFRIG/FROZEN"
+      ],
+      [
+        "SIG RND PAD",
+        249,
+        ""
+      ],
+      [
+        "BOLILLIO ROLL i2CT'",
+        449,
+        "BAKED GOODS"
+      ],
+      [
+        "BUN SOURDOUGH",
+        299,
+        "BAKED GOODS"
+      ],
+      [
+        "CACIQUE CHORIZO PO.",
+        250,
+        "MEAT"
+      ],
+      [
+        "WT BANANAS YELLOW",
+        151,
+        "PRODUCE"
+      ],
+      [
+        "TAX",
+        23,
+        ""
+      ]
+    ],
+    "2019-05-23 20:20": [
+      [
+        "SIG 100% JCE GRPFT",
+        349,
+        "GROCERY"
+      ],
+      [
+        "EYE JF RUD STK THN",
+        332,
+        "MEAT"
+      ],
+      [
+        "TAX",
+        0,
+        "MEAT"
+      ]
+    ],
+    "2019-05-23 20:21": [
+      [
+        "DUKA SELL OY BTITRY",
+        649,
+        "GEN MERCHANDISE"
+      ],
+      [
+        "DURA ELL ANF - 4CT",
+        499,
+        "GEN MERCHANDISE"
+      ],
+      [
+        "TAX",
+        106,
+        "TAX"
+      ]
+    ],
+    "2019-05-25 15:18": [
+      [
+        "E 919652 SUBDRI PESTO",
+        959,
+        null
+      ],
+      [
+        "E 26584 BHT FD MAYO",
+        499,
+        "None"
+      ],
+      [
+        "E 47500 K& TRKY BRST",
+        1369,
+        null
+      ],
+      [
+        "868821 ZIPLC VTY PK",
+        1469,
+        null
+      ],
+      [
+        "E 1169666 ORG RF BEAN",
+        899,
+        null
+      ],
+      [
+        "1321588 KG_LIQUIDDISH",
+        799,
+        null
+      ],
+      [
+        "TAX",
+        210,
+        "TAX"
+      ]
+    ],
+    "2019-05-31 21:49": [
+      [
+        "SIG 100% JCE GRPFT",
+        349,
+        "GROCERY"
+      ],
+      [
+        "TAX",
+        0,
         "TAX"
       ]
     ]
@@ -224,6 +854,75 @@
     ]
   },
   "Person1": {
+    "2019-02-15 20:42": [
+      [
+        "SNICKERS BITES SUP",
+        399,
+        "GROCERY"
+      ],
+      [
+        "VLASIC PICKLES",
+        399,
+        "GROCERY"
+      ],
+      [
+        "WT LICORICE ALLSORTS",
+        210,
+        "GROCERY"
+      ],
+      [
+        "RED BELL PEPPERS",
+        199,
+        "GROCERY"
+      ],
+      [
+        "TF PASTA SALAD",
+        399,
+        "DELI"
+      ],
+      [
+        "WLD TURKEY WHISKEY",
+        2199,
+        "LIQUOR"
+      ],
+      [
+        "TAX",
+        203,
+        "TAX"
+      ]
+    ],
+    "2019-04-09 20:45": [
+      [
+        "NBC OREO CKY DBL",
+        334,
+        "GROCERY"
+      ],
+      [
+        "CLOVER ORGANIC MLK",
+        499,
+        "REFRIG/FROZEN"
+      ],
+      [
+        "SAN LUIS BREAD",
+        499,
+        "BAKED GOODS"
+      ],
+      [
+        "PT OVEN RST TURKEY",
+        799,
+        "DELI"
+      ],
+      [
+        "BH CHS MUENSTER",
+        799,
+        "DELI"
+      ],
+      [
+        "TAX",
+        0,
+        "TAX"
+      ]
+    ],
     "2019-04-11 19:52": [
       [
         "2 QTY MELITTA CO",
@@ -269,83 +968,6 @@
         "TAX",
         46,
         "TAX"
-      ]
-    ],
-    "2019-04-15 18:53": [
-      [
-        "E 31865 BAGELS",
-        599,
-        "None"
-      ],
-      [
-        "E 3133113 KS PEPGRINDR",
-        689,
-        "None"
-      ],
-      [
-        "E 1287213 SALMON DIP",
-        999,
-        "None"
-      ],
-      [
-        "E 867221 ORG STACY28Z",
-        699,
-        "None"
-      ],
-      [
-        "E 1068080 PASTURE EGGS",
-        749,
-        "None"
-      ],
-      [
-        "E 22093 KS SHRP CHDR",
-        499,
-        "None"
-      ],
-      [
-        "E 7874 PANCAKE MIX",
-        599,
-        "None"
-      ],
-      [
-        "FE eedl491 OREO",
-        5205,
-        null
-      ],
-      [
-        "E 1169942 GINGER BEER",
-        1499,
-        "None"
-      ],
-      [
-        "E 841942 KS JASM",
-        3799,
-        null
-      ],
-      [
-        "1040486 21ST VARIETY",
-        2399,
-        null
-      ],
-      [
-        "6000000000 CA REDEMP VA",
-        120,
-        null
-      ],
-      [
-        "1040486 21ST VARIETY",
-        2399,
-        null
-      ],
-      [
-        "6000000000 CA REDEMP VA",
-        120,
-        null
-      ],
-      [
-        "512599 KS TOWEL",
-        1649,
-        null
       ]
     ],
     "2019-04-15 18:55": [
@@ -460,11 +1082,6 @@
         null
       ],
       [
-        "E 0000208188 /984%66 1 50",
-        150,
-        "None"
-      ],
-      [
         "E 9700000000 CA REDEMP VA",
         20,
         null
@@ -476,12 +1093,760 @@
       ],
       [
         "TAX",
-        369,
+        669,
+        "TAX"
+      ]
+    ],
+    "2019-04-25 21:00": [
+      [
+        "BLUE AGAVE CRGANIC.",
+        699,
+        "GROCERY"
+      ],
+      [
+        "CRM JF WHEAT #",
+        499,
+        "GROCERY"
+      ],
+      [
+        "SIG TEREAL CRSPY",
+        250,
+        "GROCERY"
+      ],
+      [
+        "NUMI DRGNCG TEA",
+        749,
+        "GROCERY"
+      ],
+      [
+        "LACRIIN CURFTE",
+        549,
+        "GROCERY"
+      ],
+      [
+        "CRV SF\u00b0DK & PK TAX",
+        40,
+        "GROCERY"
+      ],
+      [
+        "SIG 3RUCCOLI CHP",
+        100,
+        "REFRIG/FROZEN"
+      ],
+      [
+        "EB FM ORGNC CHUNK",
+        1299,
+        "REFRIG/FROZEN"
+      ],
+      [
+        "HORT Z0N ORGENIC",
+        499,
+        "REFRIG/FROZEN"
+      ],
+      [
+        "O ORSNG BLUEBERRIE",
+        1399,
+        "REFRIG/FROZEN"
+      ],
+      [
+        "WT BANANAS YELLOW",
+        254,
+        "PRODUCE"
+      ],
+      [
+        "O OR3NC CURED TOFU",
+        199,
+        "PRODUCE"
+      ],
+      [
+        "O ORGANICS SALAD",
+        500,
+        "PRODUCE"
+      ],
+      [
+        "BELGIO0S0 PRMSN",
+        899,
+        "DELI"
+      ],
+      [
+        "TW PITCHERS RADLER.",
+        999,
+        "LIQUOR"
+      ],
+      [
+        "CRV 3EER 6 PK TAX",
+        30,
+        "LIQUOR"
+      ],
+      [
+        "TFIX",
+        150,
+        ""
+      ]
+    ],
+    "2019-05-25 15:20": [
+      [
+        "1183579 KS SPLY FT",
+        1499,
+        null
+      ],
+      [
+        "1040486 21ST\\WWARIETY",
+        2399,
+        null
+      ],
+      [
+        "6000000000 CA RBDEMP VA",
+        120,
         "None"
+      ],
+      [
+        "1248249 SN",
+        2599,
+        "None"
+      ],
+      [
+        "6000000000 CA R",
+        120,
+        "None"
+      ],
+      [
+        "E 990551 BASIL",
+        849,
+        "None"
+      ],
+      [
+        "E 984866 MANGO",
+        599,
+        "None"
+      ],
+      [
+        "E 9700000000 CA REDENP VA",
+        20,
+        "None"
+      ],
+      [
+        "E 1080210 ANTIPAS",
+        1199,
+        "None"
+      ],
+      [
+        "E 9876 ORG BROGCOLI",
+        599,
+        "None"
+      ],
+      [
+        "E 249965 KS TRAI\u00ae MIX",
+        1299,
+        "None"
+      ],
+      [
+        "1172278 BUBBIE",
+        549,
+        "None"
+      ],
+      [
+        "995590 CHEF",
+        599,
+        "None"
+      ],
+      [
+        "995590 CHEF",
+        599,
+        "None"
+      ],
+      [
+        "96716 ORGANFC SPIN",
+        399,
+        "None"
+      ],
+      [
+        "901082 MASHE POTAT",
+        779,
+        "None"
+      ],
+      [
+        "817965 CHKN FAMALE",
+        1599,
+        null
+      ],
+      [
+        "1190845 KS SWIM SHRT",
+        1299,
+        null
+      ],
+      [
+        "E 1068080 PASTURE EGGS",
+        749,
+        null
+      ],
+      [
+        "E 759072 EGGOS 72CT",
+        999,
+        null
+      ],
+      [
+        "TAX",
+        743,
+        "TAX"
+      ]
+    ],
+    "2019-05-30 18:35": [
+      [
+        "DEVILS FD CK",
+        199,
+        "GROCERY"
+      ],
+      [
+        "CAKE MIX",
+        249,
+        "GROCERY"
+      ],
+      [
+        "S!G POWDERED SUGAR",
+        279,
+        "GROCERY"
+      ],
+      [
+        "UNSLT BUTTER",
+        399,
+        "REFRIG/FROZEN"
+      ],
+      [
+        "X LG BRN EGG",
+        499,
+        "REFRIG/FROZEN"
+      ],
+      [
+        "O ORGANICS WH MILK",
+        599,
+        "REFRIG/FROZEN"
+      ],
+      [
+        "S SEL MOP DELUXE",
+        1699,
+        "GEN MERCHANDISE"
+      ],
+      [
+        "CKN HOMESTYLE HOT",
+        799,
+        "DELI"
+      ],
+      [
+        "BELGIOIOSO PRMSN",
+        899,
+        "DELI"
+      ],
+      [
+        "TAX",
+        231,
+        "TAX"
+      ]
+    ],
+    "2019-06-20 21:50": [
+      [
+        "LACROIX CURATE",
+        599,
+        "GROCERY"
+      ],
+      [
+        "CRV SFTDK 8 PK TAX",
+        40,
+        "TAX"
+      ],
+      [
+        "Q ORGANICS WH MILK",
+        599,
+        "REFRIG/FROZEN"
+      ],
+      [
+        "TWO PITCHERS RADLE",
+        999,
+        "LIQUOR"
+      ],
+      [
+        "CRV BEER 6 PK TAX",
+        30,
+        "LIQUOR"
+      ],
+      [
+        "TAX",
+        154,
+        "LIQUOR"
+      ]
+    ]
+  },
+  "Person2": {
+    "2017-09-30 16:15": [
+      [
+        "STG VEGETABLE OFL",
+        249,
+        "GROCERY"
+      ],
+      [
+        "QUAKER OATMEAL",
+        599,
+        "GROCERY"
+      ],
+      [
+        "BUSH GARBNZO BEANS.",
+        100,
+        "GROCERY"
+      ],
+      [
+        "RUSHS KID ANS '",
+        100,
+        "GROCERY"
+      ],
+      [
+        "CLASSICO FOUR",
+        199,
+        "GROCERY"
+      ],
+      [
+        "2 QTY GOLDEN GRA",
+        300,
+        "GROCERY"
+      ],
+      [
+        "CMPBL aNKN \"NOODLE",
+        199,
+        "GROCERY"
+      ],
+      [
+        "SOFT TACO ;",
+        299,
+        "GROCERY"
+      ],
+      [
+        "OPN NAT PEANUT",
+        299,
+        "GROCERY"
+      ],
+      [
+        "HONEY BUNCHES OF",
+        199,
+        "GROCERY"
+      ],
+      [
+        "LUCERNE M022 PIZZA",
+        250,
+        "REFRIG/FROZEN"
+      ],
+      [
+        "HOMOGZD MILK",
+        399,
+        "REFRIG/FROZEN"
+      ],
+      [
+        "TNOVASION CUISINE",
+        599,
+        "REFRIG/FROZEN"
+      ],
+      [
+        "ORGNC LRG BRN EGGS",
+        399,
+        "REFRIG/FROZEN"
+      ],
+      [
+        "Q ORGNC MIXED VEG",
+        250,
+        "REFRIG/FROZEN"
+      ],
+      [
+        "MULTIGRAIN BREAD",
+        499,
+        "BAKED GOODS"
+      ],
+      [
+        "AIDELL CKN AP SAUS",
+        599,
+        "MEAT"
+      ],
+      [
+        "MANDARINS 2LB BAG",
+        500,
+        "PRODUCE"
+      ],
+      [
+        "WT BROC CROWNS",
+        241,
+        "PRODUCE"
+      ],
+      [
+        "0 ORGNC CARROTS",
+        250,
+        "PRODUCE"
+      ],
+      [
+        "ORG RED GRAPES eLA",
+        600,
+        "PRODUCE"
+      ],
+      [
+        "BANANAS",
+        97,
+        "PRODUCE"
+      ]
+    ],
+    "2018-04-29 13:47": [
+      [
+        "Y CRNR WHOLE MILK",
+        299,
+        "REFRIG/FROZEN"
+      ],
+      [
+        "0 ORGNC OMEGAR-3",
+        549,
+        "REFRIG/FROZEN"
+      ],
+      [
+        "KRAZY GLUE ALL",
+        299,
+        ""
+      ],
+      [
+        "MULTIGRAIN BREAD",
+        429,
+        "BAKED GOODS"
+      ],
+      [
+        "SIG PEELED CARROTS",
+        399,
+        "PRODUCE"
+      ],
+      [
+        "LIMES",
+        50,
+        "PRODUCE"
+      ],
+      [
+        "LEMONS",
+        99,
+        "PRODUCE"
+      ],
+      [
+        "CLEMENTINE 3LB BAG",
+        599,
+        "PRODUCE"
+      ],
+      [
+        "TORTILLA CHIPS",
+        399,
+        "DELI"
+      ],
+      [
+        "TAX",
+        27,
+        "DELI"
+      ]
+    ],
+    "2018-05-20 14:03": [
+      [
+        "CAMPBELLS SP",
+        199,
+        "GROCERY"
+      ],
+      [
+        "R&W HEALTHY",
+        199,
+        "GROCERY"
+      ],
+      [
+        "POST CRL HNY BNCHS",
+        399,
+        "GROCERY"
+      ],
+      [
+        "LUCERNE MEX BLEND",
+        299,
+        "REFRIG/FROZEN"
+      ],
+      [
+        "V CRNR WHOLE MILK",
+        299,
+        "REFRIG/FROZEN"
+      ],
+      [
+        "O ORGNC OMEGA",
+        549,
+        "REFRIG/FROZEN"
+      ],
+      [
+        "ODWALLA CHAI VAN",
+        200,
+        "PRODUCE"
+      ],
+      [
+        "CRV PROD SNGL NTX",
+        5,
+        "PRODUCE"
+      ],
+      [
+        "WT VINE RIPE TOMATOES",
+        326,
+        "PRODUCE"
+      ],
+      [
+        "GREEN BELL PEPPERS",
+        125,
+        "PRODUCE"
+      ],
+      [
+        "2 QTY WHITE CORN",
+        100,
+        "PRODUCE"
+      ],
+      [
+        "WT GREEN ASPARAGUS",
+        351,
+        "PRODUCE"
+      ],
+      [
+        "RED BELL PEPPERS",
+        150,
+        "PRODUCE"
+      ],
+      [
+        "FRSH EXP SPINACH",
+        200,
+        "PRODUCE"
+      ],
+      [
+        "ORGANIC CARROTS",
+        449,
+        "PRODUCE"
+      ],
+      [
+        "TAX",
+        0,
+        "TAX"
+      ]
+    ],
+    "2018-12-10 16:45": [
+      [
+        "LUCERNE MILK VITAM",
+        269,
+        "REFRIG/FROZEN"
+      ],
+      [
+        "<{G PEELED CARROTS",
+        399,
+        "PRODUCE"
+      ],
+      [
+        "TAX",
+        0,
+        "TAX"
       ]
     ]
   },
   "Rebecca": {
+    "2018-07-17 18:56": [
+      [
+        "POST WHOLE GRAIN",
+        399,
+        "GROCERY"
+      ],
+      [
+        "LUC CHSE CHED",
+        299,
+        "REFRIG/FROZEN"
+      ],
+      [
+        "SS ROCKY ROAD",
+        0,
+        "REFRIG/FROZEN"
+      ],
+      [
+        "SIG SEL ICE CRM MN",
+        499,
+        "REFRIG/FROZEN"
+      ],
+      [
+        "SIG ROLLSFLAKY CR",
+        400,
+        "REFRIG/FROZEN"
+      ],
+      [
+        "BQ BACKYARD BBQ",
+        150,
+        "REFRIG/FROZEN"
+      ],
+      [
+        "BQ LSANGA",
+        150,
+        "REFRIG/FROZEN"
+      ],
+      [
+        "DANNON OIKOS YGRT",
+        100,
+        "REFRIG/FROZEN"
+      ],
+      [
+        "DANNON OIKOS YGRT",
+        100,
+        "REFRIG/FROZEN"
+      ],
+      [
+        "DANNON OIKOS",
+        100,
+        "REFRIG/FROZEN"
+      ],
+      [
+        "DANNON OIKOS",
+        100,
+        "REFRIG/FROZEN"
+      ],
+      [
+        "TYLENOL",
+        249,
+        "GEN MERCHANDISE"
+      ],
+      [
+        "MR RCYCBLE BAG CHARGE",
+        25,
+        "MISCELLANEOUS"
+      ],
+      [
+        "TAX",
+        22,
+        "TAX"
+      ]
+    ],
+    "2019-02-01 20:57": [
+      [
+        "YELLOW TAIL CAB. 6.00 T",
+        600,
+        "LIQUOR"
+      ],
+      [
+        "BACARDI GOLD 17.997",
+        1799,
+        "LIQUOR"
+      ],
+      [
+        "\u2018 2 QTY SMIRNOFF V / 22.98 1",
+        2298,
+        "LIQUOR"
+      ],
+      [
+        "YELLOW TAIL BIG ; 6.00 T",
+        600,
+        "LIQUOR"
+      ],
+      [
+        "2 QTY SUTTER HOM 9.00 T",
+        900,
+        "LIQUOR"
+      ],
+      [
+        ") \u201d TAX ' 6.01",
+        601,
+        ""
+      ]
+    ],
+    "2017-10-25 16:27": [
+      [
+        "REFRESHE ELECT LME 0",
+        99,
+        "GROCERY"
+      ],
+      [
+        "CRV SFTDK SNGL NTX",
+        10,
+        "GROCERY"
+      ],
+      [
+        "S KTCHNS GRANOLA ]",
+        199,
+        "GROCERY"
+      ],
+      [
+        "HARIBO CANDY |",
+        199,
+        "GROCERY"
+      ],
+      [
+        "POST WHOLE GRAIN 2",
+        200,
+        "GROCERY"
+      ],
+      [
+        "2 QTY O.N.E COCO",
+        400,
+        "GROCERY"
+      ],
+      [
+        "DANNON OIKOS YGRT ]",
+        100,
+        "REFRIG/FROZEN"
+      ],
+      [
+        "DANNON OIKOS 1",
+        100,
+        "REFRIG/FROZEN"
+      ],
+      [
+        "DANNON OIKOS",
+        100,
+        "REFRIG/FROZEN"
+      ],
+      [
+        "TAX",
+        0,
+        "REFRIG/FROZEN"
+      ]
+    ],
+    "2018-01-24 18:08": [
+      [
+        "LUC ICE CRM ROCKY",
+        279,
+        "None"
+      ],
+      [
+        "LUC IC CRM VAN LF",
+        279,
+        "None"
+      ],
+      [
+        "TAX",
+        0,
+        "TAX"
+      ]
+    ],
+    "2018-02-06 18:15": [
+      [
+        "PREGO HTY ITL S",
+        200,
+        "GROCERY"
+      ],
+      [
+        "SIG SOFTLY FACTAL",
+        125,
+        "GROC NONEDIBLE"
+      ],
+      [
+        "NEWMANS OWN THIN N.",
+        500,
+        "REFRIG/FROZEN"
+      ],
+      [
+        "NEWMAN S OWN ITAL .",
+        500,
+        "REFRIG/FROZEN"
+      ],
+      [
+        "AFC SUSHI CRNCH CA",
+        699,
+        "DELI"
+      ],
+      [
+        "TAX",
+        11,
+        ""
+      ]
+    ],
     "2018-02-14 16:49": [
       [
         "DEEP DISH aye CHIP COOKIE",
@@ -497,6 +1862,63 @@
         "AVOCADG EACH HASS",
         129,
         null
+      ]
+    ],
+    "2018-02-14 20:07": [
+      [
+        "SIG SEL PASTA SA",
+        250,
+        "GROCERY"
+      ],
+      [
+        "FRNCH ONION DP",
+        350,
+        "GROCERY"
+      ],
+      [
+        "2 QTY HSHY CHOC",
+        238,
+        "GROCERY"
+      ],
+      [
+        "SKITTLES FILLED PL.",
+        238,
+        "GROCERY"
+      ],
+      [
+        "PREGO SAUCE ;",
+        250,
+        "GROCERY"
+      ],
+      [
+        "SIG CHEESE PARMESA",
+        249,
+        "REFRIG/FROZEN"
+      ],
+      [
+        "SIG PANTILINERS",
+        100,
+        "GEN MERCHANDISE"
+      ],
+      [
+        "CAREFREE PANTILINE.",
+        99,
+        "GEN MERCHANDISE"
+      ],
+      [
+        "POMS DAISY DYED",
+        599,
+        "FLORAL"
+      ],
+      [
+        "RCYCBLE BAG CHARGE",
+        25,
+        ""
+      ],
+      [
+        "TAX",
+        72,
+        ""
       ]
     ],
     "2018-10-28 16:11": [
@@ -570,6 +1992,322 @@
       [
         "TAX",
         83,
+        "TAX"
+      ]
+    ],
+    "2019-02-09 16:46": [
+      [
+        "HRSHY CHOC BR XL S. i",
+        150,
+        "GROCERY"
+      ],
+      [
+        "OREO SANDWICH",
+        250,
+        "GROCERY"
+      ],
+      [
+        "TAX",
+        0,
+        "TAX"
+      ]
+    ],
+    "2019-03-05 18:29": [
+      [
+        "ANNIES GRHM FRNDS Si",
+        399,
+        ""
+      ],
+      [
+        "PF GOLD FISH EPIC",
+        200,
+        "GROCERY"
+      ],
+      [
+        "TOSTITOS RSTRNT",
+        300,
+        "GROCERY"
+      ],
+      [
+        "RUFFLES POTATO",
+        300,
+        "GROCERY"
+      ],
+      [
+        "RUFFLES DOUBLE",
+        300,
+        "GROCERY"
+      ],
+      [
+        "WELCHS FRUIT 3",
+        399,
+        ""
+      ],
+      [
+        "CHIPS AHOY THIN",
+        334,
+        "GROCERY"
+      ],
+      [
+        "NATURES B BAR HNY 4",
+        499,
+        ""
+      ],
+      [
+        "LANCE VARIETY PACK",
+        249,
+        "GROCERY"
+      ],
+      [
+        "BIBIGO SAUCE HOT",
+        599,
+        "GROCERY"
+      ],
+      [
+        "LUCERNE CHEESE t:",
+        799,
+        ""
+      ],
+      [
+        "SIG ICE CREAM MINI",
+        499,
+        "REFRIG/FROZEN"
+      ],
+      [
+        "2 QTY OH YOGURT",
+        250,
+        "REFRIG/FROZEN"
+      ],
+      [
+        "KLLGG EGGO FRENCH",
+        399,
+        "REFRIG/FROZEN"
+      ],
+      [
+        "DRYRS CLSC LMTDE",
+        549,
+        "REFRIG/FROZEN"
+      ],
+      [
+        "2 QTY BULK DONUT 1",
+        178,
+        "BAKED GOODS"
+      ],
+      [
+        "2 QTY SIMPLY SUR 9s",
+        998,
+        "SEAFOOD"
+      ],
+      [
+        "SIG FARMS AVOCADO 5",
+        599,
+        ""
+      ],
+      [
+        "KINGS SPICY KIMCHI 4",
+        499,
+        ""
+      ],
+      [
+        "0 ORGNC ONIONS GRN 1",
+        149,
+        ""
+      ],
+      [
+        "TAX",
+        0,
+        "TAX"
+      ]
+    ]
+  },
+  "RebeccaBui": {
+    "2019-03-11 18:15": [
+      [
+        "1040486 21ST VARIETY",
+        2399,
+        null
+      ],
+      [
+        "6000000000 CA REDEMP VA",
+        120,
+        null
+      ],
+      [
+        "E 47019 AVOCADOS",
+        549,
+        null
+      ],
+      [
+        "E 43182 PACFC SHRIMP",
+        1499,
+        null
+      ],
+      [
+        "E 22496 ORGNC BS THG",
+        2116,
+        null
+      ],
+      [
+        "E 56366 12 0Z RASPS",
+        599,
+        null
+      ],
+      [
+        "E 56366 12 OZ RASPS",
+        599,
+        null
+      ],
+      [
+        "E 1068080 PASTURE EGGS",
+        749,
+        null
+      ],
+      [
+        "E 1172471 IRISH BUTTER",
+        1169,
+        null
+      ],
+      [
+        "E 1169666 ORG RF BEAN",
+        899,
+        null
+      ],
+      [
+        "TAX",
+        233,
+        "TAX"
+      ]
+    ],
+    "2019-04-15 18:53": [
+      [
+        "E 31865 BAGELS",
+        599,
+        "None"
+      ],
+      [
+        "E 3133113 KS PEPGRINDR",
+        689,
+        "None"
+      ],
+      [
+        "E 1287213 SALMON DIP",
+        999,
+        "None"
+      ],
+      [
+        "E 867221 ORG STACY28Z",
+        699,
+        "None"
+      ],
+      [
+        "E 1068080 PASTURE EGGS",
+        749,
+        "None"
+      ],
+      [
+        "E 22093 KS SHRP CHDR",
+        499,
+        "None"
+      ],
+      [
+        "E 7874 PANCAKE MIX",
+        599,
+        "None"
+      ],
+      [
+        "FE eedl491 OREO",
+        849,
+        "None"
+      ],
+      [
+        "E 1169942 GINGER BEER",
+        1499,
+        "None"
+      ],
+      [
+        "4500000000 CA REDEMP VA",
+        60,
+        "None"
+      ],
+      [
+        "E 841942 KS JASM",
+        3799,
+        null
+      ],
+      [
+        "512599 KS TOWEL",
+        1649,
+        null
+      ]
+    ],
+    "2019-05-10 18:59": [
+      [
+        "E 157263 CHEX MIX",
+        379,
+        "None"
+      ],
+      [
+        "E 27491 OREO",
+        599,
+        "None"
+      ],
+      [
+        "E 910270 ORG GRE BEAN",
+        499,
+        null
+      ],
+      [
+        "E 1296106 EV OLEVE OIL",
+        697,
+        null
+      ],
+      [
+        "TAX",
+        0,
+        "TAX"
+      ]
+    ],
+    "2019-05-30 20:09": [
+      [
+        "SIG FRIES SWT PTTO",
+        300,
+        "REFRIG/FROZEN"
+      ],
+      [
+        "TAX",
+        0,
+        "TAX"
+      ]
+    ],
+    "2019-05-30 20:11": [
+      [
+        "SIG BLACK BEANS",
+        99,
+        "GROCERY"
+      ],
+      [
+        "SS SKILLET DINNER",
+        125,
+        "GROCERY"
+      ],
+      [
+        "3 QTY COCA-COLA",
+        900,
+        "GROCERY"
+      ],
+      [
+        "CRV SFTDK 6 PK TAA",
+        90,
+        "GROCERY"
+      ],
+      [
+        "SIG IC SANDW VANLA",
+        300,
+        "REFRIG/FROZEN"
+      ],
+      [
+        "TAX",
+        92,
         "TAX"
       ]
     ]
