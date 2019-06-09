@@ -1,0 +1,741 @@
+{
+  "Calvin": {
+    "2019-04-15 19:46": [
+      [
+        "PHILZ MANHATTAN NP",
+        1499,
+        null
+      ],
+      [
+        "TAX",
+        0,
+        "TAX"
+      ]
+    ],
+    "2019-04-24 21:51": [
+      [
+        "PHIL\u00e9 MANHATTAN NP",
+        1499,
+        null
+      ],
+      [
+        "SCHOCH RAW MILK NP",
+        949,
+        null
+      ],
+      [
+        "BOTTLE DEPOSIT NP",
+        200,
+        null
+      ],
+      [
+        "TAX",
+        0,
+        "TAX"
+      ]
+    ],
+    "2019-05-02 22:01": [
+      [
+        "PHILZ MANHATTAN NP",
+        1499,
+        null
+      ],
+      [
+        "TAX",
+        0,
+        "TAX"
+      ]
+    ],
+    "2019-05-03 16:24": [
+      [
+        "JOE JOES NEAPOLITAN",
+        299,
+        null
+      ],
+      [
+        "COLD BREW ORGANIC BLACK",
+        269,
+        null
+      ],
+      [
+        "CRV",
+        5,
+        null
+      ]
+    ],
+    "2019-05-17 20:41": [
+      [
+        "STRAUS WHOLE MILK NP",
+        519,
+        null
+      ],
+      [
+        "BOTTLE DEPOSIT NP",
+        200,
+        null
+      ],
+      [
+        "TAX",
+        0,
+        "TAX"
+      ]
+    ],
+    "2019-05-27 19:38": [
+      [
+        "FIO BREAKFAST BLEND COFFEE",
+        799,
+        null
+      ]
+    ],
+    "2019-05-31 21:58": [
+      [
+        "STRAUS WHOLE MILK NP",
+        519,
+        "None"
+      ],
+      [
+        "BOTTLE CEPOSIT NP",
+        200,
+        null
+      ],
+      [
+        "TAX",
+        0,
+        "TAX"
+      ]
+    ]
+  },
+  "Celine": {
+    "2019-04-22 20:20": [
+      [
+        "BARNANA BRITTLE",
+        99,
+        "Grocery /"
+      ],
+      [
+        "ORGANIC SEAWEED",
+        99,
+        "Grocery /"
+      ],
+      [
+        "ST SPROUTED WHEAT",
+        299,
+        "Grocery /"
+      ],
+      [
+        "AVOCADO HASS SINGLE",
+        500,
+        "Produce"
+      ],
+      [
+        "TOMATO ROMA SINGLE",
+        100,
+        "Produce"
+      ],
+      [
+        "BASIL SD TOM ORGNC",
+        299,
+        "Deli"
+      ],
+      [
+        "CHOC CHIP CKIE",
+        198,
+        "Deli"
+      ],
+      [
+        "DIP SPREAD VEGAN",
+        100,
+        "Deli"
+      ],
+      [
+        "FLAX MILK VANILLA",
+        299,
+        "Deli"
+      ]
+    ],
+    "2019-05-02 14:29": [
+      [
+        "BARNANA BRITTLE",
+        99,
+        "Grocery"
+      ],
+      [
+        "CALIFIRNIA STYLE",
+        299,
+        "Grocery"
+      ],
+      [
+        "AVOCA30 BAG",
+        499,
+        "Produce"
+      ],
+      [
+        "BABY 3ELLA SLO",
+        199,
+        "Produce"
+      ],
+      [
+        "BELILPEPPER ORANGE",
+        99,
+        "Produce"
+      ],
+      [
+        "Black Berries",
+        199,
+        "Produce"
+      ],
+      [
+        "SPINACH",
+        199,
+        "Produce"
+      ],
+      [
+        "-TOMATD ROMA SINGLE",
+        100,
+        "Produce"
+      ],
+      [
+        "MEATLESS Mt LOVER",
+        798,
+        "Frozen"
+      ],
+      [
+        "CHCKPEA & RD PPPER",
+        199,
+        "Deli"
+      ],
+      [
+        "CHOC CHIP CKIE",
+        297,
+        "Deli"
+      ]
+    ],
+    "2019-05-02 14:43": [
+      [
+        "EGGS LARGE BROWN PASTURE - RAI",
+        399,
+        null
+      ],
+      [
+        "TUFU SPR FRM HGH PRTN ORG",
+        249,
+        null
+      ],
+      [
+        "SPREAD KALE PESTO",
+        379,
+        null
+      ],
+      [
+        "CP GREEN JUICE",
+        399,
+        null
+      ],
+      [
+        "CRY",
+        5,
+        null
+      ]
+    ],
+    "2019-05-09 20:48": [
+      [
+        "VEGAN CHOC CHIP WALNUT COOKIES",
+        449,
+        null
+      ],
+      [
+        "TORTILLA ROL LED CHILI LIME",
+        249,
+        null
+      ]
+    ],
+    "2019-05-11 17:35": [
+      [
+        "CARROT ORGANIC QT JUICE",
+        399,
+        "None"
+      ],
+      [
+        "COLD PRESSED PINEAPPLE",
+        299,
+        "None"
+      ],
+      [
+        "ORG YELLOW MUSTARD",
+        169,
+        "None"
+      ],
+      [
+        "ORG KOSHER DILL PICKLE SPEARS",
+        329,
+        "None"
+      ],
+      [
+        "POP UP SPONGES",
+        799,
+        "None"
+      ],
+      [
+        "STATE TAX 1",
+        74,
+        "None"
+      ],
+      [
+        "CRV",
+        5,
+        "None"
+      ]
+    ],
+    "2019-05-22 15:19": [
+      [
+        "HAWATTAN BBQ CHIPS",
+        99,
+        "Grocery"
+      ],
+      [
+        "NATUREL MEDJOOL",
+        499,
+        "Grocery"
+      ],
+      [
+        "PENNYS ORG BEANS",
+        99,
+        "Grocery"
+      ],
+      [
+        "Black Berries",
+        198,
+        "Produce"
+      ],
+      [
+        "CUCUMBER",
+        79,
+        "Produce"
+      ],
+      [
+        "SPINACH",
+        199,
+        "Produce"
+      ],
+      [
+        "SQUASH ZUCHINNI",
+        79,
+        "Produce"
+      ],
+      [
+        "TOMATO SINGLES",
+        100,
+        "Produce"
+      ],
+      [
+        "LEEKS",
+        199,
+        "Produce"
+      ],
+      [
+        "ARTICHOKE ORGNC",
+        299,
+        "Deli"
+      ],
+      [
+        "BLUEBERRY PLANT",
+        89,
+        "Deli"
+      ],
+      [
+        "MANGO PLANT BASED",
+        89,
+        "Deli"
+      ],
+      [
+        "RASPBERRY PLANT",
+        89,
+        "Deli"
+      ],
+      [
+        "TOTAL TAX",
+        0,
+        "TAX"
+      ]
+    ],
+    "2019-05-22 15:49": [
+      [
+        "PASTA ORG WHOLE WHEAT FUSLLLE",
+        149,
+        null
+      ],
+      [
+        "AVOCADO BAG HASS TEENY TINY",
+        299,
+        null
+      ],
+      [
+        "CARROT ORGANIC Q1 JUICE ",
+        399,
+        "None"
+      ],
+      [
+        "URG BLACK BEANS",
+        99,
+        null
+      ],
+      [
+        "SPREAD KALE PESTO",
+        379,
+        "None"
+      ],
+      [
+        "ORANGE BAG BLOOD",
+        229,
+        null
+      ],
+      [
+        "SPICE TURMERIC 202 ee",
+        199,
+        "None"
+      ],
+      [
+        "BANANA EACH",
+        76,
+        null
+      ],
+      [
+        "TOFU SPR FRM HGH PRIN ORG",
+        249,
+        "None"
+      ],
+      [
+        "EGGS LARGE BROWN PASTURE ~ RAL SY",
+        399,
+        "None"
+      ],
+      [
+        "SPROUTED CA STYLE BREAD ORGANT",
+        329,
+        "None"
+      ]
+    ],
+    "2019-05-30 12:02": [
+      [
+        "HAWAIIAN BBG CHIPS",
+        99,
+        "Grocery"
+      ],
+      [
+        "HULLEC HEMP SEEGS",
+        999,
+        "Grocery"
+      ],
+      [
+        "ST SPROUTED WHEST",
+        299,
+        "Grocery"
+      ],
+      [
+        "LEEKS",
+        199,
+        "Produce"
+      ],
+      [
+        "PARSLEY [TALTAN",
+        50,
+        "Produce"
+      ],
+      [
+        "portobello",
+        199,
+        "None"
+      ],
+      [
+        "SQUASH ZUCHINNI",
+        79,
+        "Produce"
+      ],
+      [
+        "RASPBERRY PLANT",
+        178,
+        "Deli"
+      ],
+      [
+        "TOTAL TAX",
+        0,
+        "Produce"
+      ]
+    ],
+    "2019-05-30 12:27": [
+      [
+        "TOFU SPR FRM HGH PRIN ORG",
+        249,
+        null
+      ],
+      [
+        "VEG SLICED HICKORY SMOKED ) TOFU",
+        249,
+        null
+      ],
+      [
+        "CANVAS BAG",
+        399,
+        null
+      ],
+      [
+        "BANANA EACH",
+        57,
+        null
+      ],
+      [
+        "ONTONS ReD ) JUMBO EACH ",
+        89,
+        "None"
+      ],
+      [
+        "TOMATOES BEEFSTEAK EACH",
+        178,
+        null
+      ],
+      [
+        "COLD PRESSED PINEAPPLE",
+        299,
+        null
+      ],
+      [
+        "CRY",
+        5,
+        null
+      ],
+      [
+        "AVOCADO BAG al 5 mo, TINY",
+        349,
+        null
+      ],
+      [
+        "CUCUMBERS PERSTAN ORG 1 LB",
+        269,
+        null
+      ],
+      [
+        "EGGS LARGE BROWN PASTURE ~ RAI",
+        399,
+        null
+      ],
+      [
+        "SE TAX",
+        37,
+        "TAX"
+      ]
+    ]
+  },
+  "Person1": {
+    "2019-04-09 12:45": [
+      [
+        "WT BANANA NP",
+        169,
+        null
+      ],
+      [
+        "LARABAR FRUIT BAR NP",
+        100,
+        null
+      ],
+      [
+        "LARABAR BAR NP",
+        100,
+        null
+      ],
+      [
+        "LARABAR BAR NP",
+        100,
+        null
+      ],
+      [
+        "LARABAR FRUIT BAR NP",
+        100,
+        null
+      ],
+      [
+        "LARABAR FRUIT BAR NP",
+        100,
+        null
+      ],
+      [
+        "LARABAR FRUIT BAR NP",
+        100,
+        null
+      ],
+      [
+        "LARABAR BAR NP",
+        100,
+        null
+      ],
+      [
+        "LARABAR BAR NP",
+        100,
+        null
+      ],
+      [
+        "LARABAR BAR NP",
+        100,
+        null
+      ],
+      [
+        "LARABAR BAR NP",
+        100,
+        null
+      ],
+      [
+        "ALMOND BREEZE NP",
+        379,
+        "None"
+      ],
+      [
+        "J NUTS PEANUT BUTTERNP",
+        155,
+        "None"
+      ],
+      [
+        "YOGI TEA NP",
+        499,
+        null
+      ],
+      [
+        "W OG PINK LADY APP NP",
+        227,
+        "None"
+      ],
+      [
+        "TAX",
+        0,
+        "TAX"
+      ]
+    ]
+  },
+  "Rebecca": {
+    "2018-02-14 16:49": [
+      [
+        "DEEP DISH aye CHIP COOKIE",
+        399,
+        null
+      ],
+      [
+        "GUMMY BEARS",
+        199,
+        null
+      ],
+      [
+        "AVOCADG EACH HASS",
+        129,
+        null
+      ]
+    ],
+    "2019-03-08 16:55": [
+      [
+        "MINE THAD TEA MOCHI",
+        349,
+        null
+      ],
+      [
+        "CLIP BLUEBERRY CRISP",
+        198,
+        null
+      ],
+      [
+        "ONTONS YELLOW JUMBO EACH",
+        59,
+        "None"
+      ],
+      [
+        "FOMATGES BEEFSTEAR EACH",
+        89,
+        "None"
+      ],
+      [
+        "GROUND BEEF",
+        399,
+        null
+      ],
+      [
+        "GUACAMOLE AVOCADOS NUMBER",
+        429,
+        "None"
+      ],
+      [
+        "SPECULGOS CRN CHY OKIE BTTR",
+        369,
+        null
+      ]
+    ],
+    "2019-05-10 18:26": [
+      [
+        "Z1C0 COCONUT WATER NTRL 1 LT",
+        399,
+        "None"
+      ],
+      [
+        "COOKIE BUTTER SANDWICH dee",
+        399,
+        "None"
+      ],
+      [
+        "COCONUT WATER ORG KING 330 ML od.",
+        119,
+        "None"
+      ],
+      [
+        "CHEESE CRUNCHIES SPICY",
+        199,
+        "None"
+      ],
+      [
+        "REDUCED FAT CHEESE PUFFS",
+        199,
+        "None"
+      ]
+    ]
+  },
+  "RebeccaBui": {
+    "2019-05-09 19:51": [
+      [
+        "EGG PRODUCT LIQUID NULAID i",
+        299,
+        null
+      ],
+      [
+        "CHICKEN BURRITOS",
+        269,
+        "None"
+      ],
+      [
+        "POTATO TOTS",
+        249,
+        null
+      ],
+      [
+        "SAN PELLEGRINO GRAPEFRUIT CAN",
+        85,
+        null
+      ],
+      [
+        "CRY",
+        5,
+        null
+      ],
+      [
+        "SIATE TAX",
+        8,
+        "TAX"
+      ]
+    ],
+    "2019-06-05 18:35": [
+      [
+        "LHICRENEEGS CRISPY TENDERS",
+        329,
+        "None"
+      ],
+      [
+        "PULSi RUSSEL EACH",
+        98,
+        "None"
+      ]
+    ]
+  }
+}
