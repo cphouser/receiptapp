@@ -1,0 +1,89 @@
+
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+  
+  <head>
+    
+      <meta charset="utf-8">
+      <title>Bokeh Plot</title>
+      
+      
+        
+          
+        <link rel="stylesheet" href="https://cdn.pydata.org/bokeh/release/bokeh-1.0.2.min.css" type="text/css" />
+        <link rel="stylesheet" href="https://cdn.pydata.org/bokeh/release/bokeh-widgets-1.0.2.min.css" type="text/css" />
+        <link rel="stylesheet" href="https://cdn.pydata.org/bokeh/release/bokeh-tables-1.0.2.min.css" type="text/css" />
+        
+        
+          
+        <script type="text/javascript" src="https://cdn.pydata.org/bokeh/release/bokeh-1.0.2.min.js"></script>
+        <script type="text/javascript" src="https://cdn.pydata.org/bokeh/release/bokeh-widgets-1.0.2.min.js"></script>
+        <script type="text/javascript" src="https://cdn.pydata.org/bokeh/release/bokeh-tables-1.0.2.min.js"></script>
+        <script type="text/javascript">
+            Bokeh.set_log_level("info");
+        </script>
+        
+      
+      
+    
+  </head>
+  
+  
+  <body>
+    
+      
+        
+          
+          
+            
+              <div class="bk-root" id="03689d43-ac84-4e8d-bd1d-1ed27ff3e345"></div>
+            
+          
+        
+      
+      
+        <script type="application/json" id="1333">
+          {"623728f2-2919-4d38-a227-4b61b975ab79":{"roots":{"references":[{"attributes":{"editor":{"id":"1245","type":"StringEditor"},"field":"median receipt accuracy","formatter":{"id":"1246","type":"StringFormatter"},"title":"median receipt accuracy"},"id":"1232","type":"TableColumn"},{"attributes":{"source":{"id":"1226","type":"ColumnDataSource"}},"id":"1234","type":"CDSView"},{"attributes":{"editor":{"id":"1235","type":"StringEditor"},"field":"","formatter":{"id":"1236","type":"StringFormatter"},"title":""},"id":"1227","type":"TableColumn"},{"attributes":{},"id":"1235","type":"StringEditor"},{"attributes":{},"id":"1239","type":"StringEditor"},{"attributes":{},"id":"1247","type":"Selection"},{"attributes":{},"id":"1236","type":"StringFormatter"},{"attributes":{"editor":{"id":"1241","type":"StringEditor"},"field":"# items","formatter":{"id":"1242","type":"StringFormatter"},"title":"# items"},"id":"1230","type":"TableColumn"},{"attributes":{"editor":{"id":"1243","type":"StringEditor"},"field":"avg receipt accuracy","formatter":{"id":"1244","type":"StringFormatter"},"title":"avg receipt accuracy"},"id":"1231","type":"TableColumn"},{"attributes":{},"id":"1246","type":"StringFormatter"},{"attributes":{},"id":"1244","type":"StringFormatter"},{"attributes":{"columns":[{"id":"1227","type":"TableColumn"},{"id":"1228","type":"TableColumn"},{"id":"1229","type":"TableColumn"},{"id":"1230","type":"TableColumn"},{"id":"1231","type":"TableColumn"},{"id":"1232","type":"TableColumn"}],"height":280,"source":{"id":"1226","type":"ColumnDataSource"},"view":{"id":"1234","type":"CDSView"},"width":1000},"id":"1233","type":"DataTable"},{"attributes":{},"id":"1238","type":"StringFormatter"},{"attributes":{},"id":"1248","type":"UnionRenderers"},{"attributes":{},"id":"1241","type":"StringEditor"},{"attributes":{"editor":{"id":"1237","type":"StringEditor"},"field":"# of receipts","formatter":{"id":"1238","type":"StringFormatter"},"title":"# of receipts"},"id":"1228","type":"TableColumn"},{"attributes":{},"id":"1237","type":"StringEditor"},{"attributes":{},"id":"1245","type":"StringEditor"},{"attributes":{"callback":null,"data":{"":["safeway","trader joes","costco","new leaf","grocery outlet"],"# items":["300","73","75","30","45"],"# line corrections":["197","53","46","6","36"],"# of receipts":["39","13","6","6","4"],"avg receipt accuracy":["27.79","24.89","23.94","84.72","17.82"],"median receipt accuracy":["80","42.86","40.84","100","32.86"]},"selected":{"id":"1247","type":"Selection"},"selection_policy":{"id":"1248","type":"UnionRenderers"}},"id":"1226","type":"ColumnDataSource"},{"attributes":{"editor":{"id":"1239","type":"StringEditor"},"field":"# line corrections","formatter":{"id":"1240","type":"StringFormatter"},"title":"# line corrections"},"id":"1229","type":"TableColumn"},{"attributes":{},"id":"1240","type":"StringFormatter"},{"attributes":{},"id":"1242","type":"StringFormatter"},{"attributes":{},"id":"1243","type":"StringEditor"}],"root_ids":["1233"]},"title":"Bokeh Application","version":"1.0.2"}}
+        </script>
+        <script type="text/javascript">
+          (function() {
+            var fn = function() {
+              Bokeh.safely(function() {
+                (function(root) {
+                  function embed_document(root) {
+                    
+                  var docs_json = document.getElementById('1333').textContent;
+                  var render_items = [{"docid":"623728f2-2919-4d38-a227-4b61b975ab79","roots":{"1233":"03689d43-ac84-4e8d-bd1d-1ed27ff3e345"}}];
+                  root.Bokeh.embed.embed_items(docs_json, render_items);
+                
+                  }
+                  if (root.Bokeh !== undefined) {
+                    embed_document(root);
+                  } else {
+                    var attempts = 0;
+                    var timer = setInterval(function(root) {
+                      if (root.Bokeh !== undefined) {
+                        embed_document(root);
+                        clearInterval(timer);
+                      }
+                      attempts++;
+                      if (attempts > 100) {
+                        console.log("Bokeh: ERROR: Unable to run BokehJS code because BokehJS library is missing");
+                        clearInterval(timer);
+                      }
+                    }, 10, root)
+                  }
+                })(window);
+              });
+            };
+            if (document.readyState != "loading") fn();
+            else document.addEventListener("DOMContentLoaded", fn);
+          })();
+        </script>
+    
+  </body>
+  
+</html>
