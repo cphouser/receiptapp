@@ -1642,6 +1642,110 @@
     ]
   },
   "Rebecca": {
+    "2018-07-17 18:56": [
+      [
+        "POST WHOLE GRAIN",
+        399,
+        "GROCERY"
+      ],
+      [
+        "LUC CHSE CHED",
+        299,
+        "REFRIG/FROZEN"
+      ],
+      [
+        "SS ROCKY ROAD",
+        0,
+        "REFRIG/FROZEN"
+      ],
+      [
+        "SIG SEL ICE CRM MN",
+        499,
+        "REFRIG/FROZEN"
+      ],
+      [
+        "SIG ROLLSFLAKY CR",
+        400,
+        "REFRIG/FROZEN"
+      ],
+      [
+        "BQ BACKYARD BBQ",
+        150,
+        "REFRIG/FROZEN"
+      ],
+      [
+        "BQ LSANGA",
+        150,
+        "REFRIG/FROZEN"
+      ],
+      [
+        "DANNON OIKOS YGRT",
+        100,
+        "REFRIG/FROZEN"
+      ],
+      [
+        "DANNON OIKOS YGRT",
+        100,
+        "REFRIG/FROZEN"
+      ],
+      [
+        "DANNON OIKOS",
+        100,
+        "REFRIG/FROZEN"
+      ],
+      [
+        "DANNON OIKOS",
+        100,
+        "REFRIG/FROZEN"
+      ],
+      [
+        "TYLENOL",
+        249,
+        "GEN MERCHANDISE"
+      ],
+      [
+        "MR RCYCBLE BAG CHARGE",
+        25,
+        "MISCELLANEOUS"
+      ],
+      [
+        "TAX",
+        22,
+        "TAX"
+      ]
+    ],
+    "2019-02-01 20:57": [
+      [
+        "YELLOW TAIL CAB. 6.00 T",
+        600,
+        "LIQUOR"
+      ],
+      [
+        "BACARDI GOLD 17.997",
+        1799,
+        "LIQUOR"
+      ],
+      [
+        "\u2018 2 QTY SMIRNOFF V / 22.98 1",
+        2298,
+        "LIQUOR"
+      ],
+      [
+        "YELLOW TAIL BIG ; 6.00 T",
+        600,
+        "LIQUOR"
+      ],
+      [
+        "2 QTY SUTTER HOM 9.00 T",
+        900,
+        "LIQUOR"
+      ],
+      [
+        ") \u201d TAX ' 6.01",
+        601,
+        ""
+      ]
+    ],
     "2017-10-25 16:27": [
       [
         "REFRESHE ELECT LME 0",
@@ -1817,78 +1921,6 @@
         ""
       ]
     ],
-    "2018-07-17 18:56": [
-      [
-        "POST WHOLE GRAIN",
-        399,
-        "GROCERY"
-      ],
-      [
-        "LUC CHSE CHED",
-        299,
-        "REFRIG/FROZEN"
-      ],
-      [
-        "SS ROCKY ROAD",
-        0,
-        "REFRIG/FROZEN"
-      ],
-      [
-        "SIG SEL ICE CRM MN",
-        499,
-        "REFRIG/FROZEN"
-      ],
-      [
-        "SIG ROLLSFLAKY CR",
-        400,
-        "REFRIG/FROZEN"
-      ],
-      [
-        "BQ BACKYARD BBQ",
-        150,
-        "REFRIG/FROZEN"
-      ],
-      [
-        "BQ LSANGA",
-        150,
-        "REFRIG/FROZEN"
-      ],
-      [
-        "DANNON OIKOS YGRT",
-        100,
-        "REFRIG/FROZEN"
-      ],
-      [
-        "DANNON OIKOS YGRT",
-        100,
-        "REFRIG/FROZEN"
-      ],
-      [
-        "DANNON OIKOS",
-        100,
-        "REFRIG/FROZEN"
-      ],
-      [
-        "DANNON OIKOS",
-        100,
-        "REFRIG/FROZEN"
-      ],
-      [
-        "TYLENOL",
-        249,
-        "GEN MERCHANDISE"
-      ],
-      [
-        "MR RCYCBLE BAG CHARGE",
-        25,
-        "MISCELLANEOUS"
-      ],
-      [
-        "TAX",
-        22,
-        "TAX"
-      ]
-    ],   
     "2018-10-28 16:11": [
       [
         "LAYS BARBECUE",
@@ -1909,38 +1941,6 @@
         "TAX",
         0,
         "TAX"
-      ]
-    ],
-    "2019-02-01 20:57": [
-      [
-        "YELLOW TAIL CAB. 6.00 T",
-        600,
-        "LIQUOR"
-      ],
-      [
-        "BACARDI GOLD 17.997",
-        1799,
-        "LIQUOR"
-      ],
-      [
-        "\u2018 2 QTY SMIRNOFF V / 22.98 1",
-        2298,
-        "LIQUOR"
-      ],
-      [
-        "YELLOW TAIL BIG ; 6.00 T",
-        600,
-        "LIQUOR"
-      ],
-      [
-        "2 QTY SUTTER HOM 9.00 T",
-        900,
-        "LIQUOR"
-      ],
-      [
-        ") \u201d TAX ' 6.01",
-        601,
-        ""
       ]
     ],
     "2019-02-05 17:45": [
